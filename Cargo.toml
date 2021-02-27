@@ -2,8 +2,17 @@
 name = "ux-primitives"
 version = "0.1.0"
 authors = ["Victor Dudochkin <dudochkin.victor@gmail.com>"]
+readme = "README.md"
+homepage = "https://angular-rust.github.io/ux-primitives"
+documentation = "https://docs.rs/ux-primitives"
+description = "Data Primitives to handle and visualize DataFrames"
+keywords = ["canvas", "datatable", "dataframe", "datastream", "data structures"]
+categories = ["data-structures"]
 edition = "2018"
+license = "MPL-2.0"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[badges]
+maintenance = { status = "actively-developed" }
 
 [dependencies]
+intmap = "0.7"

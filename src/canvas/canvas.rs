@@ -42,35 +42,35 @@ pub trait CanvasContext {
     fn set_filter(&mut self, value: &str);
     
     fn get_font(&self) -> String;
-    fn set_font(&mut self, value: String);
+    fn set_font(&mut self, value: &str);
 
     fn get_global_alpha(&self) -> f64;
     fn set_global_alpha(&mut self, value: f64);
 
     fn get_global_composite_operation(&self) -> String;
-    fn set_global_composite_operation(&mut self, value: String);
+    fn set_global_composite_operation(&mut self, value: &str);
 
-    // The hash code for this object. 
-    fn get_hash_code(&self) -> u64;
-    fn set_hash_code(&mut self, value: u64);
+    // // The hash code for this object. 
+    // fn get_hash_code(&self) -> u64;
+    // fn set_hash_code(&mut self, value: u64);
 
     // Whether images and patterns on this canvas will be smoothed when this canvas is scaled. 
     // imageSmoothingEnabled
     fn is_image_smoothing_enabled(&self) -> bool;
     fn set_image_smoothing(&mut self, value: bool);
 
-    fn get_image_smoothing_quality(&self) -> String;
-    fn set_image_smoothing_quality(&mut self, value: String);
+    // fn get_image_smoothing_quality(&self) -> String;
+    // fn set_image_smoothing_quality(&mut self, value: String);
 
     fn get_line_cap(&self) -> String;
-    fn set_line_cap(&mut self, value: String);
+    fn set_line_cap(&mut self, value: &str);
 
     // @SupportedBrowser(SupportedBrowser.CHROME), @SupportedBrowser(SupportedBrowser.IE, '11'), @SupportedBrowser(SupportedBrowser.SAFARI), @Unstable()
     fn get_line_dash_offset(&self) -> f64;
     fn set_line_dash_offset(&mut self, value: f64);
 
     fn get_line_join(&self) -> String;
-    fn set_line_join(&mut self, value: String);
+    fn set_line_join(&mut self, value: &str);
 
     fn get_line_width(&self) -> f64;
     fn set_line_width(&mut self, value: f64);
@@ -85,7 +85,7 @@ pub trait CanvasContext {
     fn set_shadow_blur(&mut self, value: f64);
 
     fn get_shadow_color(&self) -> String;
-    fn set_shadow_color(&mut self, value: String);
+    fn set_shadow_color(&mut self, value: &str);
 
     fn get_shadow_offset_x(&self) -> f64;
     fn set_shadow_offset_x(&mut self, value: f64);
@@ -99,11 +99,11 @@ pub trait CanvasContext {
     // fn set_stroke_style_gradient(&mut self, value: impl CanvasGradientInterface);
     // fn set_stroke_style_pattern(&mut self, value: impl CanvasPatternInterface);
 
-    fn get_text_align(&mut self) -> TextAlign;
-    fn set_text_align(&mut self, value: TextAlign);
+    fn get_text_align(&mut self) -> String;
+    fn set_text_align(&mut self, value: &str);
 
     fn get_text_baseline(&self) -> String;
-    fn set_text_baseline(&mut self, value: String);
+    fn set_text_baseline(&mut self, value: &str);
 
     // Methods
     // options is opt
@@ -119,7 +119,7 @@ pub trait CanvasContext {
 
     // [path_OR_winding: dynamic, winding: String]
     // fn clip(path_OR_winding: dynamic, winding: String); // TODO:
-    // fn close_path(&self); // TODO:
+    fn close_path(&self);
     
     // @Creates('ImageData|=Object')
     // [int? sh_OR_sw, dynamic imageDataColorSettings_OR_sh, Map? imageDataColorSettings]
@@ -158,7 +158,7 @@ pub trait CanvasContext {
     
     // Draws text to the canvas. 
     // [f64? max_width]
-    fn fill_text(&self, text: String, x: f64, y: f64, max_width: f64);
+    fn fill_text(&self, text: &str, x: f64, y: f64, max_width: f64);
     
     // fn getContextAttributes() -> Map; // TODO:
     
@@ -182,7 +182,7 @@ pub trait CanvasContext {
     // fn putImageData(imagedata: ImageData, dx: i64, dy: i64, dirtyX: i64, dirtyY: i64, dirtyWidth: i64, dirtyHeight: i64); // TODO:
     fn quadratic_curve_to(&self, cpx: f64, cpy: f64, x: f64, y: f64);
     fn rect(&self, x: f64, y: f64, width: f64, height: f64);
-    fn remove_hit_region(&self, id: String);
+    fn remove_hit_region(&self, id: &str);
     fn reset_transform(&self);
     fn restore(&self);
     fn rotate(&self, angle: f64);
@@ -217,7 +217,7 @@ pub trait CanvasContext {
     // fn stroke(path: Path2D); // TODO:
     fn stroke_rect(&self, x: f64, y: f64, width: f64, height: f64);
     // [f64? max_width]
-    fn stroke_text(&self, text: String, x: f64, y: f64, max_width: f64);
+    fn stroke_text(&self, text: &str, x: f64, y: f64, max_width: f64);
     
     fn transform(&self, a: f64, b: f64, c: f64, d: f64, e: f64, f: f64);
     fn translate(&self, x: f64, y: f64);

@@ -1,12 +1,11 @@
-use std::{
-    collections::HashMap,
-    fmt
-};
+use intmap::IntMap;
+
+use std::fmt;
 
 pub struct FlowMeta<'a> {
     pub name: &'a str,
     pub tag: u8,
-    pub visible: bool
+    pub visible: bool,
 }
 
 pub struct DataFrame<M, D>
@@ -17,5 +16,5 @@ where
     pub metric: M,
     // data key is tag for stream meta (a.k.a column tag)
     // D is
-    pub data: HashMap<u8, D>,
+    pub data: IntMap<D>,
 }
