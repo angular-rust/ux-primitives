@@ -4,6 +4,7 @@ version = "0.1.0"
 authors = ["Victor Dudochkin <dudochkin.victor@gmail.com>"]
 readme = "README.md"
 homepage = "https://angular-rust.github.io/ux-primitives"
+repository = "https://github.com/angular-rust/ux-primitives"
 documentation = "https://docs.rs/ux-primitives"
 description = "Data Primitives to handle and visualize DataFrames"
 keywords = ["canvas", "datatable", "dataframe", "datastream", "data structures"]
