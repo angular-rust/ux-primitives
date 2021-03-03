@@ -213,8 +213,7 @@ pub trait CanvasContext {
     
     fn set_transform(&self, a: f64, b: f64, c: f64, d: f64, e: f64, f: f64);
     
-    // [Path2D? path]
-    // fn stroke(path: Path2D); // TODO:
+    fn stroke(&self);
     fn stroke_rect(&self, x: f64, y: f64, width: f64, height: f64);
     // [f64? max_width]
     fn stroke_text(&self, text: &str, x: f64, y: f64, max_width: f64);
