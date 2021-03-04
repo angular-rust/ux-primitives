@@ -25,7 +25,7 @@ pub trait CanvasContext {
     // fn get_canvas(&self) -> CanvasElement;
     
     // fn get_current_transform(&self) -> Box<dyn MatrixInterface>;
-    fn set_current_transform(&mut self, value: Matrix);
+    fn set_current_transform(&mut self, value: Matrix<f64>);
 
     fn get_direction(&self) -> Direction;
     fn set_direction(&self, value: Direction) -> String;
@@ -213,8 +213,7 @@ pub trait CanvasContext {
     
     fn set_transform(&self, a: f64, b: f64, c: f64, d: f64, e: f64, f: f64);
     
-    // [Path2D? path]
-    // fn stroke(path: Path2D); // TODO:
+    fn stroke(&self);
     fn stroke_rect(&self, x: f64, y: f64, width: f64, height: f64);
     // [f64? max_width]
     fn stroke_text(&self, text: &str, x: f64, y: f64, max_width: f64);
