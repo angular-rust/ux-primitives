@@ -2,12 +2,14 @@ use intmap::IntMap;
 
 use std::fmt;
 
-pub struct FlowMeta<'a> {
+#[derive(Clone, Debug)]
+pub struct Channel<'a> {
     pub name: &'a str,
     pub tag: u8,
     pub visible: bool,
 }
 
+#[derive(Clone, Debug)]
 pub struct DataFrame<M, D>
 where
     M: fmt::Display,
