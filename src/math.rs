@@ -1,6 +1,8 @@
 #![allow(unused_variables)]
 
 use num_traits::{FromPrimitive, Float};
+use std::ops;
+use math::round;
 
 
 #[derive(Default, Clone, Copy, Debug)]
@@ -34,17 +36,70 @@ impl<T> Point<T>
     pub fn squared_distance_to(&self, target: Point<T>) -> T {
         (target.x - self.x).powi(2) + (target.y - self.y).powi(2)
     }
-
-    // TODO: +,-,*
 }
 
 impl<T> PartialEq for Point<T>
     where T: Float + FromPrimitive
 {
     fn eq(&self, other: &Self) -> bool {
-        self.x == other.x && self.y == other.y
+        let scale = 14; // if scale > 14 -> numbers won't be equals
+        round::stochastic(self.x.to_f64().unwrap(), scale) == round::stochastic(other.x.to_f64().unwrap(), scale)
+            && round::stochastic(self.y.to_f64().unwrap(), scale) == round::stochastic(other.y.to_f64().unwrap(), scale)
     }
 }
+
+impl<T> ops::Add for Point<T>
+    where T: Float + FromPrimitive
+{
+    type Output = Self;
+    fn add(self, rhs: Self) -> Self {
+        Self::new(self.x + rhs.x, self.y + rhs.y)
+    }
+}
+
+impl<T> ops::AddAssign for Point<T>
+    where T: Float + FromPrimitive
+{
+    fn add_assign(&mut self, rhs: Self) {
+        *self = Self::new(self.x + rhs.x, self.y + rhs.y);
+    }
+}
+
+impl<T> ops::Sub for Point<T>
+    where T: Float + FromPrimitive
+{
+    type Output = Self;
+    fn sub(self, rhs: Self) -> Self {
+        Self::new(self.x - rhs.x, self.y - rhs.y)
+    }
+}
+
+impl<T> ops::SubAssign for Point<T>
+    where T: Float + FromPrimitive
+{
+    fn sub_assign(&mut self, rhs: Self) {
+        *self = Self::new(self.x - rhs.x, self.y - rhs.y);
+    }
+}
+
+impl<T> ops::Mul<T> for Point<T>
+    where T: Float + FromPrimitive
+{
+    type Output = Self;
+    fn mul(self, rhs: T) -> Self::Output {
+        Self::new(self.x * rhs, self.y * rhs)
+    }
+}
+
+impl<T> ops::MulAssign<T> for Point<T>
+    where T: Float + FromPrimitive
+{
+    fn mul_assign(&mut self, rhs: T) {
+        *self = Self::new(self.x * rhs, self.y * rhs);
+    }
+}
+
+
 
 #[derive(Default, Clone, Copy, Debug)]
 pub struct Rectangle<T>
@@ -248,6 +303,25 @@ mod tests {
         assert_eq!(Point::new(0.0, 0.0).squared_distance_to(Point::new(100.0, 100.0)), 20_000_f64);
         assert_eq!(Point::new(0.0, 0.0).distance_to(Point::new(100.0, 100.0)), 20_000_f64.sqrt());
         assert_eq!(Point::new(100.0, 100.0).magnitude(), 20_000_f64.sqrt());
+    }
+
+
+    #[test]
+    fn test_point_operators() {
+        assert_eq!(Point::new(1.0, 1.0), Point::new(1.0, 1.0));
+        assert!((Point::new(1.0, 1.0) == Point::new(1.0, 1.0)));
+        assert_ne!(Point::new(1.0, 1.0), Point::new(2.0, 1.0));
+        assert!((Point::new(1.0, 1.0) != Point::new(2.0, 1.0)));
+        assert_eq!(Point::new(1.0, 1.0) + Point::new(2.0, 2.0), Point::new(3.0, 3.0));
+        assert_eq!(Point::new(2.5, 4.2) * 2.0, Point::new(5.0, 8.4));
+
+        let mut add_assing = Point::new(1.0, 1.0);
+        add_assing += Point::new(2.3, 5.7);
+        assert_eq!(add_assing, Point::new(3.3, 6.7));
+
+        let mut sub_assing = Point::new(7.4, 12.7);
+        sub_assing -= Point::new(3.5, 5.8);
+        assert_eq!(sub_assing, Point::new(3.9, 6.9));
     }
 
     #[test]
