@@ -17,3 +17,7 @@ maintenance = { status = "actively-developed" }
 
 [dependencies]
 intmap = "0.7"
+
+[dependencies.num-traits]
+version = "0.2"
+features = ["std"]
