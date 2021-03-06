@@ -1,30 +1,28 @@
 #![allow(unused_variables)]
 
-use num_traits::{FromPrimitive, Float};
+use num_traits::Float;
 use std::ops;
-use math::round;
+// use math::round;
 
+pub trait Num<T>: ops::Add<T> + ops::Sub<T> + ops::Mul<T> {}
 
 #[derive(Default, Clone, Copy, Debug)]
-pub struct Point<T>
-    where T: Float + FromPrimitive
-{
+pub struct Point<T> {
     pub x: T,
     pub y: T,
 }
 
 impl<T> Point<T>
-    where T: Float + FromPrimitive
+where
+    T: Float + Default,
 {
-
     pub fn new(x: T, y: T) -> Self {
         Self { x, y }
     }
 
     /// Get the straight line (Euclidean) distance between the origin (0, 0) and this point
     pub fn magnitude(&self) -> T {
-        let zero = FromPrimitive::from_f64(0.0).expect("Can't cast from int to Float");
-        self.distance_to(Self{x: zero, y: zero})
+        self.distance_to(Default::default())
     }
 
     /// Returns the distance between this and other
@@ -34,89 +32,121 @@ impl<T> Point<T>
 
     /// Returns the squared distance between this and other
     pub fn squared_distance_to(&self, target: Point<T>) -> T {
-        (target.x - self.x).powi(2) + (target.y - self.y).powi(2)
+        let dx = target.x - self.x;
+        let dy = target.y - self.y;
+        dx * dx + dy  * dy
     }
 }
 
 impl<T> PartialEq for Point<T>
-    where T: Float + FromPrimitive
+where
+    T: PartialEq,
 {
     fn eq(&self, other: &Self) -> bool {
-        let scale = 14; // if scale > 14 -> numbers won't be equals
-        round::stochastic(self.x.to_f64().unwrap(), scale) == round::stochastic(other.x.to_f64().unwrap(), scale)
-            && round::stochastic(self.y.to_f64().unwrap(), scale) == round::stochastic(other.y.to_f64().unwrap(), scale)
+        // let scale = 14; // if scale > 14 -> numbers won't be equals
+        // round::stochastic(self.x.to_f64().unwrap(), scale)
+        //     == round::stochastic(other.x.to_f64().unwrap(), scale)
+        //     && round::stochastic(self.y.to_f64().unwrap(), scale)
+        //         == round::stochastic(other.y.to_f64().unwrap(), scale)
+        self.x == other.x && self.y == other.y
     }
 }
 
 impl<T> ops::Add for Point<T>
-    where T: Float + FromPrimitive
+where
+    T: ops::Add<Output = T>,
 {
     type Output = Self;
     fn add(self, rhs: Self) -> Self {
-        Self::new(self.x + rhs.x, self.y + rhs.y)
+        Self {
+            x: self.x + rhs.x,
+            y: self.y + rhs.y,
+        }
     }
 }
 
 impl<T> ops::AddAssign for Point<T>
-    where T: Float + FromPrimitive
+where
+    T: ops::Add<Output = T> + Copy,
 {
     fn add_assign(&mut self, rhs: Self) {
-        *self = Self::new(self.x + rhs.x, self.y + rhs.y);
+        *self = Self {
+            x: self.x + rhs.x,
+            y: self.y + rhs.y,
+        };
     }
 }
 
 impl<T> ops::Sub for Point<T>
-    where T: Float + FromPrimitive
+where
+    T: ops::Sub<Output = T>,
 {
     type Output = Self;
     fn sub(self, rhs: Self) -> Self {
-        Self::new(self.x - rhs.x, self.y - rhs.y)
+        Self {
+            x: self.x - rhs.x,
+            y: self.y - rhs.y,
+        }
     }
 }
 
 impl<T> ops::SubAssign for Point<T>
-    where T: Float + FromPrimitive
+where
+    T: ops::Sub<Output = T> + Copy,
 {
     fn sub_assign(&mut self, rhs: Self) {
-        *self = Self::new(self.x - rhs.x, self.y - rhs.y);
+        *self = Self {
+            x: self.x - rhs.x,
+            y: self.y - rhs.y,
+        };
     }
 }
 
 impl<T> ops::Mul<T> for Point<T>
-    where T: Float + FromPrimitive
+where
+    T: ops::Mul<Output = T> + Copy,
 {
     type Output = Self;
     fn mul(self, rhs: T) -> Self::Output {
-        Self::new(self.x * rhs, self.y * rhs)
+        Self {
+            x: self.x * rhs,
+            y: self.y * rhs,
+        }
     }
 }
 
 impl<T> ops::MulAssign<T> for Point<T>
-    where T: Float + FromPrimitive
+where
+    T: ops::Mul<Output = T> + Copy,
 {
     fn mul_assign(&mut self, rhs: T) {
-        *self = Self::new(self.x * rhs, self.y * rhs);
+        *self = Self {
+            x: self.x * rhs,
+            y: self.y * rhs,
+        };
     }
 }
 
-
-
 #[derive(Default, Clone, Copy, Debug)]
-pub struct Rectangle<T>
-    where T: Float + FromPrimitive
-{
+pub struct Rectangle<T> {
     // TODO: Replace "top" and "left" to "origin: Point<T>" it will give us ability to use any of rectangle points as origin point
-    left: T,
-    top: T,
-    width: T,
-    height: T,
+    pub left: T,
+    pub top: T,
+    pub width: T,
+    pub height: T,
 }
 
-impl<T: Float + FromPrimitive> Rectangle<T>
-    where T: Float + FromPrimitive
+impl<T> Rectangle<T>
+where
+    T: Float,
 {
     pub fn new(left: T, top: T, width: T, height: T) -> Self {
-        Self { left, top, width, height }
+        Self {
+            left,
+            top,
+            width,
+            height,
+        }
     }
 
     #[inline]
@@ -150,40 +180,35 @@ impl<T: Float + FromPrimitive> Rectangle<T>
     pub fn get_bottom_left(&self) -> Point<T> {
         Point {
             x: self.left,
-            y: self.get_bottom()
+            y: self.get_bottom(),
         }
     }
 
     pub fn get_bottom_right(&self) -> Point<T> {
         Point {
             x: self.get_right(),
-            y: self.get_bottom()
+            y: self.get_bottom(),
         }
     }
 
     pub fn get_top_left(&self) -> Point<T> {
         Point {
             x: self.left,
-            y: self.top
+            y: self.top,
         }
     }
 
     pub fn get_top_right(&self) -> Point<T> {
         Point {
             x: self.get_right(),
-            y: self.top
+            y: self.top,
         }
     }
 
     /// Returns Bounds tuple (top, right, bottom, left)
     #[inline]
-    pub fn bounds_tuple(&self) -> (T, T, T, T) {
-        (
-            self.top,
-            self.get_right(),
-            self.get_bottom(),
-            self.left
-        )
+    fn bounds_tuple(&self) -> (T, T, T, T) {
+        (self.top, self.get_right(), self.get_bottom(), self.left)
     }
 
     /// Returns a new rectangle which completely contains self and other
@@ -194,12 +219,17 @@ impl<T: Float + FromPrimitive> Rectangle<T>
             if s_top > o_top { s_top } else { o_top },
             if s_left > o_left { s_left } else { o_left },
             if s_right > o_right { s_right } else { o_right },
-            if s_bottom > o_bottom { s_bottom } else { o_bottom }
+            if s_bottom > o_bottom {
+                s_bottom
+            } else {
+                o_bottom
+            },
         );
         Self {
-            top, left,
+            top,
+            left,
             width: right - left,
-            height: bottom - top
+            height: bottom - top,
         }
     }
 
@@ -226,7 +256,8 @@ impl<T: Float + FromPrimitive> Rectangle<T>
 }
 
 impl<T> PartialEq for Rectangle<T>
-    where T: Float + FromPrimitive
+where
+    T: PartialEq,
 {
     fn eq(&self, other: &Self) -> bool {
         self.top == other.top
@@ -236,11 +267,8 @@ impl<T> PartialEq for Rectangle<T>
     }
 }
 
-
 #[derive(Default, Clone, Copy, Debug)]
-pub struct Matrix<T>
-    where T: Float + FromPrimitive
-{
+pub struct Matrix<T> {
     pub a: T,
     pub b: T,
     pub c: T,
@@ -252,7 +280,8 @@ pub struct Matrix<T>
 /// Interface of SVGMatrix:
 /// @see https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix
 impl<T> Matrix<T>
-    where T: Float + FromPrimitive
+where
+    T: Float,
 {
     pub fn flip_x(&self) -> Matrix<T> {
         unimplemented!()
@@ -291,7 +320,6 @@ impl<T> Matrix<T>
     // TODO: ==
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::Point;
@@ -299,12 +327,20 @@ mod tests {
 
     #[test]
     fn test_point_distance() {
-        assert_eq!(Point::new(0.0, 10.0).distance_to(Point::new(100.0, 10.0)), 100.0);
-        assert_eq!(Point::new(0.0, 0.0).squared_distance_to(Point::new(100.0, 100.0)), 20_000_f64);
-        assert_eq!(Point::new(0.0, 0.0).distance_to(Point::new(100.0, 100.0)), 20_000_f64.sqrt());
+        assert_eq!(
+            Point::new(0.0, 10.0).distance_to(Point::new(100.0, 10.0)),
+            100.0
+        );
+        assert_eq!(
+            Point::new(0.0, 0.0).squared_distance_to(Point::new(100.0, 100.0)),
+            20_000_f64
+        );
+        assert_eq!(
+            Point::new(0.0, 0.0).distance_to(Point::new(100.0, 100.0)),
+            20_000_f64.sqrt()
+        );
         assert_eq!(Point::new(100.0, 100.0).magnitude(), 20_000_f64.sqrt());
     }
-
 
     #[test]
     fn test_point_operators() {
@@ -312,7 +348,10 @@ mod tests {
         assert!((Point::new(1.0, 1.0) == Point::new(1.0, 1.0)));
         assert_ne!(Point::new(1.0, 1.0), Point::new(2.0, 1.0));
         assert!((Point::new(1.0, 1.0) != Point::new(2.0, 1.0)));
-        assert_eq!(Point::new(1.0, 1.0) + Point::new(2.0, 2.0), Point::new(3.0, 3.0));
+        assert_eq!(
+            Point::new(1.0, 1.0) + Point::new(2.0, 2.0),
+            Point::new(3.0, 3.0)
+        );
         assert_eq!(Point::new(2.5, 4.2) * 2.0, Point::new(5.0, 8.4));
 
         let mut add_assing = Point::new(1.0, 1.0);
@@ -358,7 +397,7 @@ mod tests {
         assert!(!rect.intersects(Rectangle::new(0.0, 0.0, 99.0, 100.0)));
         assert!(!rect.intersects(Rectangle::new(0.0, 0.0, 100.0, 99.0)));
 
-        assert!( ! rect.intersects(Rectangle::new(0.0, 0.0, 100.0, 99.99999999999999)));
-        assert!(   rect.intersects(Rectangle::new(0.0, 0.0, 100.0, 99.999999999999999)));
+        assert!(!rect.intersects(Rectangle::new(0.0, 0.0, 100.0, 99.99999999999999)));
+        assert!(rect.intersects(Rectangle::new(0.0, 0.0, 100.0, 99.999999999999999)));
     }
 }

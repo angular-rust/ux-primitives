@@ -45,5 +45,5 @@ If you find an issue, let me know [here](https://github.com/angular-rust/ux-prim
 ## Contributing
 I openly welcome community contributions, including bug fixes and new features. Please feel free to [fork the project](https://github.com/angular-rust/ux-primitives/fork) and submit a pull request.
 
-* [Contributing Code Guidelines](https://github.com/angular-rust/ux-primitives/blob/master/CONTRIBUTING.md)
+* [Contributing Code Guidelines](https://github.com/angular-rust/ux-primitives/blob/main/CONTRIBUTING.md)
 * [Angular Rust Contributors](https://github.com/angular-rust/ux-primitives/graphs/contributors)
