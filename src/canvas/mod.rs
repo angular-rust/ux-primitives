@@ -1,3 +1,5 @@
+#![cfg(feature = "canvas")]
+
 mod canvas;
 mod style;
 mod image;

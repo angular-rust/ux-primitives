@@ -4,7 +4,6 @@
 
 use crate::color::Color;
 use crate::text::TextAlign;
-use crate::math::Matrix;
 use super::image::ImageDataInterface;
 use super::style::{
     CanvasGradientInterface,
@@ -25,7 +24,7 @@ pub trait CanvasContext {
     // fn get_canvas(&self) -> CanvasElement;
     
     // fn get_current_transform(&self) -> Box<dyn MatrixInterface>;
-    fn set_current_transform(&mut self, value: Matrix<f64>);
+    // fn set_current_transform(&mut self, value: Matrix<f64>);
 
     fn get_direction(&self) -> Direction;
     fn set_direction(&self, value: Direction) -> String;
