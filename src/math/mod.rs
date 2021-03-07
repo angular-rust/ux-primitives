@@ -2,7 +2,6 @@
 
 use num_traits::Float;
 use std::ops;
-// use math::round;
 
 pub trait Num<T>: ops::Add<T> + ops::Sub<T> + ops::Mul<T> {}
 
@@ -43,11 +42,6 @@ where
     T: PartialEq,
 {
     fn eq(&self, other: &Self) -> bool {
-        // let scale = 14; // if scale > 14 -> numbers won't be equals
-        // round::stochastic(self.x.to_f64().unwrap(), scale)
-        //     == round::stochastic(other.x.to_f64().unwrap(), scale)
-        //     && round::stochastic(self.y.to_f64().unwrap(), scale)
-        //         == round::stochastic(other.y.to_f64().unwrap(), scale)
         self.x == other.x && self.y == other.y
     }
 }
@@ -324,6 +318,16 @@ where
 mod tests {
     use super::Point;
     use super::Rectangle;
+    use num_traits::Float;
+    use math::round;
+
+    fn point_eq<T: Float>(a: Point<T>, b: Point<T>) -> bool {
+        let scale = 14; // if scale > 14 -> numbers won't be equals
+        round::stochastic(a.x.to_f64().unwrap(), scale)
+            == round::stochastic(b.x.to_f64().unwrap(), scale)
+            && round::stochastic(a.y.to_f64().unwrap(), scale)
+                == round::stochastic(b.y.to_f64().unwrap(), scale)
+    }
 
     #[test]
     fn test_point_distance() {
@@ -356,11 +360,11 @@ mod tests {
 
         let mut add_assing = Point::new(1.0, 1.0);
         add_assing += Point::new(2.3, 5.7);
-        assert_eq!(add_assing, Point::new(3.3, 6.7));
+        assert!(point_eq(add_assing, Point::new(3.3, 6.7)));
 
         let mut sub_assing = Point::new(7.4, 12.7);
         sub_assing -= Point::new(3.5, 5.8);
-        assert_eq!(sub_assing, Point::new(3.9, 6.9));
+        assert!(point_eq(sub_assing, Point::new(3.9, 6.9)));
     }
 
     #[test]
