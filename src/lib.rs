@@ -1,7 +1,6 @@
 pub mod canvas;
 pub mod color;
 pub mod datatable;
-pub mod math;
 pub mod text;
 
 #[cfg(test)]
