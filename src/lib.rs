@@ -1,5 +1,4 @@
 pub mod color;
-pub mod datatable;
 pub mod text;
 
 #[cfg(feature = "canvas")]

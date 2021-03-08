@@ -6,8 +6,8 @@ readme = "README.md"
 homepage = "https://angular-rust.github.io/ux-primitives"
 repository = "https://github.com/angular-rust/ux-primitives"
 documentation = "https://docs.rs/ux-primitives"
-description = "Data Primitives to handle and visualize DataFrames"
-keywords = ["canvas", "datatable", "dataframe", "datastream", "data-structures"]
+description = "Graphics Primitives for Angular Rust"
+keywords = ["canvas", "color", "color-spaces", "color-conversion"]
 categories = ["data-structures"]
 edition = "2018"
 license = "MPL-2.0"
@@ -21,6 +21,6 @@ maintenance = { status = "actively-developed" }
 
 [dependencies]
 intmap = "0.7"
-lyon_geom = { version = "0.17.0", optional = true }
-lyon_path = { version = "0.17.1", optional = true }
-euclid = { version = "0.22.2", optional = true }
+lyon_geom = { version = "0.17", optional = true }
+lyon_path = { version = "0.17", optional = true }
+euclid = { version = "0.22", optional = true }
