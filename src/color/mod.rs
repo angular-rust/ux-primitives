@@ -9,6 +9,8 @@ pub mod hsv;
 pub mod lab;
 pub mod rgb;
 pub mod rgba;
+pub mod css;
+pub mod utils;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub enum Color {
