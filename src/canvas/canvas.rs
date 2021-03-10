@@ -18,13 +18,13 @@ pub trait CanvasContext {
     // Properties
 
     // Deprecated always returns 1.0
-    fn get_backing_store_pixel_ratio(&mut self) -> f64;
-    fn set_backing_store_pixel_ratio(&mut self, value: f64);
+    fn get_backing_store_pixel_ratio(&self) -> f64;
+    fn set_backing_store_pixel_ratio(&self, value: f64);
 
     // fn get_canvas(&self) -> CanvasElement;
     
     // fn get_current_transform(&self) -> Box<dyn MatrixInterface>;
-    // fn set_current_transform(&mut self, value: Matrix<f64>);
+    // fn set_current_transform(&self, value: Matrix<f64>);
 
     fn get_direction(&self) -> Direction;
     fn set_direction(&self, value: Direction) -> String;
@@ -32,77 +32,77 @@ pub trait CanvasContext {
     // @Creates('String|CanvasGradient|CanvasPattern'), @Returns('String|CanvasGradient|CanvasPattern')
     // fillStyle: Object;
     // fn get_fill_style(&self) -> Box<CanvasStyle<dyn CanvasGradientInterface, dyn CanvasPatternInterface>>;
-    // fn set_fill_style(&mut self, value: CanvasStyle<impl CanvasGradientInterface, impl CanvasPatternInterface>);
-    fn set_fill_style_color(&mut self, value: Color);
-    // fn set_fill_style_gradient(&mut self, value: impl CanvasGradientInterface);
-    // fn set_fill_style_pattern(&mut self, value: impl CanvasPatternInterface);
+    // fn set_fill_style(&self, value: CanvasStyle<impl CanvasGradientInterface, impl CanvasPatternInterface>);
+    fn set_fill_style_color(&self, value: Color);
+    // fn set_fill_style_gradient(&self, value: impl CanvasGradientInterface);
+    // fn set_fill_style_pattern(&self, value: impl CanvasPatternInterface);
    
     fn get_filter(&self) -> String;
-    fn set_filter(&mut self, value: &str);
+    fn set_filter(&self, value: &str);
     
     fn get_font(&self) -> String;
-    fn set_font(&mut self, value: &str);
+    fn set_font(&self, value: &str);
 
     fn get_global_alpha(&self) -> f64;
-    fn set_global_alpha(&mut self, value: f64);
+    fn set_global_alpha(&self, value: f64);
 
     fn get_global_composite_operation(&self) -> String;
-    fn set_global_composite_operation(&mut self, value: &str);
+    fn set_global_composite_operation(&self, value: &str);
 
     // // The hash code for this object. 
     // fn get_hash_code(&self) -> u64;
-    // fn set_hash_code(&mut self, value: u64);
+    // fn set_hash_code(&self, value: u64);
 
     // Whether images and patterns on this canvas will be smoothed when this canvas is scaled. 
     // imageSmoothingEnabled
     fn is_image_smoothing_enabled(&self) -> bool;
-    fn set_image_smoothing(&mut self, value: bool);
+    fn set_image_smoothing(&self, value: bool);
 
     // fn get_image_smoothing_quality(&self) -> String;
-    // fn set_image_smoothing_quality(&mut self, value: String);
+    // fn set_image_smoothing_quality(&self, value: String);
 
     fn get_line_cap(&self) -> String;
-    fn set_line_cap(&mut self, value: &str);
+    fn set_line_cap(&self, value: &str);
 
     // @SupportedBrowser(SupportedBrowser.CHROME), @SupportedBrowser(SupportedBrowser.IE, '11'), @SupportedBrowser(SupportedBrowser.SAFARI), @Unstable()
     fn get_line_dash_offset(&self) -> f64;
-    fn set_line_dash_offset(&mut self, value: f64);
+    fn set_line_dash_offset(&self, value: f64);
 
     fn get_line_join(&self) -> String;
-    fn set_line_join(&mut self, value: &str);
+    fn set_line_join(&self, value: &str);
 
     fn get_line_width(&self) -> f64;
-    fn set_line_width(&mut self, value: f64);
+    fn set_line_width(&self, value: f64);
 
     fn get_miter_limit(&self) -> f64;
-    fn set_miter_limit(&mut self, value: f64);
+    fn set_miter_limit(&self, value: f64);
 
     // // A representation of the runtime type of the object.
     // runtimeType: Type; // TODO
 
     fn get_shadow_blur(&self) -> f64;
-    fn set_shadow_blur(&mut self, value: f64);
+    fn set_shadow_blur(&self, value: f64);
 
     fn get_shadow_color(&self) -> String;
-    fn set_shadow_color(&mut self, value: &str);
+    fn set_shadow_color(&self, value: &str);
 
     fn get_shadow_offset_x(&self) -> f64;
-    fn set_shadow_offset_x(&mut self, value: f64);
+    fn set_shadow_offset_x(&self, value: f64);
 
     fn get_shadow_offset_y(&self) -> f64;
-    fn set_shadow_offset_y(&mut self, value: f64);
+    fn set_shadow_offset_y(&self, value: f64);
 
     // @Creates('String|CanvasGradient|CanvasPattern'), @Returns('String|CanvasGradient|CanvasPattern')
-    // fn set_stroke_style(&mut self, value: CanvasStyle<impl CanvasGradientInterface, impl CanvasPatternInterface>);
-    fn set_stroke_style_color(&mut self, value: Color);
-    // fn set_stroke_style_gradient(&mut self, value: impl CanvasGradientInterface);
-    // fn set_stroke_style_pattern(&mut self, value: impl CanvasPatternInterface);
+    // fn set_stroke_style(&self, value: CanvasStyle<impl CanvasGradientInterface, impl CanvasPatternInterface>);
+    fn set_stroke_style_color(&self, value: Color);
+    // fn set_stroke_style_gradient(&self, value: impl CanvasGradientInterface);
+    // fn set_stroke_style_pattern(&self, value: impl CanvasPatternInterface);
 
-    fn get_text_align(&mut self) -> String;
-    fn set_text_align(&mut self, value: &str);
+    fn get_text_align(&self) -> String;
+    fn set_text_align(&self, value: &str);
 
     fn get_text_baseline(&self) -> String;
-    fn set_text_baseline(&mut self, value: &str);
+    fn set_text_baseline(&self, value: &str);
 
     // Methods
     // options is opt
