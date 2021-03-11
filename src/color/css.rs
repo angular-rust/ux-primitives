@@ -278,29 +278,7 @@ mod tests {
     use super::Color;
 
     #[test]
-    fn test_get_color_by_name_silver() {
-        if let Color::RGB(red, green, blue) = Color::from_css_name("silver") {
-            assert_eq!(red, 192);
-            assert_eq!(green, 192);
-            assert_eq!(blue, 192);
-        } else {
-            assert!(false, "Color match failed")
-        }
-    }
-
-    #[test]
-    fn test_get_color_by_name_yellowgreen() {
-        if let Color::RGB(red, green, blue) = Color::from_css_name("yellowgreen") {
-            assert_eq!(red, 0x9a);
-            assert_eq!(green, 0xcd);
-            assert_eq!(blue, 0x32);
-        } else {
-            assert!(false, "Color match failed")
-        }
-    }
-
-    #[test]
-    fn test_get_color_by_name() {
+    fn test_get_color_from_impl() {
         let test_data: Vec<(&str, &str, u32, Color)> = vec![
             ("palegoldenrod",  "#eee8aa", 0xeee8aa, Color::RGB(0xee, 0xe8, 0xaa)),
             ("palegreen",      "#98fb98", 0x98fb98, Color::RGB(0x98, 0xfb, 0x98)),
