@@ -176,7 +176,7 @@ impl From<u32> for Color {
 
 impl From<&str> for Color {
     fn from(color_str: &str) -> Self {
-        if !color_str.starts_with('#') {
+        if color_str.starts_with('#') {
             Self::from_hex_str(color_str)
         } else {
             Self::from_css_name(color_str)
@@ -190,16 +190,19 @@ impl Color {
     }
 
     pub fn from_hex_str(color: &str) -> Self {
-        let color= &color[0..9];
-        let panic_string = format!("Color hex invalid format of string \"{}\"", color);
-        if !color.starts_with('#') {
+        let color_hex_str = if color.len() > 9 {
+            &color[0..9]
+        } else { color };
+        let panic_string = format!("Color hex invalid format of string \"{}\"", color_hex_str);
+        if !color_hex_str.starts_with('#') {
             panic!("Color hex should start from \"#\" character");
         };
-        let color_len = color.len();
+        let color_hex_str = &color_hex_str[1..];
+        let color_len = color_hex_str.len();
         if color_len < 3 {
             panic!(panic_string);
         }
-        let color_u32 = u32::from_str_radix(&color[1..], 16).expect(&*panic_string);
+        let color_u32 = u32::from_str_radix(color_hex_str, 16).expect(&*panic_string);
         match color_len {
             3 => Self::from_short_rgb_u16(color_u32 as u16),
             6 => Self::from_rgb_u32(color_u32),
@@ -293,6 +296,42 @@ mod tests {
             assert_eq!(blue, 0x32);
         } else {
             assert!(false, "Color match failed")
+        }
+    }
+
+    #[test]
+    fn test_get_color_by_name() {
+        let test_data: Vec<(&str, &str, u32, Color)> = vec![
+            ("palegoldenrod",  "#eee8aa", 0xeee8aa, Color::RGB(0xee, 0xe8, 0xaa)),
+            ("palegreen",      "#98fb98", 0x98fb98, Color::RGB(0x98, 0xfb, 0x98)),
+            ("paleturquoise",  "#afeeee", 0xafeeee, Color::RGB(0xaf, 0xee, 0xee)),
+            ("palevioletred",  "#db7093", 0xdb7093, Color::RGB(0xdb, 0x70, 0x93)),
+            ("papayawhip",     "#ffefd5", 0xffefd5, Color::RGB(0xff, 0xef, 0xd5)),
+            ("peachpuff",      "#ffdab9", 0xffdab9, Color::RGB(0xff, 0xda, 0xb9)),
+            ("peru",           "#cd853f", 0xcd853f, Color::RGB(0xcd, 0x85, 0x3f)),
+            ("pink",           "#ffc0cb", 0xffc0cb, Color::RGB(0xff, 0xc0, 0xcb)),
+            ("plum",           "#dda0dd", 0xdda0dd, Color::RGB(0xdd, 0xa0, 0xdd)),
+            ("powderblue",     "#b0e0e6", 0xb0e0e6, Color::RGB(0xb0, 0xe0, 0xe6)),
+        ];
+        for (color_name, color_hex_str, color_u32, color) in test_data.iter() {
+            if let Color::RGB(expected_red, expected_green, expected_blue) = *color {
+                let actual_colors_vec: Vec<Color> = vec![
+                    (*color_name).into(),
+                    (*color_hex_str).into(),
+                    (*color_u32).into()
+                ];
+                for actual_color in actual_colors_vec {
+                    if let Color::RGB(actual_red, actual_green, actual_blue) = actual_color {
+                        assert_eq!(actual_red, expected_red);
+                        assert_eq!(actual_green, expected_green);
+                        assert_eq!(actual_blue, expected_blue);
+                    } else {
+                        assert!(false, "Actual color should be in RGB notation");
+                    }
+                }
+            } else {
+                assert!(false, "Expected color should be in RGB notation");
+            }
         }
     }
 }
