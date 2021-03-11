@@ -26,6 +26,12 @@ pub enum Color {
     CMYK(f64, f64, f64, f64),
 }
 
+impl Default for Color {
+    fn default() -> Self {
+        palette::BLACK
+    }
+}
+
 #[derive(Debug)]
 pub enum Error {
     PercentageOverflow,
