@@ -1,3 +1,5 @@
+#![cfg(feature = "css")]
+
 use super::Color;
 use std::collections::HashMap;
 use super::utils;
@@ -219,7 +221,7 @@ mod tests {
     use super::Color;
 
     #[test]
-    fn test_get_color_from_impl() {
+    fn get_color_from_impl() {
         let test_data: Vec<(&str, &str, u32, Color)> = vec![
             ("palegoldenrod",  "#eee8aa", 0xeee8aa, Color::RGB(0xee, 0xe8, 0xaa)),
             ("palegreen",      "#98fb98", 0x98fb98, Color::RGB(0x98, 0xfb, 0x98)),
