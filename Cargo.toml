@@ -24,3 +24,4 @@ intmap = "0.7"
 lyon_geom = { version = "0.17", optional = true }
 lyon_path = { version = "0.17", optional = true }
 euclid = { version = "0.22", optional = true }
+lazy_static = "1.4.0"
