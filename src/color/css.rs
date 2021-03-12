@@ -1,5 +1,6 @@
 use super::Color;
 use std::collections::HashMap;
+use super::utils;
 
 lazy_static! {
     static ref COLORS: HashMap<&'static str, Color> = {
@@ -170,7 +171,7 @@ lazy_static! {
 
 impl From<u32> for Color {
     fn from(color_u32: u32) -> Self {
-        Self::from_rgb_u32(color_u32)
+        utils::color_from_rgb_u32(color_u32)
     }
 }
 
@@ -204,72 +205,12 @@ impl Color {
         }
         let color_u32 = u32::from_str_radix(color_hex_str, 16).expect(&*panic_string);
         match color_len {
-            3 => Self::from_short_rgb_u16(color_u32 as u16),
-            6 => Self::from_rgb_u32(color_u32),
-            4 => Self::from_short_rgba_u16(color_u32 as u16),
-            8 => Self::from_rgba_u32(color_u32),
+            3 => utils::color_from_short_rgb_u16(color_u32 as u16),
+            6 => utils::color_from_rgb_u32(color_u32),
+            4 => utils::color_from_short_rgba_u16(color_u32 as u16),
+            8 => utils::color_from_rgba_u32(color_u32),
             _ => panic!(panic_string)
         }
-    }
-
-    pub fn from_short_rgb_u16(c: u16) -> Self {
-        let (red, green, blue, _) = Self::from_short_rgb_u16_to_tuple(c);
-        Self::RGB(red, green, blue)
-    }
-
-    pub fn from_rgb_u32(c: u32) -> Self {
-        let (red, green, blue, _) = Self::from_rgb_u32_to_tuple(c);
-        Self::RGB(red, green, blue)
-    }
-
-    pub fn from_short_rgba_u16(c: u16) -> Self {
-        let (red, green, blue, alpha) = Self::from_short_rgba_u16_to_tuple(c);
-        Self::RGBA(red, green, blue, alpha)
-    }
-
-    pub fn from_rgba_u32(c: u32) -> Self {
-        let (red, green, blue, alpha) = Self::from_rgba_u32_to_tuple(c);
-        Self::RGBA(red, green, blue, alpha)
-    }
-
-    #[inline]
-    fn from_short_rgb_u16_to_tuple(c: u16) -> (u8, u8, u8, u8) {
-        (
-            ((c >> 8) + ((c >> 8) << 4)) as u8,
-            ((c & 0x0f0) + ((c & 0x0f0) >> 4)) as u8,
-            ((c & 0x00f) + ((c & 0x00f) << 4)) as u8,
-            0xff
-        )
-    }
-
-    #[inline]
-    fn from_rgb_u32_to_tuple(c: u32) -> (u8, u8, u8, u8) {
-        (
-            (c >> 16) as u8,
-            ((c & 0x00ff00) >> 8) as u8,
-            (c & 0x0000ff) as u8,
-            0xff
-        )
-    }
-
-    #[inline]
-    fn from_short_rgba_u16_to_tuple(c: u16) -> (u8, u8, u8, u8) {
-        (
-            ((c >> 12) + ((c >> 12) << 4)) as u8,
-            (((c & 0x0f00) >> 4) + ((c & 0x0f00) >> 8)) as u8,
-            ((c & 0x00f0) + ((c & 0x00f0) >> 4)) as u8,
-            ((c & 0x000f) + ((c & 0x000f) << 4)) as u8
-        )
-    }
-
-    #[inline]
-    fn from_rgba_u32_to_tuple(c: u32) -> (u8, u8, u8, u8) {
-        (
-            (c >> 24) as u8,
-            ((c & 0x00ff0000) >> 16) as u8,
-            ((c & 0x0000ff00) >> 8) as u8,
-            (c & 0x000000ff) as u8
-        )
     }
 }
 
