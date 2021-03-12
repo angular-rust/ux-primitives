@@ -1,14 +1,23 @@
-use std::{convert::From, fmt};
+use std::fmt;
 
 pub mod palette;
 
-pub mod cmy;
-pub mod cmyk;
-pub mod hsl;
-pub mod hsv;
-pub mod lab;
-pub mod rgb;
-pub mod rgba;
+mod cmy;
+pub use cmy::CmyColor;
+mod cmyk;
+pub use cmyk::CmykColor;
+mod hsl;
+pub use hsl::HslColor;
+mod hsv;
+pub use hsv::HsvColor;
+mod lab;
+pub use lab::LabColor;
+mod rgb;
+pub use rgb::RgbColor;
+mod rgba;
+pub use rgba::RgbaColor;
+
+#[cfg(feature = "css")]
 pub mod css;
 
 mod utils;
@@ -62,16 +71,6 @@ impl fmt::Display for Color {
             Color::CMYK(cyan, magenta, yellow, key) => {
                 write!(f, "cmyk({}%, {}%, {}%, {}%)", cyan, magenta, yellow, key)
             }
-        }
-    }
-}
-
-impl From<Color> for rgb::Color {
-    fn from(item: Color) -> Self {
-        if let Color::RGB(red, green, blue) = item.to_rgb().unwrap() {
-            rgb::Color { red, green, blue }
-        } else {
-            unreachable!()
         }
     }
 }
@@ -137,9 +136,9 @@ impl Color {
 
                 let key = 1.
                     - [r_prime, g_prime, b_prime]
-                        .iter()
-                        .cloned()
-                        .fold(f64::NAN, f64::max);
+                    .iter()
+                    .cloned()
+                    .fold(f64::NAN, f64::max);
 
                 let apply = |v: f64| (((1. - v - key) / (1. - key)) * 100.).round();
                 let cyan = apply(r_prime);
@@ -177,7 +176,7 @@ impl Color {
                         x if x == b_prime => 60. * (((r_prime - g_prime) / delta) + 4.),
                         _ => panic!("Invalid hue calculation!"),
                     }
-                    .round()
+                        .round()
                 };
 
                 let lightness = (c_max + c_min) / 2.;
@@ -217,43 +216,43 @@ mod test {
     // use super::*;
 
     #[test]
-    fn test_rgb_to_string() {
+    fn rgb_to_string() {
         // let rgb = Rgb::new(30, 50, 60);
         // assert_eq!(rgb.to_string(), String::from("rgb(30, 50, 60)"));
     }
 
     #[test]
-    fn test_rgb_to_hex_string() {
+    fn rgb_to_hex_string() {
         // let hex = Rgb::new(30, 50, 60).to_hex_string();
         // assert_eq!(hex, String::from("#1e323c"));
     }
 
     #[test]
-    fn test_rgb_to_cmyk() {
+    fn rgb_to_cmyk() {
         // let rgb = Rgb::new(30, 50, 60).to_cmyk();
         // assert_eq!(rgb, Cmyk::new_unchecked(50, 17, 0, 76));
     }
 
     #[test]
-    fn test_rgb_to_hsl() {
+    fn rgb_to_hsl() {
         // let hsl = Rgb::new(204, 153, 102).to_hsl();
         // assert_eq!(hsl, Hsl::new_unchecked(30, 50, 60));
     }
 
     #[test]
-    fn test_hsl_to_string() {
+    fn hsl_to_string() {
         // let hsl = Hsl::new_unchecked(100, 100, 100);
         // assert_eq!(hsl.to_string(), String::from("hsl(100°, 100%, 100%)"));
     }
 
     #[test]
-    fn test_hsl_to_hex_string() {
+    fn hsl_to_hex_string() {
         // let hex = Hsl::new_unchecked(30, 50, 60).to_hex_string();
         // assert_eq!(hex, String::from("#cc9966"));
     }
 
     #[test]
-    fn test_hsl_to_rgb() {
+    fn hsl_to_rgb() {
         // let rgb = Hsl::new_unchecked(30, 50, 60).to_rgb();
         // assert_eq!(rgb, Rgb::new(204, 153, 102));
     }
@@ -265,26 +264,26 @@ mod test {
     // }
 
     #[test]
-    fn test_cmyk_to_string() {
+    fn cmyk_to_string() {
         // let cmyk = Cmyk::new(30, 50, 60, 40).unwrap();
         // assert_eq!(cmyk.to_string(), String::from("cmyk(30%, 50%, 60%, 40%)"));
     }
 
     #[test]
-    fn test_cmyk_to_hex_string() {
+    fn cmyk_to_hex_string() {
         // let hex = Cmyk::new(30, 50, 60, 40).unwrap().to_hex_string();
         // assert_eq!(hex, String::from("#6b4d3d"));
     }
 
     #[test]
-    fn test_cmyk_to_rgb() {
+    fn cmyk_to_rgb() {
         // let hex = Cmyk::new(30, 50, 60, 40).unwrap().to_rgb();
         // assert_eq!(hex, Rgb::new(107, 77, 61));
     }
 
     // #[should_panic]
     // #[test]
-    // fn test_cmyk_checked_cmyk() {
+    // fn cmyk_checked_cmyk() {
     //     // Cmyk::new(255, 255, 255, 255).unwrap();
     // }
 }

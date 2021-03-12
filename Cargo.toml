@@ -15,6 +15,8 @@ license = "MPL-2.0"
 [features]
 canvas = ["euclid", "lyon_geom", "lyon_path"]
 geom = ["euclid", "lyon_geom", "lyon_path"]
+css = []
+quantization = []
 
 [badges]
 maintenance = { status = "actively-developed" }
@@ -25,3 +27,6 @@ lyon_geom = { version = "0.17", optional = true }
 lyon_path = { version = "0.17", optional = true }
 euclid = { version = "0.22", optional = true }
 lazy_static = "1.4.0"
+
+[dev-dependencies]
+libmath = "0.2.1"
