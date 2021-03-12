@@ -1,9 +1,9 @@
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Copy)]
 pub enum TextAlign {
     Left,
     Right,
     Center,
-    Justify
+    Justify,
 }
 
 impl Default for TextAlign {
@@ -12,7 +12,7 @@ impl Default for TextAlign {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Copy)]
 pub enum TextWeight {
     Thin = 100,
     UltraLight = 200,
@@ -21,7 +21,7 @@ pub enum TextWeight {
     Book = 380,
     Normal = 400,
     Medium = 500,
-    SemiBold = 600, 
+    SemiBold = 600,
     Bold = 700,
     UltraBold = 800,
     Heavy = 900,
@@ -34,7 +34,7 @@ impl Default for TextWeight {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Copy)]
 pub enum TextStyle {
     Normal = 0,
     Oblique = 1,
@@ -48,14 +48,14 @@ impl Default for TextStyle {
 }
 
 /// see https://developer.mozilla.org/ru/docs/Web/API/Canvas_API/Tutorial/Drawing_text
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Copy)]
 pub enum BaseLine {
-    Top, 
-    Hanging, 
-    Middle, 
-    Alphabetic, 
-    Ideographic, 
-    Bottom
+    Top,
+    Hanging,
+    Middle,
+    Alphabetic,
+    Ideographic,
+    Bottom,
 }
 
 impl Default for BaseLine {

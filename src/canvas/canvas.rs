@@ -2,7 +2,7 @@
 #![allow(unused_imports)]
 #![allow(dead_code)]
 
-use crate::color::Color;
+use crate::{color::Color, text::{TextStyle, TextWeight}};
 use crate::text::{TextAlign, BaseLine};
 
 use super::direction::Direction;
@@ -32,7 +32,7 @@ pub trait CanvasContext {
     fn set_filter(&self, value: &str);
 
     fn get_font(&self) -> String;
-    fn set_font(&self, value: &str);
+    fn set_font(&self, family: &str, style: TextStyle, weight: TextWeight, size: f64);
 
     fn get_global_alpha(&self) -> f64;
     fn set_global_alpha(&self, value: f64);
