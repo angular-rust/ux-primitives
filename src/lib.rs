@@ -1,11 +1,18 @@
-pub mod color;
-pub mod text;
+mod color;
+pub use color::*;
+
+mod text;
+pub use text::*;
 
 #[cfg(feature = "canvas")]
-pub mod canvas;
+mod canvas;
+#[cfg(feature = "canvas")]
+pub use canvas::*;
 
 #[cfg(any(feature = "geom", feature = "canvas"))]
-pub mod geom;
+mod geom;
+#[cfg(any(feature = "geom", feature = "canvas"))]
+pub use geom::*;
 
 #[macro_use]
 extern crate lazy_static;

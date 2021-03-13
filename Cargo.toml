@@ -12,14 +12,17 @@ categories = ["data-structures"]
 edition = "2018"
 license = "MPL-2.0"
 
+[badges]
+maintenance = { status = "actively-developed" }
+
+[lib]
+name = "primitives"
+
 [features]
 canvas = ["euclid", "lyon_geom", "lyon_path"]
 geom = ["euclid", "lyon_geom", "lyon_path"]
 css = []
 quantization = []
-
-[badges]
-maintenance = { status = "actively-developed" }
 
 [dependencies]
 intmap = "0.7"
