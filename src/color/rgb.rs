@@ -16,10 +16,28 @@ impl fmt::Display for RgbColor {
 
 impl From<Color> for RgbColor {
     fn from(item: Color) -> RgbColor {
-        if let Color::RGB(red, green, blue) = item.to_rgb().unwrap() {
-            Self { red, green, blue }
-        } else {
-            unreachable!()
+        match item {
+            Color::RGB(red, green, blue) => Self {
+                red,
+                green,
+                blue,
+            },
+            Color::RGBA(red, green, blue, _) => Self {
+                red,
+                green,
+                blue,
+            },
+            _ => {
+                if let Color::RGB(red, green, blue) = item.to_rgb().unwrap() {
+                    Self {
+                        red,
+                        green,
+                        blue,
+                    }
+                } else {
+                    unreachable!()
+                }
+            }
         }
     }
 }
