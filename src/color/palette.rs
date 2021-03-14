@@ -173,7 +173,7 @@ lazy_static! {
 #[cfg(feature = "color_quantization")]
 impl Color {
     pub fn distance(&self, other: Self) -> f64 {
-        let RgbColor { red: s_red, green: s_green, blue: s_blue } = (*self).into();
+        let RgbColor { r: s_red, g: s_green, b: s_blue } = (*self).into();
         if let Self::RGB(p_red, p_green, p_blue) = other {
             (((p_red as i32 - s_red as i32).pow(2)
                 + (p_green as i32 - s_green as i32).pow(2)
