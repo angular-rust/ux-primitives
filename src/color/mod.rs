@@ -1,7 +1,5 @@
 use std::fmt;
 
-pub mod palette;
-
 mod cmy;
 pub use cmy::CmyColor;
 mod cmyk;
@@ -17,7 +15,9 @@ pub use rgb::RgbColor;
 mod rgba;
 pub use rgba::RgbaColor;
 
-#[cfg(feature = "css")]
+pub mod palette;
+
+#[cfg(feature = "color_from_css")]
 pub mod css;
 
 mod utils;

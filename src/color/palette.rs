@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 
 use super::Color;
+#[cfg(feature = "color_quantization")]
 use super::RgbColor;
 
 pub const WHITE: Color = Color::RGB(255, 255, 255);
@@ -149,7 +150,7 @@ pub const ORANGE_7: Color = Color::RGB(247, 103, 7);
 pub const ORANGE_8: Color = Color::RGB(232, 89, 12);
 pub const ORANGE_9: Color = Color::RGB(217, 72, 15);
 
-//#[cfg(feature = "quantization")]
+#[cfg(feature = "color_quantization")]
 lazy_static! {
     static ref PALETTE: Vec<Color> = vec!(
         BLACK, WHITE,
@@ -169,7 +170,7 @@ lazy_static! {
     );
 }
 
-//#[cfg(feature = "quantization")]
+#[cfg(feature = "color_quantization")]
 impl Color {
     pub fn distance(&self, other: Self) -> f64 {
         let RgbColor { red: s_red, green: s_green, blue: s_blue } = (*self).into();
@@ -195,8 +196,9 @@ impl Color {
     }
 }
 
+#[cfg(feature = "color_quantization")]
 #[cfg(test)]
-mod test {
+pub mod test {
     use super::*;
     use math::round::stochastic;
 
