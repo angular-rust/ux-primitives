@@ -1,6 +1,5 @@
 use std::fmt;
-use super::ColorError;
-use crate::{RgbaColor, RgbColor};
+use super::*;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct HslColor {
@@ -9,9 +8,44 @@ pub struct HslColor {
     pub l: f64, // lightness
 }
 
+impl HslColor {
+    pub fn new(h: f64, s: f64, l: f64) -> Self {
+        Self { h, s, l }
+    }
+}
+
 impl fmt::Display for HslColor {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "hsl({}°, {}%, {}%)", self.h, self.s, self.l)
+    }
+}
+
+// Color enum -> CmykColor
+impl From<Color> for HslColor {
+    fn from(c: Color) -> HslColor {
+        match Result::<HslColor, ColorError>::from(c) {
+            Ok(hsl) => hsl,
+            Err(err) => panic!("Converting Color to CmykColor failed: {}", err)
+        }
+    }
+}
+impl From<Color> for Result<HslColor, ColorError> {
+    fn from(c: Color) -> Result<HslColor, ColorError> {
+        match c {
+            Color::RGB(r, g, b) => RgbColor { r, g, b }.into(),
+            Color::RGBA(r, g, b, _) => RgbColor { r, g, b }.into(),
+            Color::HSL(h, s, l) => Ok(HslColor{h, s, l}),
+            Color::HSV(h, s, v) => RgbColor::from(HsvColor{h, s, v}).into(),
+            Color::CMYK(c, m, y, k) => RgbColor::from(CmykColor{c, m, y, k}).into(),
+            Color::CMY(c, m, y) => RgbColor::from(CmykColor{c, m, y, k: 0.0}).into(),
+            Color::LAB(l, a, b) => RgbColor::from(LabColor{l, a, b}).into(),
+        }
+    }
+}
+
+impl ToHexString for HslColor {
+    fn to_hex_string(&self) -> String {
+        RgbColor::from(*self).to_hex_string()
     }
 }
 
@@ -30,6 +64,7 @@ impl From<RgbColor> for HslColor {
     }
 }
 impl From<RgbColor> for Result<HslColor, ColorError> {
+    // FIXME: unit tests fail when calculating saturation
     fn from(rgb: RgbColor) -> Self {
         let RgbColor { r: red, g: green, b: blue} = rgb;
         let r_prime = red as f64 / 255.;

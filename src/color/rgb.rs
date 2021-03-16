@@ -1,6 +1,5 @@
 use std::fmt;
-use super::{Color, ColorError};
-use crate::{RgbaColor, HslColor, CmykColor, HsvColor, CmyColor, LabColor};
+use super::*;
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub struct RgbColor {
@@ -14,7 +13,13 @@ impl fmt::Display for RgbColor {
 }
 
 impl RgbColor {
-    pub fn to_hex_string(&self) -> String {
+    pub fn new(r: u8, g: u8, b: u8) -> Self {
+        Self { r, g, b }
+    }
+}
+
+impl ToHexString for RgbColor {
+    fn to_hex_string(&self) -> String {
         format!("#{:0>2x}{:0>2x}{:0>2x}", self.r, self.g, self.b)
     }
 }
@@ -122,6 +127,7 @@ impl From<HsvColor> for RgbColor {
 }
 impl From<HsvColor> for Result<RgbColor, ColorError> {
     fn from(_: HsvColor) -> Result<RgbColor, ColorError> {
+        // TODO: implement HSV -> RGB
         Err(ColorError::Unimplemented)
     }
 }
@@ -137,6 +143,7 @@ impl From<CmyColor> for RgbColor {
 }
 impl From<CmyColor> for Result<RgbColor, ColorError> {
     fn from(_: CmyColor) -> Result<RgbColor, ColorError> {
+        // TODO: implement CMY -> RGB
         Err(ColorError::Unimplemented)
     }
 }
@@ -152,6 +159,7 @@ impl From<LabColor> for RgbColor {
 }
 impl From<LabColor> for Result<RgbColor, ColorError> {
     fn from(_: LabColor) -> Result<RgbColor, ColorError> {
+        // TODO: implement L*a*b -> RGB
         Err(ColorError::Unimplemented)
     }
 }

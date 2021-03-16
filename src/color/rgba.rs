@@ -1,5 +1,5 @@
 use std::fmt;
-use crate::{RgbColor, ColorError};
+use super::*;
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub struct RgbaColor {
@@ -16,7 +16,13 @@ impl fmt::Display for RgbaColor {
 }
 
 impl RgbaColor {
-    pub fn to_hex_string(&self) -> String {
+    pub fn new(r: u8, g: u8, b: u8, a: u8) -> Self {
+        Self { r, g, b, a }
+    }
+}
+
+impl ToHexString for RgbaColor {
+    fn to_hex_string(&self) -> String {
         format!("#{:0>2x}{:0>2x}{:0>2x}{:0>2x}", self.r, self.g, self.b, self.a)
     }
 }
