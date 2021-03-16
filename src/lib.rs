@@ -14,5 +14,6 @@ mod geom;
 #[cfg(any(feature = "geom", feature = "canvas"))]
 pub use geom::*;
 
+#[allow(unused_imports)]
 #[macro_use]
 extern crate lazy_static;

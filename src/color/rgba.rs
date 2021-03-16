@@ -1,51 +1,42 @@
-use super::Color;
 use std::fmt;
+use super::*;
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub struct RgbaColor {
-    pub red: u8,
-    pub green: u8,
-    pub blue: u8,
-    pub alpha: u8,
+    pub r: u8,
+    pub g: u8,
+    pub b: u8,
+    pub a: u8,
 }
 
 impl fmt::Display for RgbaColor {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(
-            f,
-            "rgba({}, {}, {}, {})",
-            self.red, self.green, self.blue, self.alpha
-        )
+        write!(f, "rgba({}, {}, {}, {})", self.r, self.g, self.b, self.a)
     }
 }
 
-impl From<Color> for RgbaColor {
-    fn from(item: Color) -> RgbaColor {
-        match item {
-            Color::RGB(red, green, blue) => Self {
-                red,
-                green,
-                blue,
-                alpha: 255,
-            },
-            Color::RGBA(red, green, blue, alpha) => Self {
-                red,
-                green,
-                blue,
-                alpha,
-            },
-            _ => {
-                if let Color::RGB(red, green, blue) = item.to_rgb().unwrap() {
-                    Self {
-                        red,
-                        green,
-                        blue,
-                        alpha: 255,
-                    }
-                } else {
-                    unreachable!()
-                }
-            }
+impl RgbaColor {
+    pub fn new(r: u8, g: u8, b: u8, a: u8) -> Self {
+        Self { r, g, b, a }
+    }
+}
+
+impl ToHexString for RgbaColor {
+    fn to_hex_string(&self) -> String {
+        format!("#{:0>2x}{:0>2x}{:0>2x}{:0>2x}", self.r, self.g, self.b, self.a)
+    }
+}
+
+impl From<RgbColor> for RgbaColor {
+    fn from(rgb: RgbColor) -> RgbaColor {
+        match Result::<RgbaColor, ColorError>::from(rgb) {
+            Ok(rgba) => rgba,
+            Err(err) => panic!("Converting RgbColor to RgbaColor failed: {}", err)
         }
+    }
+}
+impl From<RgbColor> for Result<RgbaColor, ColorError> {
+    fn from(rgb: RgbColor) -> Self {
+        Ok(RgbaColor {r: rgb.r, g: rgb.g, b: rgb.b, a: 0xFF })
     }
 }

@@ -1,4 +1,4 @@
-#![cfg(feature = "css")]
+#![cfg(feature = "color_from_css")]
 
 use super::Color;
 use std::collections::HashMap;
@@ -217,7 +217,7 @@ impl Color {
 }
 
 #[cfg(test)]
-mod tests {
+mod test {
     use super::Color;
 
     #[test]

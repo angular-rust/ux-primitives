@@ -21,8 +21,8 @@ name = "primitives"
 [features]
 canvas = ["euclid", "lyon_geom", "lyon_path"]
 geom = ["euclid", "lyon_geom", "lyon_path"]
-css = []
-quantization = []
+color_from_css = []
+color_quantization = []
 
 [dependencies]
 intmap = "0.7"
