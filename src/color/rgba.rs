@@ -39,7 +39,7 @@ impl From<Color> for RgbaColor {
 impl From<Color> for Result<RgbaColor, ColorError> {
     fn from(c: Color) -> Result<RgbaColor, ColorError> {
         match c {
-            Color::RGB(r, g, b) => Ok(RgbaColor { r, g, b, a: 0}),
+            Color::RGB(r, g, b) => Ok(RgbaColor { r, g, b, a: 0xFF}),
             Color::RGBA(r, g, b, a) => Ok(RgbaColor { r, g, b, a }),
             Color::HSL(h, s, l) => RgbColor::from(HslColor{h, s, l}).into(),
             Color::HSV(h, s, v) => RgbColor::from(HsvColor{h, s, v}).into(),
