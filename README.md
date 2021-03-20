@@ -1,6 +1,6 @@
 <center>
 
-![Star a repo](https://dudochkin-victor.github.io/assets/ux-primitives/logo.svg)
+![Star a repo](https://dudochkin-victor.github.io/assets/ux-primitives/logo-wide.svg)
 # UX Primitives
 
 [![API Docs][docrs-badge]][docrs-url]
