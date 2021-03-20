@@ -103,4 +103,4 @@ Come help us on the [issues that matter that the most](https://github.com/angula
 Please [report all bugs!](https://github.com/angular-rust/ux-primitives/issues/new/choose) We are happy to help support developers fix the bugs they find if they are interested and have the time.
 
 ## Todo
-- [x] Documentation
+- [ ] Documentation
