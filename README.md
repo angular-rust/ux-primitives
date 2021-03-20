@@ -30,7 +30,7 @@ Angular Rust is a high productivity, `platform-agnostic` frontend framework for 
 
 ## Features
 
-- [x] Graphic abstraction for cairo and web canvas, implemented in [UX Aanimate](https://github.com/angular-rust/ux-animate)
+- [x] Graphic abstraction for cairo and web canvas, implemented in [UX Animate](https://github.com/angular-rust/ux-animate)
 - [x] Most used color spaces: RGB, RGBA, HSL, HSV, LAB, CMY, CMYK
 - [x] Color conversion: RGB to HSL, etc.
 - [x] Support for color quantization to make the color closer to the palette
@@ -39,7 +39,7 @@ Angular Rust is a high productivity, `platform-agnostic` frontend framework for 
 
 ## Color scheme for UI design
 
-UX Primitives contain powerfull palette for easy of use and more professional look for your applications. UX Primitives use the [Open Color](yeun.github.io/open-color) scheme optimized for UI like font, background, border, etc.
+UX Primitives contain powerfull palette for easy of use and more professional look for your applications. UX Primitives use the [Open Color](https://yeun.github.io/open-color) scheme optimized for UI like font, background, border, etc.
 
 - All colors shall have adequate use
 - Provide general color for UI design
