@@ -132,7 +132,7 @@ impl ToHexString for Color {
     fn to_hex_string(&self) -> String {
         match self {
             Color::RGB(_, _, _) => RgbColor::from(*self).to_hex_string(),
-            Color::RGBA(_, _, _, _) => RgbColor::from(*self).to_hex_string(),
+            Color::RGBA(_, _, _, _) => RgbaColor::from(*self).to_hex_string(),
             Color::HSV(_, _, _) => RgbColor::from(*self).to_hex_string(),
             Color::HSL(_, _, _) => RgbColor::from(*self).to_hex_string(),
             Color::CMY(_, _, _) => RgbColor::from(*self).to_hex_string(),
