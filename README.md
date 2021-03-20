@@ -1,6 +1,7 @@
-# UX Primitives
+<center>
 
 ![Star a repo](https://dudochkin-victor.github.io/assets/ux-primitives/logo-wide.svg)
+# UX Primitives
 
 [![API Docs][docrs-badge]][docrs-url]
 [![Crates.io][crates-badge]][crates-url]
@@ -8,6 +9,8 @@
 [![Gitter chat][gitter-badge]][gitter-url]
 [![Rustc Version 1.45+][rust-badge]][rust-url]
 [![loc][loc-badge]][loc-url]
+
+</center>
 
 [docrs-badge]: https://img.shields.io/docsrs/ux-primitives?style=flat-square
 [docrs-url]: https://docs.rs/ux-primitives/
