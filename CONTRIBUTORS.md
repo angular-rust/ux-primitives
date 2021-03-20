@@ -11,4 +11,4 @@ UX Primitives contributors (sorted alphabetically)
   * Canvas abstraction
 
 
-**[Full contributors list](https://github.com/caolan/nodeunit/contributors).**
+**[Full contributors list](https://github.com/angular-rust/ux-primitives/contributors).**
