@@ -46,7 +46,7 @@ impl From<HslColor> for Result<RgbColor, ColorError> {
 #[cfg(test)]
 mod test {
     use super::*;
-    use math::round::stochastic;
+    //use math::round::stochastic;
 
     lazy_static! {
         static ref TEST_COLORS: Vec<(Color, HslColor)> = vec!(
@@ -60,14 +60,14 @@ mod test {
             (palette::YELLOW_8, HslColor::new(35.0, 100.0, 47.0)), // rgb(240, 140, 0)
             (palette::ORANGE_2, HslColor::new(33.0, 100.0, 83.0)), // rgb(255, 216, 168)
             (palette::ORANGE_6, HslColor::new(27.0, 98.0, 54.0)), // rgb(253, 126, 20)
-        )
+        );
     }
 
     #[test]
     fn to_rgb() {
         for (color, hsl) in TEST_COLORS.iter() {
-            let expected_rgb: RgbColor = (*color).into();
-            let actual_rgb: RgbColor = (*hsl).into();
+            let _expected_rgb: RgbColor = (*color).into();
+            let _actual_rgb: RgbColor = (*hsl).into();
         }
     }
 }
