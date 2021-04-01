@@ -23,6 +23,7 @@ canvas = ["euclid", "lyon_geom", "lyon_path"]
 geom = ["euclid", "lyon_geom", "lyon_path"]
 color_from_css = []
 color_quantization = []
+experimental = []
 
 [dependencies]
 intmap = "0.7"

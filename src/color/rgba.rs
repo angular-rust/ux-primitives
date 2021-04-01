@@ -21,35 +21,6 @@ impl RgbaColor {
     }
 }
 
-impl ToHexString for RgbaColor {
-    fn to_hex_string(&self) -> String {
-        format!("#{:0>2x}{:0>2x}{:0>2x}{:0>2x}", self.r, self.g, self.b, self.a)
-    }
-}
-
-// Color enum -> RgbaColor
-impl From<Color> for RgbaColor {
-    fn from(c: Color) -> RgbaColor {
-        match Result::<RgbaColor, ColorError>::from(c) {
-            Ok(rgb) => rgb,
-            Err(err) => panic!("Converting Color to RgbColor failed: {}", err)
-        }
-    }
-}
-impl From<Color> for Result<RgbaColor, ColorError> {
-    fn from(c: Color) -> Result<RgbaColor, ColorError> {
-        match c {
-            Color::RGB(r, g, b) => Ok(RgbaColor { r, g, b, a: 0xFF}),
-            Color::RGBA(r, g, b, a) => Ok(RgbaColor { r, g, b, a }),
-            Color::HSL(h, s, l) => RgbColor::from(HslColor{h, s, l}).into(),
-            Color::HSV(h, s, v) => RgbColor::from(HsvColor{h, s, v}).into(),
-            Color::CMYK(c, m, y, k) => RgbColor::from(CmykColor{c, m, y, k}).into(),
-            Color::CMY(c, m, y) => RgbColor::from(CmyColor{c, m, y}).into(),
-            Color::LAB(l, a, b) => RgbColor::from(LabColor{l, a, b}).into(),
-        }
-    }
-}
-
 impl From<RgbColor> for RgbaColor {
     fn from(rgb: RgbColor) -> RgbaColor {
         match Result::<RgbaColor, ColorError>::from(rgb) {
