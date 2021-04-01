@@ -22,4 +22,3 @@ impl fmt::Display for HslColor {
         write!(f, "hsl({}°, {}%, {}%)", self.h, self.s, self.l)
     }
 }
-

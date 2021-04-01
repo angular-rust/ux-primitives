@@ -20,9 +20,3 @@ impl fmt::Display for CmykColor {
         write!(f, "cmyk({}%, {}%, {}%, {}%)", self.c, self.m, self.y, self.k)
     }
 }
-
-
-
-
-
-

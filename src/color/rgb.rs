@@ -2,7 +2,9 @@ use std::fmt;
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub struct RgbColor {
-    pub r: u8, pub g: u8, pub b: u8,
+    pub r: u8,
+    pub g: u8,
+    pub b: u8,
 }
 
 impl RgbColor {
