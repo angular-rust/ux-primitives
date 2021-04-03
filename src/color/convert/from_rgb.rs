@@ -11,9 +11,33 @@ impl From<RgbColor> for HsvColor {
     }
 }
 impl From<RgbColor> for Result<HsvColor, ColorError> {
-    fn from(_rgb: RgbColor) -> Self {
+    fn from(rgb: RgbColor) -> Self {
         // https://ru.wikipedia.org/wiki/HSV_(%D1%86%D0%B2%D0%B5%D1%82%D0%BE%D0%B2%D0%B0%D1%8F_%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C)#RGB_%E2%86%92_HSV
-        Ok(HsvColor::new(0., 0., 0.))
+        let RgbColor { r: red, g: green, b: blue } = rgb;
+         let (min, max) = [red, green, blue].iter()
+             .fold((255u8, 0u8), |acc, color_cmp| -> (u8, u8) {
+                 (
+                     if *color_cmp < acc.0 { *color_cmp } else { acc.0 },
+                     if *color_cmp > acc.1 { *color_cmp } else { acc.1 },
+                 )
+             });
+        let hue = if max == red {
+            //normalize_hue(60. * (green - blue) / delta - 30.)
+            if green >= blue {
+                60. * (green as f64 - blue as f64) / (max - min) as f64
+            } else {
+                360. - (green as f64 - blue as f64) / (max - min) as f64 * 60.
+            }
+        } else if max == green {
+            60. * (blue as f64 - red as f64) / (max - min) as f64 + 120.
+        } else if max == blue {
+            60. * (red as f64 - green as f64) / (max - min) as f64 + 240.
+        } else {
+            0.
+        };
+        let saturation = 1. - (if max == 0 { 0f64 } else { min as f64 / max as f64 });
+        let brightness = max as f64 / 255.;
+        Ok(HsvColor::new(hue, saturation * 100., brightness * 100.))
     }
 }
 
@@ -118,10 +142,11 @@ mod test {
                 let actual_rgb: RgbColor = (*actual_color).into();
                 let actual_hsv: HsvColor = actual_rgb.into();
                 let HsvColor { h: actual_h, s: actual_s, v: actual_v } = actual_hsv;
+                let (actual_h, actual_s, actual_v) = (actual_h.round() ,actual_s.round(), actual_v.round());
                 let HsvColor { h: expected_h, s: expected_s, v: expected_v } = *expected_hsv;
-                assert!(test_utils::diff_less_than_f64(actual_h, expected_h, 2.), "{} -> {} != {}", actual_hsv, actual_rgb, expected_hsv);
-                assert!(test_utils::diff_less_than_f64(actual_s, expected_s, 2.), "{} -> {} != {}", actual_hsv, actual_rgb, expected_hsv);
-                assert!(test_utils::diff_less_than_f64(actual_v, expected_v, 2.), "{} -> {} != {}", actual_hsv, actual_rgb, expected_hsv);
+                assert!(test_utils::diff_less_than_f64(actual_h, expected_h, 2.), "{} -> {} != {}", actual_rgb, actual_hsv, expected_hsv);
+                assert!(test_utils::diff_less_than_f64(actual_s, expected_s, 2.), "{} -> {} != {}", actual_rgb, actual_hsv, expected_hsv);
+                assert!(test_utils::diff_less_than_f64(actual_v, expected_v, 2.), "{} -> {} != {}", actual_rgb, actual_hsv, expected_hsv);
             }
         )
     }
