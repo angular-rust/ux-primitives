@@ -1,5 +1,24 @@
 use super::*;
 
+// impl<C> From<Color> for Result<C, ColorError>
+//     where C: ColorSpace
+// {
+//     fn from(c: Color) -> Self {
+//         match c {
+//             Color::RGB(r, g, b) => Ok(RgbColor { r, g, b }),
+//             Color::RGBA(r, g, b, _) => Ok(RgbColor { r, g, b }),
+//             Color::HSL(h, s, l) => HslColor{h, s, l}.into(),
+//             Color::HSV(h, s, v) => HsvColor{h, s, v}.into(),
+//             Color::CMYK(c, m, y, k) => CmykColor{c, m, y, k}.into(),
+//             Color::CMY(c, m, y) => CmyColor{c, m, y}.into(),
+//             #[cfg(feature = "experimental")]
+//             Color::LAB(l, a, b) => LabColor{l, a, b}.into(),
+//             #[cfg(feature = "experimental")]
+//             Color::XYZ(x, y, z) => XyzColor{x, y, z}.into()
+//         }
+//     }
+// }
+
 // Color enum -> RgbColor
 impl From<Color> for RgbColor {
     fn from(c: Color) -> RgbColor {

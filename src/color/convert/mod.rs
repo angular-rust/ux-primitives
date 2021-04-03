@@ -31,6 +31,21 @@ pub use from_color::*;
 pub use to_color::*;
 mod to_color {
     use super::*;
+    use crate::color::ColorSpace;
+
+    impl ColorSpace for RgbColor {}
+    impl ColorSpace for RgbaColor {}
+    impl ColorSpace for HslColor {}
+    impl ColorSpace for HsvColor {}
+    impl ColorSpace for CmykColor {}
+    impl ColorSpace for CmyColor {}
+
+    #[cfg(feature = "experimental")]
+    impl ColorSpace for LabColor {}
+    #[cfg(feature = "experimental")]
+    impl ColorSpace for XyzColor {}
+
+
     impl From<RgbColor> for Color {
         fn from(c: RgbColor) -> Color { Color::RGB(c.r, c.g, c.b) }
     }
@@ -60,3 +75,5 @@ mod to_color {
     }
 }
 
+#[cfg(test)]
+mod test_utils;

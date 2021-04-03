@@ -1,6 +1,19 @@
 use super::Color;
 
 #[inline]
+pub fn normalize_hue(hue: f64) -> f64 {
+    let hue_rest = hue % 360.0;
+    if hue_rest < 0.0 { 360.0 - hue_rest } else { hue_rest }
+}
+
+#[inline]
+pub fn percentage_to_fraction(v: f64) -> f64 {
+    if v > 100. { 1. }
+    else if v < 0. { 0. }
+    else { v / 100. }
+}
+
+#[inline]
 pub fn color_from_short_rgb_u16(c: u16) -> Color {
     let (red, green, blue, _) = (
         ((c >> 8) + ((c >> 8) << 4)) as u8,

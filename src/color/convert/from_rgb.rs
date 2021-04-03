@@ -1,10 +1,27 @@
 use super::*;
 
+
+// RGB -> HSV
+impl From<RgbColor> for HsvColor {
+    fn from(rgb: RgbColor) -> HsvColor {
+        match Result::<HsvColor, ColorError>::from(rgb) {
+            Ok(hsv) => hsv,
+            Err(err) => panic!("Converting RgbColor to HslColor failed: {}", err)
+        }
+    }
+}
+impl From<RgbColor> for Result<HsvColor, ColorError> {
+    fn from(_rgb: RgbColor) -> Self {
+        // https://ru.wikipedia.org/wiki/HSV_(%D1%86%D0%B2%D0%B5%D1%82%D0%BE%D0%B2%D0%B0%D1%8F_%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C)#RGB_%E2%86%92_HSV
+        Ok(HsvColor::new(0., 0., 0.))
+    }
+}
+
 // RGB -> HSL
 impl From<RgbColor> for HslColor {
     fn from(rgb: RgbColor) -> HslColor {
         match Result::<HslColor, ColorError>::from(rgb) {
-            Ok(cmyk) => cmyk,
+            Ok(hsl) => hsl,
             Err(err) => panic!("Converting RgbColor to HslColor failed: {}", err)
         }
     }
@@ -94,33 +111,50 @@ mod test {
     }
 
     #[test]
-    fn to_hsl() {
-        // for (color, _, _, expected_hsl) in TEST_DATA.iter() {
-        //     let HslColor {
-        //         h: actual_hue,
-        //         s: actual_saturation,
-        //         l: actual_lightness,
-        //     } = HslColor::from(*color);
-        //     let HslColor {
-        //         h: expected_hue,
-        //         s: expected_saturation,
-        //         l: expected_lightness,
-        //     } = *expected_hsl;
-        //
-        //     assert_eq!(
-        //         stochastic(actual_hue, 0), expected_hue,
-        //         "wrong hue in hsl conversion from {}", color.to_hex_string()
-        //     );
-        //     assert_eq!(
-        //         stochastic(actual_saturation, 0), expected_saturation,
-        //         "wrong saturation in hsl conversion from {}", color.to_hex_string()
-        //     );
-        //     assert_eq!(
-        //         stochastic(actual_lightness, 0), expected_lightness,
-        //         "wrong lightness in hsl conversion from {}", color.to_hex_string()
-        //     );
-        // }
+    fn to_hsv() {
+        test_utils::test_conversion(
+            test_utils::RGB_HSV.iter(),
+            |actual_color, expected_hsv| {
+                let actual_rgb: RgbColor = (*actual_color).into();
+                let actual_hsv: HsvColor = actual_rgb.into();
+                let HsvColor { h: actual_h, s: actual_s, v: actual_v } = actual_hsv;
+                let HsvColor { h: expected_h, s: expected_s, v: expected_v } = *expected_hsv;
+                assert!(test_utils::diff_less_than_f64(actual_h, expected_h, 2.), "{} -> {} != {}", actual_hsv, actual_rgb, expected_hsv);
+                assert!(test_utils::diff_less_than_f64(actual_s, expected_s, 2.), "{} -> {} != {}", actual_hsv, actual_rgb, expected_hsv);
+                assert!(test_utils::diff_less_than_f64(actual_v, expected_v, 2.), "{} -> {} != {}", actual_hsv, actual_rgb, expected_hsv);
+            }
+        )
     }
+
+    // TODO: This test fails. Need to fix algorithm
+    // #[test]
+    // fn to_hsl() {
+    //     for (color, _, _, expected_hsl) in TEST_DATA.iter() {
+    //         let HslColor {
+    //             h: actual_hue,
+    //             s: actual_saturation,
+    //             l: actual_lightness,
+    //         } = HslColor::from(*color);
+    //         let HslColor {
+    //             h: expected_hue,
+    //             s: expected_saturation,
+    //             l: expected_lightness,
+    //         } = *expected_hsl;
+    //
+    //         assert_eq!(
+    //             stochastic(actual_hue, 0), expected_hue,
+    //             "wrong hue in hsl conversion from {}", color.to_hex_string()
+    //         );
+    //         assert_eq!(
+    //             stochastic(actual_saturation, 0), expected_saturation,
+    //             "wrong saturation in hsl conversion from {}", color.to_hex_string()
+    //         );
+    //         assert_eq!(
+    //             stochastic(actual_lightness, 0), expected_lightness,
+    //             "wrong lightness in hsl conversion from {}", color.to_hex_string()
+    //         );
+    //     }
+    // }
 
     #[test]
     fn to_cmyk() {

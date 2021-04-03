@@ -1,4 +1,5 @@
 use std::fmt;
+use crate::normalize_hue;
 
 
 #[derive(Clone, Copy, PartialEq, Debug)]
@@ -11,9 +12,9 @@ pub struct HsvColor {
 impl HsvColor {
     pub fn new(h: f64, s: f64, v: f64) -> Self {
         Self {
-            h: h % 360.0,
-            s: if s > 100.0 { 100.0 } else { s },
-            v: if s > 100.0 { 100.0 } else { v }
+            h: normalize_hue(h),
+            s: if s > 100. { 100. } else if s < 0. { 0. } else { s },
+            v: if s > 100. { 100. } else if s < 0. { 0. } else { v }
         }
     }
 }

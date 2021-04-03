@@ -60,6 +60,8 @@ pub enum Color {
     LAB(f64, f64, f64),
 }
 
+pub trait ColorSpace: Clone + Copy + Into<Color> {}
+
 impl Default for Color {
     fn default() -> Self { palette::BLACK }
 }

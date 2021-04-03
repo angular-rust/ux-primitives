@@ -43,31 +43,14 @@ impl From<HslColor> for Result<RgbColor, ColorError> {
 }
 
 
+//noinspection DuplicatedCode
 #[cfg(test)]
 mod test {
     use super::*;
-    //use math::round::stochastic;
-
-    lazy_static! {
-        static ref TEST_COLORS: Vec<(Color, HslColor)> = vec!(
-            (palette::BLUE_5,   HslColor::new(207.0, 86.0, 57.0)), // rgb(51, 154, 240)
-            (palette::CYAN_6,   HslColor::new(187.0, 80.0, 42.0)), // rgb(21, 170, 191)
-            (palette::TEAL_5,   HslColor::new(162.0, 73.0, 46.0)), // rgb(32, 201, 151)
-            (palette::GREEN_4,  HslColor::new(130.0, 61.0, 64.0)), // rgb(105, 219, 124)
-            (palette::LIME_1,   HslColor::new(80.0, 83.0, 88.0)), // rgb(233, 250, 200)
-            (palette::LIME_6,   HslColor::new(85.0, 74.0, 45.0)), // rgb(130, 201, 30)
-            (palette::YELLOW_4, HslColor::new(47.0, 100.0, 62.0)), // rgb(255, 212, 59)
-            (palette::YELLOW_8, HslColor::new(35.0, 100.0, 47.0)), // rgb(240, 140, 0)
-            (palette::ORANGE_2, HslColor::new(33.0, 100.0, 83.0)), // rgb(255, 216, 168)
-            (palette::ORANGE_6, HslColor::new(27.0, 98.0, 54.0)), // rgb(253, 126, 20)
-        );
-    }
+    //use math::round;
 
     #[test]
     fn to_rgb() {
-        for (color, hsl) in TEST_COLORS.iter() {
-            let _expected_rgb: RgbColor = (*color).into();
-            let _actual_rgb: RgbColor = (*hsl).into();
-        }
+        test_utils::test_to_rgb_conversion(test_utils::RGB_HSL.iter())
     }
 }
