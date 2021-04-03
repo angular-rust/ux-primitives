@@ -1,42 +1,18 @@
-#![allow(
-    clippy::float_cmp,
-    clippy::let_and_return,
-    clippy::from_over_into,
-    clippy::upper_case_acronyms
-)]
-
 use super::*;
+
 
 // RGB -> HSV
 impl From<RgbColor> for HsvColor {
-    fn from(rgb: RgbColor) -> HsvColor {
-        match Result::<HsvColor, ColorError>::from(rgb) {
-            Ok(hsv) => hsv,
-            Err(err) => panic!("Converting RgbColor to HslColor failed: {}", err),
-        }
-    }
-}
-impl From<RgbColor> for Result<HsvColor, ColorError> {
     fn from(rgb: RgbColor) -> Self {
         // https://ru.wikipedia.org/wiki/HSV_(%D1%86%D0%B2%D0%B5%D1%82%D0%BE%D0%B2%D0%B0%D1%8F_%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C)#RGB_%E2%86%92_HSV
-        let RgbColor { red, green, blue } = rgb;
-        let (min, max) =
-            [red, green, blue]
-                .iter()
-                .fold((255u8, 0u8), |acc, color_cmp| -> (u8, u8) {
-                    (
-                        if *color_cmp < acc.0 {
-                            *color_cmp
-                        } else {
-                            acc.0
-                        },
-                        if *color_cmp > acc.1 {
-                            *color_cmp
-                        } else {
-                            acc.1
-                        },
-                    )
-                });
+        let RgbColor { r: red, g: green, b: blue } = rgb;
+        let (min, max) = [red, green, blue].iter()
+            .fold((255u8, 0u8), |acc, color_cmp| -> (u8, u8) {
+                (
+                    if *color_cmp < acc.0 { *color_cmp } else { acc.0 },
+                    if *color_cmp > acc.1 { *color_cmp } else { acc.1 },
+                )
+            });
         let hue = if max == red {
             //normalize_hue(60. * (green - blue) / delta - 30.)
             if green >= blue {
@@ -51,30 +27,16 @@ impl From<RgbColor> for Result<HsvColor, ColorError> {
         } else {
             0.
         };
-        let saturation = 1.
-            - (if max == 0 {
-                0f64
-            } else {
-                min as f64 / max as f64
-            });
+        let saturation = 1. - (if max == 0 { 0f64 } else { min as f64 / max as f64 });
         let brightness = max as f64 / 255.;
-        Ok(HsvColor::new(hue, saturation * 100., brightness * 100.))
+        HsvColor::new(hue, saturation * 100., brightness * 100.)
     }
 }
 
 // RGB -> HSL
 impl From<RgbColor> for HslColor {
-    fn from(rgb: RgbColor) -> HslColor {
-        match Result::<HslColor, ColorError>::from(rgb) {
-            Ok(hsl) => hsl,
-            Err(err) => panic!("Converting RgbColor to HslColor failed: {}", err),
-        }
-    }
-}
-impl From<RgbColor> for Result<HslColor, ColorError> {
-    // FIXME: unit tests fail when calculating saturation
     fn from(rgb: RgbColor) -> Self {
-        let RgbColor { red, green, blue } = rgb;
+        let RgbColor { r: red, g: green, b: blue} = rgb;
         let r_prime = red as f64 / 255.;
         let g_prime = green as f64 / 255.;
         let b_prime = blue as f64 / 255.;
@@ -84,7 +46,7 @@ impl From<RgbColor> for Result<HslColor, ColorError> {
 
         let delta = c_max - c_min;
 
-        let hue = if (delta - 0.).abs() < f64::EPSILON {
+        let hue = if (delta - 0.) < f64::EPSILON {
             0.
         } else {
             match c_max {
@@ -92,54 +54,41 @@ impl From<RgbColor> for Result<HslColor, ColorError> {
                 x if x == g_prime => 60. * (((b_prime - r_prime) / delta) + 2.),
                 x if x == b_prime => 60. * (((r_prime - g_prime) / delta) + 4.),
                 _ => unreachable!("Invalid hue calculation!"),
-            }
-            .round()
+            }.round()
         };
 
         let lightness = (c_max + c_min) / 2.;
 
-        let saturation = if (delta - 0.).abs() < f64::EPSILON {
+        let saturation = if (delta - 0.) < f64::EPSILON {
             0.
         } else {
             (delta / (1. - ((2. * lightness) - 1.)) * 100.).round()
         };
 
-        Ok(HslColor {
-            hue,
-            saturation,
-            lightness: (lightness * 100.).round(),
-        })
+        HslColor { h: hue, s: saturation, l: (lightness * 100.).round() }
     }
 }
 
 impl From<RgbColor> for CmykColor {
-    fn from(rgb: RgbColor) -> CmykColor {
-        match Result::<CmykColor, ColorError>::from(rgb) {
-            Ok(cmyk) => cmyk,
-            Err(err) => panic!("Converting RgbColor to CmykColor failed: {}", err),
-        }
-    }
-}
-impl From<RgbColor> for Result<CmykColor, ColorError> {
     fn from(rgb: RgbColor) -> Self {
-        let r_prime = rgb.red as f64 / 255.;
-        let g_prime = rgb.green as f64 / 255.;
-        let b_prime = rgb.blue as f64 / 255.;
+        let r_prime = rgb.r as f64 / 255.;
+        let g_prime = rgb.g as f64 / 255.;
+        let b_prime = rgb.b as f64 / 255.;
 
         let key = 1.
             - [r_prime, g_prime, b_prime]
-                .iter()
-                .cloned()
-                .fold(f64::NAN, f64::max);
+            .iter()
+            .cloned()
+            .fold(f64::NAN, f64::max);
 
         let apply = |v: f64| (((1. - v - key) / (1. - key)) * 100.).round();
 
-        Ok(CmykColor {
-            cyan: apply(r_prime),
-            magenta: apply(g_prime),
-            yellow: apply(b_prime),
-            key: key * 100.,
-        })
+        CmykColor {
+            c: apply(r_prime),
+            m: apply(g_prime),
+            y: apply(b_prime),
+            k: key * 100.
+        }
     }
 }
 
@@ -162,43 +111,19 @@ mod test {
 
     #[test]
     fn to_hsv() {
-        test_utils::test_conversion(test_utils::RGB_HSV.iter(), |actual_color, expected_hsv| {
-            let actual_rgb: RgbColor = (*actual_color).into();
-            let actual_hsv: HsvColor = actual_rgb.into();
-            let HsvColor {
-                hue: actual_h,
-                saturation: actual_s,
-                value: actual_v,
-            } = actual_hsv;
-            let (actual_h, actual_s, actual_v) =
-                (actual_h.round(), actual_s.round(), actual_v.round());
-            let HsvColor {
-                hue: expected_h,
-                saturation: expected_s,
-                value: expected_v,
-            } = *expected_hsv;
-            assert!(
-                test_utils::diff_less_than_f64(actual_h, expected_h, 2.),
-                "{} -> {} != {}",
-                actual_rgb,
-                actual_hsv,
-                expected_hsv
-            );
-            assert!(
-                test_utils::diff_less_than_f64(actual_s, expected_s, 2.),
-                "{} -> {} != {}",
-                actual_rgb,
-                actual_hsv,
-                expected_hsv
-            );
-            assert!(
-                test_utils::diff_less_than_f64(actual_v, expected_v, 2.),
-                "{} -> {} != {}",
-                actual_rgb,
-                actual_hsv,
-                expected_hsv
-            );
-        })
+        test_utils::test_conversion(
+            test_utils::RGB_HSV.iter(),
+            |actual_color, expected_hsv| {
+                let actual_rgb: RgbColor = (*actual_color).into();
+                let actual_hsv: HsvColor = actual_rgb.into();
+                let HsvColor { h: actual_h, s: actual_s, v: actual_v } = actual_hsv;
+                let (actual_h, actual_s, actual_v) = (actual_h.round() ,actual_s.round(), actual_v.round());
+                let HsvColor { h: expected_h, s: expected_s, v: expected_v } = *expected_hsv;
+                assert!(test_utils::diff_less_than_f64(actual_h, expected_h, 2.), "{} -> {} != {}", actual_rgb, actual_hsv, expected_hsv);
+                assert!(test_utils::diff_less_than_f64(actual_s, expected_s, 2.), "{} -> {} != {}", actual_rgb, actual_hsv, expected_hsv);
+                assert!(test_utils::diff_less_than_f64(actual_v, expected_v, 2.), "{} -> {} != {}", actual_rgb, actual_hsv, expected_hsv);
+            }
+        )
     }
 
     // TODO: This test fails. Need to fix algorithm
@@ -235,42 +160,34 @@ mod test {
     fn to_cmyk() {
         for (color, _, expected_cmyk, _) in TEST_DATA.iter() {
             let CmykColor {
-                cyan: actual_cyan,
-                magenta: actual_magenta,
-                yellow: actual_yellow,
-                key: actual_key,
+                c: actual_cyan,
+                m: actual_magenta,
+                y: actual_yellow,
+                k: actual_key,
             } = CmykColor::from(*color);
 
             let CmykColor {
-                cyan: expected_cyan,
-                magenta: expected_magenta,
-                yellow: expected_yellow,
-                key: expected_key,
+                c: expected_cyan,
+                m: expected_magenta,
+                y: expected_yellow,
+                k: expected_key,
             } = *expected_cmyk;
 
             assert_eq!(
-                stochastic(actual_cyan, 0),
-                expected_cyan,
-                "wrong cyan in cmyk conversion from {}",
-                color.to_hex_string()
+                stochastic(actual_cyan, 0), expected_cyan,
+                "wrong cyan in cmyk conversion from {}", color.to_hex_string()
             );
             assert_eq!(
-                stochastic(actual_magenta, 0),
-                expected_magenta,
-                "wrong magenta in cmyk conversion from {}",
-                color.to_hex_string()
+                stochastic(actual_magenta, 0), expected_magenta,
+                "wrong magenta in cmyk conversion from {}", color.to_hex_string()
             );
             assert_eq!(
-                stochastic(actual_yellow, 0),
-                expected_yellow,
-                "wrong yellow in cmyk conversion from {}",
-                color.to_hex_string()
+                stochastic(actual_yellow, 0), expected_yellow,
+                "wrong yellow in cmyk conversion from {}", color.to_hex_string()
             );
             assert_eq!(
-                stochastic(actual_key, 0),
-                expected_key,
-                "wrong key in cmyk conversion from {}",
-                color.to_hex_string()
+                stochastic(actual_key, 0), expected_key,
+                "wrong key in cmyk conversion from {}", color.to_hex_string()
             );
         }
     }

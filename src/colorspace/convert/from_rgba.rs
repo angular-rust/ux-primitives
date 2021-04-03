@@ -3,20 +3,7 @@ use super::*;
 // RGBA -> RGB
 impl From<RgbaColor> for RgbColor {
     fn from(rgba: RgbaColor) -> Self {
-        RgbColor {
-            red: rgba.red,
-            green: rgba.green,
-            blue: rgba.blue,
-        }
-    }
-}
-impl From<RgbaColor> for Result<RgbColor, ColorError> {
-    fn from(rgb: RgbaColor) -> Self {
-        Ok(RgbColor {
-            red: rgb.red,
-            green: rgb.green,
-            blue: rgb.blue,
-        })
+        RgbColor {r: rgba.r, g: rgba.g, b: rgba.b }
     }
 }
 
@@ -24,5 +11,12 @@ impl From<RgbaColor> for Result<RgbColor, ColorError> {
 impl From<RgbaColor> for HslColor {
     fn from(color: RgbaColor) -> HslColor {
         HslColor::from(RgbColor::from(color))
+    }
+}
+
+// RGBA -> HSV
+impl From<RgbaColor> for HsvColor {
+    fn from(color: RgbaColor) -> HsvColor {
+        HsvColor::from(RgbColor::from(color))
     }
 }
