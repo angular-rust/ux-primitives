@@ -1,5 +1,4 @@
 use std::fmt;
-use super::*;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct CmyColor {
@@ -14,8 +13,3 @@ impl fmt::Display for CmyColor {
     }
 }
 
-impl ToHexString for CmyColor {
-    fn to_hex_string(&self) -> String {
-        RgbColor::from(*self).to_hex_string()
-    }
-}
