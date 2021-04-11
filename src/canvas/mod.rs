@@ -1,14 +1,18 @@
 #![cfg(feature = "canvas")]
 
 mod canvas;
-mod style;
-mod image;
-mod direction;
-mod text_metrics;
 pub use canvas::*;
+
+mod style;
 pub use style::*;
+
+mod image;
 pub use image::*;
+
+mod direction;
 pub use direction::*;
+
+mod text_metrics;
 pub use text_metrics::*;
 
 #[derive(Clone, Debug)]

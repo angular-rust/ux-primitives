@@ -1,20 +1,19 @@
-#![allow(dead_code)]
-use crate::color::Color;
+use crate::Color;
 
 pub struct RadialGradient {
-    x0: f64,
-    y0: f64,
-    r0: f64,
-    x1: f64,
-    y1: f64,
-    r1: f64,
+    pub x0: f64,
+    pub y0: f64,
+    pub r0: f64,
+    pub x1: f64,
+    pub y1: f64,
+    pub r1: f64,
 }
 
 pub struct LinearGradient {
-    x0: f64,
-    y0: f64,
-    x1: f64,
-    y1: f64,
+    pub x0: f64,
+    pub y0: f64,
+    pub x1: f64,
+    pub y1: f64,
 }
 
 pub struct ColorStop {

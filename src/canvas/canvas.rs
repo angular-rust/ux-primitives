@@ -1,17 +1,7 @@
-#![allow(unused_variables)]
 #![allow(unused_imports)]
-#![allow(dead_code)]
 
-use crate::{color::Color, text::{TextStyle, TextWeight}};
-use crate::text::{TextAlign, BaseLine};
-
-use super::direction::Direction;
-use super::{
-    LineCap, LineJoin,
-    image::ImageDataInterface,
-    style::{Gradient, Pattern},
-    text_metrics::TextMetrics,
-};
+use super::{Direction, Gradient, ImageDataInterface, LineCap, LineJoin, Pattern, TextMetrics};
+use crate::{BaseLine, Color, TextAlign, TextStyle, TextWeight};
 
 pub trait CanvasContext {
     // /// Get current global transformation matrix
@@ -59,7 +49,7 @@ pub trait CanvasContext {
     /// Set global composite operation
     fn set_global_composite_operation(&self, value: &str);
 
-    /// Whether images and patterns on this canvas will be smoothed when 
+    /// Whether images and patterns on this canvas will be smoothed when
     /// this canvas is scaled.
     fn is_image_smoothing_enabled(&self) -> bool;
 
@@ -86,7 +76,7 @@ pub trait CanvasContext {
 
     /// Get line join
     fn get_line_join(&self) -> LineJoin;
-    
+
     /// Set line dash
     fn set_line_join(&self, value: LineJoin);
 
@@ -143,7 +133,7 @@ pub trait CanvasContext {
 
     /// Get text baseline
     fn get_text_baseline(&self) -> BaseLine;
-    
+
     /// Set text baseline
     fn set_text_baseline(&self, value: BaseLine);
 
@@ -166,7 +156,7 @@ pub trait CanvasContext {
 
     /// Add bezier curve to current path
     fn bezier_curve_to(&self, cp1x: f64, cp1y: f64, cp2x: f64, cp2y: f64, x: f64, y: f64);
-    
+
     /// Clear rectangle on current canvas
     fn clear_rect(&self, x: f64, y: f64, width: f64, height: f64);
 
@@ -174,27 +164,27 @@ pub trait CanvasContext {
 
     // /// Set clip to current operation
     // fn clip(path_OR_winding: dynamic, winding: String); // TODO:
-    
+
     /// Close the current path
     fn close_path(&self);
 
     // [int? sh_OR_sw, dynamic imageDataColorSettings_OR_sh, Map? imageDataColorSettings]
-    
+
     // /// Create the image data from slice
     // fn createImageData(data_OR_imagedata_OR_sw: dynamic, sh_OR_sw: int, imageDataColorSettings_OR_sh: dynamic, imageDataColorSettings: Map) -> ImageData; // TODO:
 
     // /// Create the image data from other
     // fn createImageDataFromImageData(imagedata: ImageData) -> ImageData; // TODO:
-    
+
     // /// Create linear gradiaent
     // fn createLinearGradient(x0: f64, y0: f64, x1: f64, y1: f64) -> CanvasGradient; // TODO:
-    
+
     // /// Create pattern
     // fn createPattern(image: Object, repetitionType: String) -> CanvasPattern; // TODO:
-    
+
     // /// Create pattern from image
     // fn createPatternFromImage(image: ImageElement, repetitionType: String) -> CanvasPattern; // TODO:
-    
+
     // /// Create radial gradient
     // fn createRadialGradient(x0: f64, y0: f64, r0: f64, x1: f64, y1: f64, r1: f64) -> CanvasGradient; // TODO:
 
@@ -230,7 +220,7 @@ pub trait CanvasContext {
 
     // /// Fill current path
     // fn fill(path_OR_winding: dynamic, winding: String); // TODO:
-    
+
     /// Fill current path
     fn fill(&self);
 
@@ -256,7 +246,7 @@ pub trait CanvasContext {
     /// Add line to path from current position
     fn line_to(&self, x: f64, y: f64);
 
-    /// Measure text using current font face and font size 
+    /// Measure text using current font face and font size
     fn measure_text(&self, text: &str) -> TextMetrics;
 
     /// Move cursor to position

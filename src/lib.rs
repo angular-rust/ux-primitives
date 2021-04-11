@@ -1,5 +1,7 @@
-mod color;
-pub use color::*;
+pub mod color;
+
+mod colospace;
+pub use colospace::*;
 
 mod text;
 pub use text::*;

@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 use super::Color;
 #[cfg(feature = "color_quantization")]
 use super::RgbColor;
