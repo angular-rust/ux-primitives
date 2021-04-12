@@ -201,7 +201,7 @@ impl Color {
         let color_hex_str = &color_hex_str[1..];
         let color_len = color_hex_str.len();
         if color_len < 3 {
-            panic!(panic_string);
+            panic!("{}", panic_string);
         }
         let color_u32 = u32::from_str_radix(color_hex_str, 16).expect(&*panic_string);
         match color_len {
@@ -209,7 +209,7 @@ impl Color {
             6 => utils::color_from_rgb_u32(color_u32),
             4 => utils::color_from_short_rgba_u16(color_u32 as u16),
             8 => utils::color_from_rgba_u32(color_u32),
-            _ => panic!(panic_string),
+            _ => panic!("{}", panic_string),
         }
     }
 }

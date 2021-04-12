@@ -39,6 +39,6 @@ impl WithAlpha<RgbColor> for RgbaColor {
         self.into()
     }
     fn get_alpha(self) -> f64 {
-        (self.a as f64) / 255.0
+        (self.alpha as f64) / 255.0
     }
 }

@@ -186,7 +186,7 @@ impl Color {
         }
     }
 
-    fn quantize(&self) -> Self {
+    pub fn quantize(&self) -> Self {
         let mut min_color_distance =
             ((0xFF_u32.pow(2) + 0xFF_u32.pow(2) + 0xFF_u32.pow(2)) as f64).sqrt();
         let mut min_distance_color: Option<&Color> = None;
