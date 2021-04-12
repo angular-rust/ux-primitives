@@ -1,13 +1,14 @@
 <div align="center">
 
-![Star a repo](https://dudochkin-victor.github.io/assets/ux-primitives/logo.svg)
+[![](https://dudochkin-victor.github.io/assets/ux-primitives/logo-wide.svg)](#top)
 # UX Primitives
 
 [![API Docs][docrs-badge]][docrs-url]
 [![Crates.io][crates-badge]][crates-url]
+[![Code coverage][codecov-badge]][codecov-url]
+[![Tests][tests-badge]][tests-url]
 [![MPL-2.0 licensed][license-badge]][license-url]
 [![Gitter chat][gitter-badge]][gitter-url]
-[![Rustc Version 1.45+][rust-badge]][rust-url]
 [![loc][loc-badge]][loc-url]
 </div>
 
@@ -17,16 +18,18 @@
 [crates-url]: https://crates.io/crates/ux-primitives
 [license-badge]: https://img.shields.io/badge/license-MPL--2.0-blue.svg?style=flat-square
 [license-url]: https://github.com/angular-rust/ux-primitives/blob/master/LICENSE
-[gitter-badge]: https://img.shields.io/gitter/room/angular_rust/angular_rust.svg?style=flat-square
-[gitter-url]: https://gitter.im/angular_rust/angular_rust
-[rust-badge]: https://img.shields.io/badge/rustc-1.45-lightgrey.svg?style=flat-square
-[rust-url]: https://blog.rust-lang.org/2020/07/16/Rust-1.45.0.html
-[loc-badge]: https://tokei.rs/b1/github/angular-rust/ux-primitives?category=code
-[loc-url]: https://github.com/Aaronepower/tokei#badges
+[gitter-badge]: https://img.shields.io/gitter/room/angular_rust/community.svg?style=flat-square
+[gitter-url]: https://gitter.im/angular_rust/community
+[tests-badge]: https://img.shields.io/github/workflow/status/angular-rust/ux-primitives/tests?label=tests&logo=github&style=flat-square
+[tests-url]: https://github.com/angular-rust/ux-primitives/actions/workflows/tests.yml
+[codecov-badge]: https://img.shields.io/codecov/c/github/angular-rust/ux-primitives?logo=codecov&style=flat-square&token=RRKF1UAOSR
+[codecov-url]: https://codecov.io/gh/angular-rust/ux-primitives
+[loc-badge]: https://img.shields.io/tokei/lines/github/angular-rust/ux-primitives?style=flat-square
+[loc-url]: https://github.com/angular-rust/ux-primitives
 
 UX Primitives is a core graphic and color abstraction for Angular Rust.
 
-Angular Rust is a high productivity, `platform-agnostic` frontend framework for the [Rust language](https://www.rust-lang.org/). It now supports desktop and web development. Angular Rust currently uses GTK for desktop development and WebAssembly for web development. We are planning to add support for mobile development.
+**Angular Rust** is a high productivity, `platform-agnostic` frontend framework for the [Rust language](https://www.rust-lang.org/). It now supports desktop and web development. Angular Rust currently uses GTK for desktop development and WebAssembly for web development. We are planning to add support for mobile development.
 
 ## Features
 
@@ -52,7 +55,7 @@ UX Primitives contain powerfull palette for easy of use and more professional lo
 
 ## Quick Start
 
-Install Angular Rust:
+Install UX Primitives:
 
 	cargo add ux-primitives
 
@@ -74,13 +77,13 @@ Install Angular Rust:
 
 ## Contributing
 
-Angular Rust is a community effort and we welcome all kinds of contributions, big or small, from developers of all backgrounds. We want the Angular Rust community to be a fun and friendly place, so please review our [Code of Conduct](CODE_OF_CONDUCT.md) to learn what behavior will not be tolerated.
-
 We believe the wider community can create better code. The first tool for improving the community is to tell the developers about the project by giving it a star. More stars - more members.
 
- ![Star a repo](https://dudochkin-victor.github.io/assets/star-me-wide.svg)
+  [![](https://dudochkin-victor.github.io/assets/star-me-wide.svg)](https://github.com/angular-rust/ux-primives#top)
 
-## New to Angular Rust?
+Angular Rust is a community effort and we welcome all kinds of contributions, big or small, from developers of all backgrounds. We want the Angular Rust community to be a fun and friendly place, so please review our [Code of Conduct](CODE_OF_CONDUCT.md) to learn what behavior will not be tolerated.
+
+### New to Angular Rust?
 
 Start learning about the framework by helping us improve our [documentation](https://angular-rust.github.io/). Pull requests which improve test coverage are also very welcome.
 
