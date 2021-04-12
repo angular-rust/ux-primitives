@@ -1,8 +1,8 @@
 #![cfg(feature = "color_from_css")]
 
+use super::utils;
 use super::Color;
 use std::collections::HashMap;
-use super::utils;
 
 lazy_static! {
     static ref COLORS: HashMap<&'static str, Color> = {
@@ -193,9 +193,7 @@ impl Color {
     }
 
     pub fn from_hex_str(color: &str) -> Self {
-        let color_hex_str = if color.len() > 9 {
-            &color[0..9]
-        } else { color };
+        let color_hex_str = if color.len() > 9 { &color[0..9] } else { color };
         let panic_string = format!("Color hex invalid format of string \"{}\"", color_hex_str);
         if !color_hex_str.starts_with('#') {
             panic!("Color hex should start from \"#\" character");
@@ -211,7 +209,7 @@ impl Color {
             6 => utils::color_from_rgb_u32(color_u32),
             4 => utils::color_from_short_rgba_u16(color_u32 as u16),
             8 => utils::color_from_rgba_u32(color_u32),
-            _ => panic!(panic_string)
+            _ => panic!(panic_string),
         }
     }
 }
@@ -223,23 +221,58 @@ mod test {
     #[test]
     fn get_color_from_impl() {
         let test_data: Vec<(&str, &str, u32, Color)> = vec![
-            ("palegoldenrod",  "#eee8aa", 0xeee8aa, Color::RGB(0xee, 0xe8, 0xaa)),
-            ("palegreen",      "#98fb98", 0x98fb98, Color::RGB(0x98, 0xfb, 0x98)),
-            ("paleturquoise",  "#afeeee", 0xafeeee, Color::RGB(0xaf, 0xee, 0xee)),
-            ("palevioletred",  "#db7093", 0xdb7093, Color::RGB(0xdb, 0x70, 0x93)),
-            ("papayawhip",     "#ffefd5", 0xffefd5, Color::RGB(0xff, 0xef, 0xd5)),
-            ("peachpuff",      "#ffdab9", 0xffdab9, Color::RGB(0xff, 0xda, 0xb9)),
-            ("peru",           "#cd853f", 0xcd853f, Color::RGB(0xcd, 0x85, 0x3f)),
-            ("pink",           "#ffc0cb", 0xffc0cb, Color::RGB(0xff, 0xc0, 0xcb)),
-            ("plum",           "#dda0dd", 0xdda0dd, Color::RGB(0xdd, 0xa0, 0xdd)),
-            ("powderblue",     "#b0e0e6", 0xb0e0e6, Color::RGB(0xb0, 0xe0, 0xe6)),
+            (
+                "palegoldenrod",
+                "#eee8aa",
+                0xeee8aa,
+                Color::RGB(0xee, 0xe8, 0xaa),
+            ),
+            (
+                "palegreen",
+                "#98fb98",
+                0x98fb98,
+                Color::RGB(0x98, 0xfb, 0x98),
+            ),
+            (
+                "paleturquoise",
+                "#afeeee",
+                0xafeeee,
+                Color::RGB(0xaf, 0xee, 0xee),
+            ),
+            (
+                "palevioletred",
+                "#db7093",
+                0xdb7093,
+                Color::RGB(0xdb, 0x70, 0x93),
+            ),
+            (
+                "papayawhip",
+                "#ffefd5",
+                0xffefd5,
+                Color::RGB(0xff, 0xef, 0xd5),
+            ),
+            (
+                "peachpuff",
+                "#ffdab9",
+                0xffdab9,
+                Color::RGB(0xff, 0xda, 0xb9),
+            ),
+            ("peru", "#cd853f", 0xcd853f, Color::RGB(0xcd, 0x85, 0x3f)),
+            ("pink", "#ffc0cb", 0xffc0cb, Color::RGB(0xff, 0xc0, 0xcb)),
+            ("plum", "#dda0dd", 0xdda0dd, Color::RGB(0xdd, 0xa0, 0xdd)),
+            (
+                "powderblue",
+                "#b0e0e6",
+                0xb0e0e6,
+                Color::RGB(0xb0, 0xe0, 0xe6),
+            ),
         ];
         for (color_name, color_hex_str, color_u32, color) in test_data.iter() {
             if let Color::RGB(expected_red, expected_green, expected_blue) = *color {
                 let actual_colors_vec: Vec<Color> = vec![
                     (*color_name).into(),
                     (*color_hex_str).into(),
-                    (*color_u32).into()
+                    (*color_u32).into(),
                 ];
                 for actual_color in actual_colors_vec {
                     if let Color::RGB(actual_red, actual_green, actual_blue) = actual_color {

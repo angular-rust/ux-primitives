@@ -2,17 +2,21 @@ use super::*;
 
 // HSV -> RGB
 impl From<HsvColor> for RgbColor {
-    fn from(hsv: HsvColor) -> RgbColor  {
+    fn from(hsv: HsvColor) -> RgbColor {
         match Result::<RgbColor, ColorError>::from(hsv) {
             Ok(rgb) => rgb,
-            Err(err) => panic!("Converting HsvColor to RgbColor failed: {}", err)
+            Err(err) => panic!("Converting HsvColor to RgbColor failed: {}", err),
         }
     }
 }
 impl From<HsvColor> for Result<RgbColor, ColorError> {
     fn from(hsv: HsvColor) -> Result<RgbColor, ColorError> {
         //Err(ColorError::Unimplemented)
-        let HsvColor { h: arg_hue, s: arg_saturation, v: arg_value} = hsv;
+        let HsvColor {
+            hue: arg_hue,
+            saturation: arg_saturation,
+            value: arg_value,
+        } = hsv;
         let hue = normalize_hue(arg_hue);
         let value = percentage_to_fraction(arg_value);
         let saturation = percentage_to_fraction(arg_saturation);
@@ -21,17 +25,17 @@ impl From<HsvColor> for Result<RgbColor, ColorError> {
         let min = (1. - saturation) * value;
         let a = (value - min) * ((hue % 60.) / 60.);
 
-        let (red_c, green_c, blue_c) = if hue >= 0. && hue < 60. {
+        let (red_c, green_c, blue_c) = if (0. ..60.).contains(&hue) {
             (value, min + a, min)
-        } else if hue >= 60. && hue < 120. {
+        } else if (60. ..120.).contains(&hue) {
             (value - a, value, min)
-        } else if hue >= 120. && hue < 180. {
+        } else if (120. ..180.).contains(&hue) {
             (min, value, min + a)
-        } else if hue >= 180. && hue < 240. {
+        } else if (180. ..240.).contains(&hue) {
             (min, value - a, value)
-        } else if hue >= 240. && hue < 300. {
+        } else if (240. ..300.).contains(&hue) {
             (min + a, min, value)
-        } else if hue >= 300. && hue < 360. {
+        } else if (300. ..360.).contains(&hue) {
             (value, min, value - a)
         } else {
             return Err(ColorError::DegreeOverflow); // unreachable
@@ -39,7 +43,7 @@ impl From<HsvColor> for Result<RgbColor, ColorError> {
         Ok(RgbColor::new(
             (red_c * 255.) as u8,
             (green_c * 255.) as u8,
-            (blue_c * 255.) as u8
+            (blue_c * 255.) as u8,
         ))
     }
 }

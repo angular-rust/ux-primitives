@@ -2,10 +2,10 @@ use super::*;
 
 // L*a*b -> RGB
 impl From<LabColor> for RgbColor {
-    fn from(lab: LabColor) -> RgbColor  {
+    fn from(lab: LabColor) -> RgbColor {
         match Result::<RgbColor, ColorError>::from(lab) {
             Ok(rgb) => rgb,
-            Err(err) => panic!("Converting LabColor to RgbColor failed: {}", err)
+            Err(err) => panic!("Converting LabColor to RgbColor failed: {}", err),
         }
     }
 }

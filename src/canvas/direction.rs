@@ -1,3 +1,5 @@
 pub enum Direction {
-    Ltr, Rtl, Inherit
+    Ltr,
+    Rtl,
+    Inherit,
 }

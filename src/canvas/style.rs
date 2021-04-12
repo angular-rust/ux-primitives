@@ -21,18 +21,12 @@ pub struct ColorStop {
     pub color: Color,
 }
 
-pub struct Pattern {
+pub struct Pattern {}
 
-}
-
-pub struct Gradient {
-
-}
+pub struct Gradient {}
 
 impl Gradient {
-    pub fn add_color_stop(&self, _stop: ColorStop) {
-
-    }
+    pub fn add_color_stop(&self, _stop: ColorStop) {}
 
     pub fn get_color_count(&self) -> usize {
         unimplemented!()

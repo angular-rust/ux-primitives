@@ -2,10 +2,10 @@ use super::*;
 
 // XYZ -> RGB
 impl From<XyzColor> for RgbColor {
-    fn from(xyz: XyzColor) -> RgbColor  {
+    fn from(xyz: XyzColor) -> RgbColor {
         match Result::<RgbColor, ColorError>::from(xyz) {
             Ok(rgb) => rgb,
-            Err(err) => panic!("Converting XyzColor to RgbColor failed: {}", err)
+            Err(err) => panic!("Converting XyzColor to RgbColor failed: {}", err),
         }
     }
 }

@@ -19,9 +19,9 @@ pub(super) fn diff_less_than_f64(left: f64, right: f64, diff: f64) -> bool {
 }
 
 pub(super) fn test_conversion<C, F>(test_colors_iterator: Iter<'_, (Color, C)>, callback: F)
-    where
-        C: fmt::Display + Copy + Clone,
-        F: Fn(&Color, &C) -> ()
+where
+    C: fmt::Display + Copy + Clone,
+    F: Fn(&Color, &C) -> (),
 {
     for (left_color, right_space) in test_colors_iterator {
         callback(left_color, right_space)
@@ -29,20 +29,44 @@ pub(super) fn test_conversion<C, F>(test_colors_iterator: Iter<'_, (Color, C)>, 
 }
 
 pub(super) fn test_to_rgb_conversion<C>(test_colors_iterator: Iter<'_, (Color, C)>)
-    where C: fmt::Display + Copy + Clone + Into<RgbColor>
+where
+    C: fmt::Display + Copy + Clone + Into<RgbColor>,
 {
-    test_utils::test_conversion(
-        test_colors_iterator,
-        |expected_color, actual_hsv| {
-            let expected_rgb: RgbColor = (*expected_color).into();
-            let actual_rgb: RgbColor = (*actual_hsv).into();
-            let RgbColor { r: expected_r, g: expected_g, b: expected_b } = expected_rgb;
-            let RgbColor { r: actual_r, g: actual_g, b: actual_b} = actual_rgb;
-            assert!(test_utils::diff_less_than_u8(actual_r, expected_r, 3), "{} -> {} != {}", *actual_hsv, actual_rgb, expected_rgb);
-            assert!(test_utils::diff_less_than_u8(actual_g, expected_g, 3), "{} -> {} != {}", *actual_hsv, actual_rgb, expected_rgb);
-            assert!(test_utils::diff_less_than_u8(actual_b, expected_b, 3), "{} -> {} != {}", *actual_hsv, actual_rgb, expected_rgb);
-        }
-    )
+    test_utils::test_conversion(test_colors_iterator, |expected_color, actual_hsv| {
+        let expected_rgb: RgbColor = (*expected_color).into();
+        let actual_rgb: RgbColor = (*actual_hsv).into();
+        let RgbColor {
+            r: expected_r,
+            g: expected_g,
+            b: expected_b,
+        } = expected_rgb;
+        let RgbColor {
+            r: actual_r,
+            g: actual_g,
+            b: actual_b,
+        } = actual_rgb;
+        assert!(
+            test_utils::diff_less_than_u8(actual_r, expected_r, 3),
+            "{} -> {} != {}",
+            *actual_hsv,
+            actual_rgb,
+            expected_rgb
+        );
+        assert!(
+            test_utils::diff_less_than_u8(actual_g, expected_g, 3),
+            "{} -> {} != {}",
+            *actual_hsv,
+            actual_rgb,
+            expected_rgb
+        );
+        assert!(
+            test_utils::diff_less_than_u8(actual_b, expected_b, 3),
+            "{} -> {} != {}",
+            *actual_hsv,
+            actual_rgb,
+            expected_rgb
+        );
+    })
 }
 
 lazy_static! {

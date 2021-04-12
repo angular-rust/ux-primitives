@@ -1,3 +1,5 @@
+#![allow(clippy::upper_case_acronyms)]
+
 use std::fmt;
 
 mod rgb;
@@ -67,7 +69,6 @@ impl Default for Color {
     }
 }
 
-
 #[derive(Debug)]
 pub enum ColorError {
     PercentageOverflow,
@@ -78,8 +79,14 @@ pub enum ColorError {
 impl fmt::Display for ColorError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Self::PercentageOverflow => write!(f, "Overflow of Color percentage value (can't be greater than 100%)"),
-            Self::DegreeOverflow => write!(f, "Overflow of Hue in hsl(v) color space (can't be greater than 360 deg"),
+            Self::PercentageOverflow => write!(
+                f,
+                "Overflow of Color percentage value (can't be greater than 100%)"
+            ),
+            Self::DegreeOverflow => write!(
+                f,
+                "Overflow of Hue in hsl(v) color space (can't be greater than 360 deg"
+            ),
             Self::Unimplemented => write!(f, "Unimplemented color conversion"),
         }
     }
@@ -91,19 +98,19 @@ impl fmt::Display for Color {
             Color::RGB(red, green, blue) => write!(f, "rgb({}, {}, {})", red, green, blue),
             Color::RGBA(red, green, blue, alpha) => {
                 write!(f, "rgba({}, {}, {}, {})", red, green, blue, alpha)
-            },
+            }
             Color::HSV(hue, saturation, value) => {
                 write!(f, "hsv({}°, {}%, {}%)", hue, saturation, value)
-            },
+            }
             Color::HSL(hue, saturation, lightness) => {
                 write!(f, "hsl({}°, {}%, {}%)", hue, saturation, lightness)
-            },
+            }
             Color::CMY(cyan, magenta, yellow) => {
                 write!(f, "cmy({}%, {}%, {}%)", cyan, magenta, yellow)
-            },
+            }
             Color::CMYK(cyan, magenta, yellow, key) => {
                 write!(f, "cmyk({}%, {}%, {}%, {}%)", cyan, magenta, yellow, key)
-            },
+            }
             #[cfg(feature = "experimental")]
             Color::LAB(l, a, b) => write!(f, "lab({}, {}, {})", l, a, b),
             #[cfg(feature = "experimental")]
@@ -112,14 +119,11 @@ impl fmt::Display for Color {
     }
 }
 
-
-
 impl Color {
-
     #[deprecated]
     pub fn to_rgb(&self) -> Result<Color, ColorError> {
         match self {
-            Color::RGB(_, _, _) => Ok(self.clone()),
+            Color::RGB(_, _, _) => Ok(*self),
             Color::RGBA(_, _, _, _) => Ok(Color::from(RgbColor::from(*self))),
             Color::HSV(_, _, _) => Err(ColorError::Unimplemented),
             Color::HSL(_, _, _) => Ok(Color::from(RgbColor::from(*self))),
@@ -140,7 +144,7 @@ impl Color {
             Color::HSV(_, _, _) => Ok(Color::from(CmykColor::from(RgbColor::from(*self)))),
             Color::HSL(_, _, _) => Ok(Color::from(CmykColor::from(RgbColor::from(*self)))),
             Color::CMY(_, _, _) => Ok(Color::from(CmykColor::from(RgbColor::from(*self)))),
-            Color::CMYK(_, _, _, _) => Ok(self.clone()),
+            Color::CMYK(_, _, _, _) => Ok(*self),
             #[cfg(feature = "experimental")]
             Color::LAB(_, _, _) => Err(ColorError::Unimplemented),
             #[cfg(feature = "experimental")]
@@ -154,7 +158,7 @@ impl Color {
             Color::RGB(_, _, _) => Ok(Color::from(HslColor::from(RgbColor::from(*self)))),
             Color::RGBA(_, _, _, _) => Ok(Color::from(HslColor::from(RgbColor::from(*self)))),
             Color::HSV(_, _, _) => Ok(Color::from(HslColor::from(RgbColor::from(*self)))),
-            Color::HSL(_, _, _) => Ok(self.clone()),
+            Color::HSL(_, _, _) => Ok(*self),
             Color::CMY(_, _, _) => Ok(Color::from(HslColor::from(RgbColor::from(*self)))),
             Color::CMYK(_, _, _, _) => Ok(Color::from(HslColor::from(RgbColor::from(*self)))),
             #[cfg(feature = "experimental")]
