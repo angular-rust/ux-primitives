@@ -189,7 +189,7 @@ impl From<&str> for Color {
 
 impl Color {
     pub fn from_css_name(name: &str) -> Self {
-        COLORS.get(name).expect("Unknown css name of color").clone()
+        *COLORS.get(name).expect("Unknown css name of color")
     }
 
     pub fn from_hex_str(color: &str) -> Self {
