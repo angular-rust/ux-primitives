@@ -38,9 +38,9 @@ impl From<HslColor> for Result<RgbColor, ColorError> {
             }
         };
         Ok(RgbColor {
-            r: ((r_prime + m) * 255.).round() as u8,
-            g: ((g_prime + m) * 255.).round() as u8,
-            b: ((b_prime + m) * 255.).round() as u8,
+            red: ((r_prime + m) * 255.).round() as u8,
+            green: ((g_prime + m) * 255.).round() as u8,
+            blue: ((b_prime + m) * 255.).round() as u8,
         })
     }
 }

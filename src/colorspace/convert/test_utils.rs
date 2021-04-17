@@ -36,14 +36,14 @@ where
         let expected_rgb: RgbColor = (*expected_color).into();
         let actual_rgb: RgbColor = (*actual_hsv).into();
         let RgbColor {
-            r: expected_r,
-            g: expected_g,
-            b: expected_b,
+            red: expected_r,
+            green: expected_g,
+            blue: expected_b,
         } = expected_rgb;
         let RgbColor {
-            r: actual_r,
-            g: actual_g,
-            b: actual_b,
+            red: actual_r,
+            green: actual_g,
+            blue: actual_b,
         } = actual_rgb;
         assert!(
             test_utils::diff_less_than_u8(actual_r, expected_r, 3),

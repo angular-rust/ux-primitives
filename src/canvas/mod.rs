@@ -16,7 +16,7 @@ pub use direction::*;
 mod text_metrics;
 pub use text_metrics::*;
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub enum LineCap {
     Butt,
     Round,
@@ -29,7 +29,7 @@ impl Default for LineCap {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub enum LineJoin {
     Miter,
     Bevel,
@@ -42,7 +42,22 @@ impl Default for LineJoin {
     }
 }
 
-pub trait CanvasContext {
+#[allow(dead_code)]
+#[derive(Clone, Copy, Debug)]
+pub enum PatternExtend {
+    None,
+    Repeat,
+    Reflect,
+    Pad,
+}
+
+impl Default for PatternExtend {
+    fn default() -> Self {
+        PatternExtend::Repeat
+    }
+}
+
+pub trait CanvasContext<P> {
     // /// Get current global transformation matrix
     // fn get_current_transform(&self) -> Matrix<f64>;
 
@@ -58,11 +73,11 @@ pub trait CanvasContext {
     /// Set fill color
     fn set_fill_color(&self, value: Color);
 
-    // /// Set fill gradient
-    // fn set_fill_gradient(&self, value: impl CanvasGradientInterface);
+    /// Set fill gradient
+    fn set_fill_gradient(&self, value: &Gradient);
 
-    // /// Set fill pattern
-    // fn set_fill_pattern(&self, value: impl CanvasPatternInterface);
+    /// Set fill pattern
+    fn set_fill_pattern(&self, value: &P);
 
     /// Get filter
     fn get_filter(&self) -> String;
@@ -158,11 +173,11 @@ pub trait CanvasContext {
     /// Set stroke color
     fn set_stroke_color(&self, value: Color);
 
-    // /// Set stroke gradient
-    // fn set_stroke_gradient(&self, value: impl CanvasGradientInterface);
+    /// Set stroke gradient
+    fn set_stroke_gradient(&self, value: &Gradient);
 
-    // /// Set stroke pattern
-    // fn set_stroke_pattern(&self, value: impl CanvasPatternInterface);
+    /// Set stroke pattern
+    fn set_stroke_pattern(&self, value: &P);
 
     /// Get text align
     fn get_text_align(&self) -> TextAlign;
@@ -214,18 +229,6 @@ pub trait CanvasContext {
 
     // /// Create the image data from other
     // fn createImageDataFromImageData(imagedata: ImageData) -> ImageData; // TODO:
-
-    // /// Create linear gradiaent
-    // fn createLinearGradient(x0: f64, y0: f64, x1: f64, y1: f64) -> CanvasGradient; // TODO:
-
-    // /// Create pattern
-    // fn createPattern(image: Object, repetitionType: String) -> CanvasPattern; // TODO:
-
-    // /// Create pattern from image
-    // fn createPatternFromImage(image: ImageElement, repetitionType: String) -> CanvasPattern; // TODO:
-
-    // /// Create radial gradient
-    // fn createRadialGradient(x0: f64, y0: f64, r0: f64, x1: f64, y1: f64, r1: f64) -> CanvasGradient; // TODO:
 
     // [Element? element]
     // fn drawFocusIfNeeded(element_OR_path: dynamic, element: Element); // TODO:

@@ -6,8 +6,8 @@ pub trait ToHexString {
 
 impl<C: Into<RgbColor> + Clone> ToHexString for C {
     fn to_hex_string(&self) -> String {
-        let RgbColor { r, g, b } = self.clone().into();
-        format!("#{:0>2x}{:0>2x}{:0>2x}", r, g, b)
+        let RgbColor { red, green, blue } = self.clone().into();
+        format!("#{:0>2x}{:0>2x}{:0>2x}", red, green, blue)
     }
 }
 

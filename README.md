@@ -81,7 +81,7 @@ Install UX Primitives:
 
 We believe the wider community can create better code. The first tool for improving the community is to tell the developers about the project by giving it a star. More stars - more members.
 
-  [![](https://dudochkin-victor.github.io/assets/star-me-wide.svg)](https://github.com/angular-rust/ux-primives#top)
+  [![](https://dudochkin-victor.github.io/assets/star-me-wide.svg)](https://github.com/angular-rust/ux-primitives#top)
 
 Angular Rust is a community effort and we welcome all kinds of contributions, big or small, from developers of all backgrounds. We want the Angular Rust community to be a fun and friendly place, so please review our [Code of Conduct](CODE_OF_CONDUCT.md) to learn what behavior will not be tolerated.
 

@@ -19,11 +19,7 @@ impl From<RgbColor> for HsvColor {
 impl From<RgbColor> for Result<HsvColor, ColorError> {
     fn from(rgb: RgbColor) -> Self {
         // https://ru.wikipedia.org/wiki/HSV_(%D1%86%D0%B2%D0%B5%D1%82%D0%BE%D0%B2%D0%B0%D1%8F_%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C)#RGB_%E2%86%92_HSV
-        let RgbColor {
-            r: red,
-            g: green,
-            b: blue,
-        } = rgb;
+        let RgbColor { red, green, blue } = rgb;
         let (min, max) =
             [red, green, blue]
                 .iter()
@@ -78,11 +74,7 @@ impl From<RgbColor> for HslColor {
 impl From<RgbColor> for Result<HslColor, ColorError> {
     // FIXME: unit tests fail when calculating saturation
     fn from(rgb: RgbColor) -> Self {
-        let RgbColor {
-            r: red,
-            g: green,
-            b: blue,
-        } = rgb;
+        let RgbColor { red, green, blue } = rgb;
         let r_prime = red as f64 / 255.;
         let g_prime = green as f64 / 255.;
         let b_prime = blue as f64 / 255.;
@@ -130,9 +122,9 @@ impl From<RgbColor> for CmykColor {
 }
 impl From<RgbColor> for Result<CmykColor, ColorError> {
     fn from(rgb: RgbColor) -> Self {
-        let r_prime = rgb.r as f64 / 255.;
-        let g_prime = rgb.g as f64 / 255.;
-        let b_prime = rgb.b as f64 / 255.;
+        let r_prime = rgb.red as f64 / 255.;
+        let g_prime = rgb.green as f64 / 255.;
+        let b_prime = rgb.blue as f64 / 255.;
 
         let key = 1.
             - [r_prime, g_prime, b_prime]

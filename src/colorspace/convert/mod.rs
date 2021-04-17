@@ -47,7 +47,7 @@ mod to_color {
 
     impl From<RgbColor> for Color {
         fn from(c: RgbColor) -> Color {
-            Color::RGB(c.r, c.g, c.b)
+            Color::RGB(c.red, c.green, c.blue)
         }
     }
     impl From<RgbaColor> for Color {

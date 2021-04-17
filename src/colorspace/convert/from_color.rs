@@ -31,31 +31,31 @@ impl From<Color> for RgbColor {
 impl From<Color> for Result<RgbColor, ColorError> {
     fn from(c: Color) -> Result<RgbColor, ColorError> {
         match c {
-            Color::RGB(r, g, b) => Ok(RgbColor { r, g, b }),
-            Color::RGBA(r, g, b, _) => Ok(RgbColor { r, g, b }),
-            Color::HSL(h, s, l) => HslColor {
-                hue: h,
-                saturation: s,
-                lightness: l,
+            Color::RGB(red, green, blue) => Ok(RgbColor { red, green, blue }),
+            Color::RGBA(red, green, blue, _) => Ok(RgbColor { red, green, blue }),
+            Color::HSL(hue, saturation, lightness) => HslColor {
+                hue,
+                saturation,
+                lightness,
             }
             .into(),
-            Color::HSV(h, s, v) => HsvColor {
-                hue: h,
-                saturation: s,
-                value: v,
+            Color::HSV(hue, saturation, value) => HsvColor {
+                hue,
+                saturation,
+                value,
             }
             .into(),
-            Color::CMYK(c, m, y, k) => CmykColor {
-                cyan: c,
-                magenta: m,
-                yellow: y,
-                key: k,
+            Color::CMYK(cyan, magenta, yellow, key) => CmykColor {
+                cyan,
+                magenta,
+                yellow,
+                key,
             }
             .into(),
-            Color::CMY(c, m, y) => CmyColor {
-                cyan: c,
-                magenta: m,
-                yellow: y,
+            Color::CMY(cyan, magenta, yellow) => CmyColor {
+                cyan,
+                magenta,
+                yellow,
             }
             .into(),
             #[cfg(feature = "experimental")]
@@ -135,8 +135,8 @@ impl From<Color> for HslColor {
 impl From<Color> for Result<HslColor, ColorError> {
     fn from(c: Color) -> Result<HslColor, ColorError> {
         match c {
-            Color::RGB(red, g, b) => RgbColor { r: red, g, b }.into(),
-            Color::RGBA(red, g, b, _) => RgbColor { r: red, g, b }.into(),
+            Color::RGB(red, green, blue) => RgbColor { red, green, blue }.into(),
+            Color::RGBA(red, green, blue, _) => RgbColor { red, green, blue }.into(),
             Color::HSL(hue, saturation, lightness) => Ok(HslColor {
                 hue,
                 saturation,
@@ -182,18 +182,18 @@ impl From<Color> for CmykColor {
 impl From<Color> for Result<CmykColor, ColorError> {
     fn from(c: Color) -> Result<CmykColor, ColorError> {
         match c {
-            Color::RGB(r, g, b) => RgbColor { r, g, b }.into(),
-            Color::RGBA(r, g, b, _) => RgbColor { r, g, b }.into(),
-            Color::HSL(h, s, l) => RgbColor::from(HslColor {
-                hue: h,
-                saturation: s,
-                lightness: l,
+            Color::RGB(red, green, blue) => RgbColor { red, green, blue }.into(),
+            Color::RGBA(red, green, blue, _) => RgbColor { red, green, blue }.into(),
+            Color::HSL(hue, saturation, lightness) => RgbColor::from(HslColor {
+                hue,
+                saturation,
+                lightness,
             })
             .into(),
-            Color::HSV(h, s, v) => RgbColor::from(HsvColor {
-                hue: h,
-                saturation: s,
-                value: v,
+            Color::HSV(hue, saturation, value) => RgbColor::from(HsvColor {
+                hue,
+                saturation,
+                value,
             })
             .into(),
             Color::CMYK(c, m, y, k) => Ok(CmykColor {

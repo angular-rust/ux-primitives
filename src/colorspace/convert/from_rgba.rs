@@ -4,18 +4,18 @@ use super::*;
 impl From<RgbaColor> for RgbColor {
     fn from(rgba: RgbaColor) -> Self {
         RgbColor {
-            r: rgba.red,
-            g: rgba.green,
-            b: rgba.blue,
+            red: rgba.red,
+            green: rgba.green,
+            blue: rgba.blue,
         }
     }
 }
 impl From<RgbaColor> for Result<RgbColor, ColorError> {
     fn from(rgb: RgbaColor) -> Self {
         Ok(RgbColor {
-            r: rgb.red,
-            g: rgb.green,
-            b: rgb.blue,
+            red: rgb.red,
+            green: rgb.green,
+            blue: rgb.blue,
         })
     }
 }

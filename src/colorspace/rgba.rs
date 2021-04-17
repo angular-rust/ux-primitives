@@ -41,9 +41,9 @@ impl From<RgbColor> for RgbaColor {
 impl From<RgbColor> for Result<RgbaColor, ColorError> {
     fn from(rgb: RgbColor) -> Self {
         Ok(RgbaColor {
-            red: rgb.r,
-            green: rgb.g,
-            blue: rgb.b,
+            red: rgb.red,
+            green: rgb.green,
+            blue: rgb.blue,
             alpha: 0xFF,
         })
     }
