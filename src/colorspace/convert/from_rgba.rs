@@ -3,12 +3,20 @@ use super::*;
 // RGBA -> RGB
 impl From<RgbaColor> for RgbColor {
     fn from(rgba: RgbaColor) -> Self {
-        RgbColor {r: rgba.r, g: rgba.g, b: rgba.b }
+        RgbColor {
+            red: rgba.red,
+            green: rgba.green,
+            blue: rgba.blue,
+        }
     }
 }
 impl From<RgbaColor> for Result<RgbColor, ColorError> {
     fn from(rgb: RgbaColor) -> Self {
-        Ok(RgbColor {r: rgb.r, g: rgb.g, b: rgb.b })
+        Ok(RgbColor {
+            red: rgb.red,
+            green: rgb.green,
+            blue: rgb.blue,
+        })
     }
 }
 

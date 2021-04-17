@@ -1,5 +1,7 @@
-mod color;
-pub use color::*;
+pub mod color;
+
+mod colorspace;
+pub use colorspace::*;
 
 mod text;
 pub use text::*;
@@ -17,3 +19,8 @@ pub use geom::*;
 #[allow(unused_imports)]
 #[macro_use]
 extern crate lazy_static;
+
+pub mod prelude {
+    pub use super::color;
+    pub use super::colorspace::*;
+}
