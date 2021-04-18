@@ -76,16 +76,14 @@ impl From<Rgb> for HsvColor {
         } else {
             0.
         };
-        let saturation = 1. - (if max < f64::EPSILON { 0f64 } else { min as f64 / max as f64 });
-        let brightness = max as f64 / 255.;
-        HsvColor::new(hue, saturation * 100., brightness * 100.)
+        let saturation = 1. - (if (max - 0.) < f64::EPSILON { 0f64 } else { min as f64 / max as f64 });
+        HsvColor::new(hue, saturation * 100., max * 100.)
     }
 }
 
 #[cfg(test)]
 mod test {
     use super::super::*;
-    use super::super::test_utils;
 
     #[test]
     fn hsv_to_rgb() {
@@ -102,9 +100,9 @@ mod test {
                 let HsvColor { hue: actual_h, saturation: actual_s, value: actual_v } = actual_hsv;
                 let (actual_h, actual_s, actual_v) = (actual_h.round() ,actual_s.round(), actual_v.round());
                 let HsvColor { hue: expected_h, saturation: expected_s, value: expected_v } = *expected_hsv;
-                assert!(test_utils::diff_less_than_f64(actual_h, expected_h, 2.), "{} -> {} != {}", actual_rgb, actual_hsv, expected_hsv);
-                assert!(test_utils::diff_less_than_f64(actual_s, expected_s, 2.), "{} -> {} != {}", actual_rgb, actual_hsv, expected_hsv);
-                assert!(test_utils::diff_less_than_f64(actual_v, expected_v, 2.), "{} -> {} != {}", actual_rgb, actual_hsv, expected_hsv);
+                assert!(test_utils::diff_less_than_f64(actual_h, expected_h, 1.), "wrong hue: {} -> {} != {}", actual_rgb, actual_hsv, expected_hsv);
+                assert!(test_utils::diff_less_than_f64(actual_s, expected_s, 1.), "wrong saturation: {} -> {} != {}", actual_rgb, actual_hsv, expected_hsv);
+                assert!(test_utils::diff_less_than_f64(actual_v, expected_v, 1.), "wrong brightness: {} -> {} != {}", actual_rgb, actual_hsv, expected_hsv);
             }
         )
     }

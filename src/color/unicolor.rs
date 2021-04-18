@@ -62,18 +62,27 @@ impl<C> FromUniColor for C
     where C: From<Rgb>
 {
     fn from_uni_color(c: Color) -> Self {
-        match c {
-            Color::RGB(red, green, blue) => C::from(Rgb{ red: red as f64, green: green as f64, blue: blue as f64 }),
-            Color::RGBA(red, green, blue, _) => C::from(Rgb{ red: red as f64, green: green as f64, blue: blue as f64 }),
-            Color::HSL(hue, saturation, lightness) => C::from(Rgb::from(HslColor{ hue, saturation, lightness })),
-            Color::HSV(hue, saturation, value) => C::from(Rgb::from(HsvColor{ hue, saturation, value })),
-            Color::CMYK(cyan, magenta, yellow, key) => C::from(Rgb::from(CmykColor{ cyan, magenta, yellow, key })),
-            Color::CMY(cyan, magenta, yellow) => C::from(Rgb::from(CmyColor{ cyan, magenta, yellow })),
+        let rgb = match c {
+            Color::RGB(red, green, blue) => Rgb {
+                red: red as f64 / 255.,
+                green: green as f64 / 255.,
+                blue: blue as f64 / 255. 
+            },
+            Color::RGBA(red, green, blue, _) => Rgb {
+                red: red as f64 / 255.,
+                green: green as f64 / 255.,
+                blue: blue as f64 / 255.
+            },
+            Color::HSL(hue, saturation, lightness) => Rgb::from(HslColor{ hue, saturation, lightness }),
+            Color::HSV(hue, saturation, value) => Rgb::from(HsvColor{ hue, saturation, value }),
+            Color::CMYK(cyan, magenta, yellow, key) => Rgb::from(CmykColor{ cyan, magenta, yellow, key }),
+            Color::CMY(cyan, magenta, yellow) => Rgb::from(CmyColor{ cyan, magenta, yellow }),
             #[cfg(feature = "experimental")]
-            Color::LAB(l, a, b) => C::from(Rgb::from(LabColor{l, a, b})),
+            Color::LAB(l, a, b) => Rgb::from(LabColor{l, a, b}),
             #[cfg(feature = "experimental")]
-            Color::XYZ(x, y, z) => C::from(Rgb::from(XyzColor{x, y, z}))
-        }
+            Color::XYZ(x, y, z) => Rgb::from(XyzColor{x, y, z})
+        };
+        C::from(rgb)
     }
 }
 

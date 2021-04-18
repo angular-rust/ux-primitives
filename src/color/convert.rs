@@ -107,3 +107,8 @@ impl From<CmyColor> for CmykColor { fn from(c: CmyColor) -> Self { Self::from_co
 impl From<CmyColor> for LabColor { fn from(c: CmyColor) -> Self { Self::from_color(c) } }
 #[cfg(feature = "experimental")]
 impl From<CmyColor> for XyzColor { fn from(c: CmyColor) -> Self { Self::from_color(c) } }
+
+#[cfg(test)]
+mod test {
+
+}
