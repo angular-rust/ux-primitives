@@ -1,6 +1,17 @@
 use super::Color;
+use core::slice::Iter;
 
-#[inline]
+#[inline(always)]
+pub fn min_max_tuple(color_cmp_iter: Iter<'_, f64>) -> (f64, f64) {
+    color_cmp_iter.fold((1.0f64, 0f64), |acc, color_cmp| -> (f64, f64) {
+        (
+            if *color_cmp < acc.0 { *color_cmp } else { acc.0 },
+            if *color_cmp > acc.1 { *color_cmp } else { acc.1 },
+        )
+    })
+}
+
+#[inline(always)]
 pub fn normalize_hue(hue: f64) -> f64 {
     let hue_rest = hue % 360.0;
     if hue_rest < 0.0 {
@@ -10,7 +21,7 @@ pub fn normalize_hue(hue: f64) -> f64 {
     }
 }
 
-#[inline]
+#[inline(always)]
 pub fn percentage_to_fraction(v: f64) -> f64 {
     if v > 100. {
         1.
@@ -21,7 +32,7 @@ pub fn percentage_to_fraction(v: f64) -> f64 {
     }
 }
 
-#[inline]
+#[inline(always)]
 pub fn color_from_short_rgb_u16(c: u16) -> Color {
     let (red, green, blue, _) = (
         ((c >> 8) + ((c >> 8) << 4)) as u8,
@@ -32,7 +43,7 @@ pub fn color_from_short_rgb_u16(c: u16) -> Color {
     Color::RGB(red, green, blue)
 }
 
-#[inline]
+#[inline(always)]
 pub fn color_from_rgb_u32(c: u32) -> Color {
     let (red, green, blue, _) = (
         (c >> 16) as u8,
@@ -43,7 +54,7 @@ pub fn color_from_rgb_u32(c: u32) -> Color {
     Color::RGB(red, green, blue)
 }
 
-#[inline]
+#[inline(always)]
 pub fn color_from_short_rgba_u16(c: u16) -> Color {
     let (red, green, blue, alpha) = (
         ((c >> 12) + ((c >> 12) << 4)) as u8,
@@ -54,7 +65,7 @@ pub fn color_from_short_rgba_u16(c: u16) -> Color {
     Color::RGBA(red, green, blue, alpha)
 }
 
-#[inline]
+#[inline(always)]
 pub fn color_from_rgba_u32(c: u32) -> Color {
     let (red, green, blue, alpha) = (
         (c >> 24) as u8,

@@ -1,7 +1,5 @@
-pub mod color;
-
-mod colorspace;
-pub use colorspace::*;
+mod color;
+pub use color::*;
 
 mod text;
 pub use text::*;
@@ -21,6 +19,6 @@ pub use geom::*;
 extern crate lazy_static;
 
 pub mod prelude {
-    pub use super::color;
-    pub use super::colorspace::*;
+    pub use super::color::*;
+    pub use super::color::palette::*;
 }

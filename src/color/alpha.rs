@@ -2,6 +2,7 @@
 
 use super::*;
 
+
 pub trait WithAlpha<C: From<Color>> {
     fn get_color(self) -> C;
     fn get_alpha(self) -> f64;
@@ -10,7 +11,7 @@ pub trait WithAlpha<C: From<Color>> {
 #[derive(Clone, Copy, Debug)]
 pub struct Alpha<C: From<Color>> {
     color: C,
-    alpha: f64,
+    alpha: f64
 }
 
 impl<C: From<Color>> Alpha<C> {
@@ -19,13 +20,10 @@ impl<C: From<Color>> Alpha<C> {
     }
 }
 
+
 impl<C: From<Color>> WithAlpha<C> for Alpha<C> {
-    fn get_color(self) -> C {
-        self.color
-    }
-    fn get_alpha(self) -> f64 {
-        self.alpha
-    }
+    fn get_color(self) -> C { self.color }
+    fn get_alpha(self) -> f64 { self.alpha }
 }
 
 impl<C: From<Color>> From<C> for Alpha<C> {
@@ -35,10 +33,6 @@ impl<C: From<Color>> From<C> for Alpha<C> {
 }
 
 impl WithAlpha<RgbColor> for RgbaColor {
-    fn get_color(self) -> RgbColor {
-        self.into()
-    }
-    fn get_alpha(self) -> f64 {
-        (self.alpha as f64) / 255.0
-    }
+    fn get_color(self) -> RgbColor { self.into() }
+    fn get_alpha(self) -> f64 { (self.alpha as f64) / 255.0 }
 }
