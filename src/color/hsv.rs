@@ -1,5 +1,5 @@
 use std::fmt;
-use crate::{normalize_hue, percentage_to_fraction};
+use crate::{hue_bound, percentage_to_fraction};
 use super::{Rgb, ColorError, utils};
 
 
@@ -13,7 +13,7 @@ pub struct HsvColor {
 impl HsvColor {
     pub fn new(hue: f64, saturation: f64, value: f64) -> Self {
         Self {
-            hue: normalize_hue(hue),
+            hue: hue_bound(hue),
             saturation: if saturation > 100. { 100. } else if saturation < 0. { 0. } else { saturation },
             value: if saturation > 100. { 100. } else if saturation < 0. { 0. } else { value }
         }
@@ -30,7 +30,7 @@ impl fmt::Display for HsvColor {
 impl From<HsvColor> for Rgb {
     fn from(hsv: HsvColor) -> Self {
         //Err(ColorError::Unimplemented)
-        let hue = normalize_hue(hsv.hue);
+        let hue = hue_bound(hsv.hue);
         let value = percentage_to_fraction(hsv.value);
         let saturation = percentage_to_fraction(hsv.saturation);
 

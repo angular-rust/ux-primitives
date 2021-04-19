@@ -5,11 +5,15 @@ pub enum Color {
     /// A representation of the RGB (Red, Green, Blue) color space.
     RGB(u8, u8, u8),
     /// A representation of the RGBA (Red, Green, Blue, Alpha) color space.
-    RGBA(u8, u8, u8, u8), //TODO: #[deprecated] via Alpha and WithAlpha
+    RGBA(u8, u8, u8, u8),
     /// A representation of the HSL (Hue, Saturation, Value) color space.
     HSV(f64, f64, f64),
+    // /// A representation of the HSL (Hue, Saturation, Value, Alpha) color space.
+    // HSVA(f64, f64, f64, f64),
     /// A representation of the HSL (Hue, Saturation, Lightness) color space.
     HSL(f64, f64, f64),
+    // /// A representation of the HSL (Hue, Saturation, Lightness, Alpha) color space.
+    // HSLA(f64, f64, f64, f64),
     /// A representation of the CMYK (Cyan, Magenta, Yellow) color space.
     CMY(f64, f64, f64),
     /// A representation of the CMYK (Cyan, Magenta, Yellow, Key) color space.

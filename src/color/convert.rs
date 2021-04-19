@@ -31,6 +31,37 @@ impl<Fr, To> FromColor<Fr> for To
 
 pub trait ColorSpace: Clone + Copy + From<Rgb> + Into<Rgb> {}
 
+pub trait RadialSpace: Clone + Copy + Into<Rgb> + IntoColor<RgbColor> {
+    fn get_hue(self) -> f64;
+    fn set_hue(self, delta: f64) -> Self;
+}
+
+pub trait HasSaturation: Clone + Copy + Into<Rgb> + IntoColor<RgbColor> {
+    fn get_saturation(self) -> f64;
+    fn set_saturation(self, saturation: f64) -> Self;
+}
+
+pub trait NonRgbSpace: ColorSpace {}
+pub trait NonRadialSpace: ColorSpace {}
+pub trait NonSaturationSpace: ColorSpace {}
+
+impl RadialSpace for HslColor {
+    fn get_hue(self) -> f64 { self.hue }
+    fn set_hue(mut self, hue: f64) -> Self { self.hue = hue_bound(hue); self }
+}
+impl RadialSpace for HsvColor {
+    fn get_hue(self) -> f64 { self.hue }
+    fn set_hue(mut self, hue: f64) -> Self { self.hue = hue_bound(hue); self }
+}
+impl HasSaturation for HslColor {
+    fn get_saturation(self) -> f64 { self.saturation }
+    fn set_saturation(mut self, saturation: f64) -> Self { self.saturation = percentage_bound(saturation); self }
+}
+impl HasSaturation for HsvColor {
+    fn get_saturation(self) -> f64 { self.saturation }
+    fn set_saturation(mut self, saturation: f64) -> Self { self.saturation = percentage_bound(saturation); self }
+}
+
 impl ColorSpace for RgbColor {}
 impl ColorSpace for RgbaColor {}
 impl ColorSpace for HslColor {}
@@ -41,6 +72,33 @@ impl ColorSpace for CmyColor {}
 impl ColorSpace for LabColor {}
 #[cfg(feature = "experimental")]
 impl ColorSpace for XyzColor {}
+
+impl NonRgbSpace for HslColor {}
+impl NonRgbSpace for HsvColor {}
+impl NonRgbSpace for CmykColor {}
+impl NonRgbSpace for CmyColor {}
+#[cfg(feature = "experimental")]
+impl NonRgbSpace for LabColor {}
+#[cfg(feature = "experimental")]
+impl NonRgbSpace for XyzColor {}
+
+impl NonRadialSpace for RgbColor {}
+impl NonRadialSpace for RgbaColor {}
+impl NonRadialSpace for CmykColor {}
+impl NonRadialSpace for CmyColor {}
+#[cfg(feature = "experimental")]
+impl NonRadialSpace for LabColor {}
+#[cfg(feature = "experimental")]
+impl NonRadialSpace for XyzColor {}
+
+impl NonSaturationSpace for RgbColor {}
+impl NonSaturationSpace for RgbaColor {}
+impl NonSaturationSpace for CmykColor {}
+impl NonSaturationSpace for CmyColor {}
+#[cfg(feature = "experimental")]
+impl NonSaturationSpace for LabColor {}
+#[cfg(feature = "experimental")]
+impl NonSaturationSpace for XyzColor {}
 
 // RGB -> ALL
 impl From<RgbColor> for RgbaColor { fn from(c: RgbColor) -> Self { RgbaColor { red: c.red, green: c.green, blue: c.blue, alpha: 255 } } }

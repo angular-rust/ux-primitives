@@ -23,10 +23,11 @@ mod xyz;
 #[cfg(feature = "experimental")]
 pub use xyz::XyzColor;
 
-#[cfg(feature = "experimental")]
-mod alpha;
-#[cfg(feature = "experimental")]
-pub use alpha::{Alpha, WithAlpha};
+pub mod adjust;
+pub use adjust::*;
+
+pub mod alpha;
+pub use alpha::*;
 
 pub mod unicolor;
 pub use unicolor::*;
@@ -43,7 +44,7 @@ pub mod palette;
 pub mod css;
 
 mod utils;
-pub use utils::*;
+pub(crate) use utils::*;
 
 //#[cfg(test)]
 mod test_utils;
