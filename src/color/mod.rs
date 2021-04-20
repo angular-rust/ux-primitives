@@ -23,11 +23,14 @@ mod xyz;
 #[cfg(feature = "experimental")]
 pub use xyz::XyzColor;
 
+pub mod alpha;
+pub use alpha::*;
+
 pub mod adjust;
 pub use adjust::*;
 
-pub mod alpha;
-pub use alpha::*;
+pub mod mix;
+pub use mix::*;
 
 pub mod unicolor;
 pub use unicolor::*;

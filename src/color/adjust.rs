@@ -1,5 +1,21 @@
 use super::*;
 
+pub trait GetHue {
+    fn get_hue(self) -> f64;
+}
+pub trait SetHue {
+    fn set_hue(&mut self, hue: f64) -> Self;
+}
+pub trait GetSaturation {
+    fn get_saturation(self) -> f64;
+}
+pub trait SetSaturation {
+    fn set_saturation(&mut self, saturation: f64) -> Self;
+}
+
+pub trait HasHue: Clone + Copy + GetHue + SetHue {}
+pub trait HasSaturation: Clone + Copy + GetSaturation + SetSaturation {}
+
 pub trait Lighten: Sized {
     fn lighten(self, delta: f64) -> Self;
     fn darken(self, delta: f64) -> Self {
@@ -33,7 +49,67 @@ pub trait Round {
     fn round(self) -> Self;
 }
 
-trait Adjust: Lighten + AdjustHue + Saturate + Grayscale {}
+pub trait Adjust: Lighten + AdjustHue + Saturate + Grayscale {}
+
+impl GetHue for HslColor {
+    fn get_hue(self) -> f64 { self.hue }
+}
+impl SetHue for HslColor {
+    fn set_hue(&mut self, hue: f64) -> Self { self.hue = hue_bound(hue); *self }
+}
+impl GetHue for HsvColor {
+    fn get_hue(self) -> f64 { self.hue }
+}
+impl SetHue for HsvColor {
+    fn set_hue(&mut self, hue: f64) -> Self {
+        self.hue = hue_bound(hue);
+        *self
+    }
+}
+impl GetSaturation for HslColor {
+    fn get_saturation(self) -> f64 { self.saturation }
+}
+impl SetSaturation for HslColor {
+    fn set_saturation(&mut self, saturation: f64) -> Self { self.saturation = percentage_bound(saturation); *self }
+}
+impl GetSaturation for HsvColor {
+    fn get_saturation(self) -> f64 { self.saturation }
+}
+impl SetSaturation for HsvColor {
+    fn set_saturation(&mut self, saturation: f64) -> Self { self.saturation = percentage_bound(saturation); *self }
+}
+impl HasHue for HslColor {}
+impl HasHue for HsvColor {}
+
+impl<C: NonRadialSpace> GetHue for C {
+    fn get_hue(self) -> f64 {
+        let hsv: HsvColor = self.into_color();
+        hsv.get_hue()
+    }
+}
+impl<C: NonRadialSpace> SetHue for C {
+    fn set_hue(&mut self, hue: f64) -> Self {
+        let mut hsv: HsvColor = (*self).into_color();
+        hsv.set_hue(hue);
+        *self = hsv.into_color();
+        *self
+    }
+}
+
+impl<C: NonSaturationSpace> GetSaturation for C {
+    fn get_saturation(self) -> f64 {
+        let hsv: HsvColor = self.into_color();
+        hsv.get_saturation()
+    }
+}
+impl<C: NonSaturationSpace + FromColor<HsvColor> + IntoColor<HsvColor>> SetSaturation for C {
+    fn set_saturation(&mut self, saturation: f64) -> Self {
+        let mut hsv: HsvColor = (*self).into_color();
+        hsv.set_saturation(saturation);
+        *self = hsv.into_color();
+        *self
+    }
+}
 
 
 impl<C: FromColor<HslColor> + IntoColor<HslColor>> Lighten for C {
@@ -50,66 +126,18 @@ impl<C: FromColor<HslColor> + IntoColor<HslColor>> Lighten for C {
     }
 }
 
-impl AdjustHue for HslColor {
+impl<C: Clone + GetHue + SetHue> AdjustHue for C {
     fn adjust_hue(self, delta: f64) -> Self {
-        Self {
-            hue: hue_bound(self.hue + delta),
-            saturation: self.saturation,
-            lightness: self.lightness
-        }
-    }
-}
-impl AdjustHue for HsvColor {
-    fn adjust_hue(self, delta: f64) -> Self {
-        Self {
-            hue: hue_bound(self.hue + delta),
-            saturation: self.saturation,
-            value: self.value
-        }
-    }
-}
-impl<C: NonRadialSpace> AdjustHue for C {
-    fn adjust_hue(self, delta: f64) -> Self {
-        let hsv: HsvColor = self.into_color();
-        C::from_color(hsv.adjust_hue(delta))
+        self.clone().set_hue(self.get_hue() + delta)
     }
 }
 
-
-impl Saturate for HslColor {
+impl<C: Clone + GetSaturation + SetSaturation> Saturate for C {
     fn saturate(self, delta: f64) -> Self {
-        if (delta.abs() - 100.) > f64::EPSILON {
-            panic!("saturate failed: {}. Actual delta is {}", ColorError::PercentageOverflow, delta)
-        }
-        HslColor {
-            hue: self.hue,
-            saturation: utils::percentage_bound(self.saturation + delta),
-            lightness: self.lightness
-        }
+        self.clone().set_saturation(self.get_saturation() + delta)
     }
 }
-impl Saturate for HsvColor {
-    fn saturate(self, delta: f64) -> Self {
-        if (delta.abs() - 100.) > f64::EPSILON {
-            panic!("saturate failed: {}. Actual delta is {}", ColorError::PercentageOverflow, delta)
-        }
-        HsvColor {
-            hue: self.hue,
-            saturation: utils::percentage_bound(self.saturation + delta),
-            value: self.value
-        }
-    }
-}
-impl<C: NonSaturationSpace + FromColor<HsvColor> + IntoColor<HsvColor>> Saturate for C {
-    fn saturate(self, delta: f64) -> Self {
-        let with_saturation: HsvColor = self.clone().into_color();
-        C::from_color(with_saturation.set_saturation(delta))
-    }
-}
-
-impl Grayscale for HslColor {}
-impl Grayscale for HsvColor {}
-impl<C: NonSaturationSpace + FromColor<HsvColor> + IntoColor<HsvColor>> Grayscale for C {}
+impl<C: Clone + GetSaturation + SetSaturation> Grayscale for C {}
 
 impl Invert for RgbColor {
     fn invert(self) -> Self {
@@ -126,7 +154,7 @@ impl Invert for RgbaColor {
             red: 255 - self.red,
             green: 255 - self.green,
             blue: 255 - self.blue,
-            alpha: 255 - self.alpha,
+            alpha: self.alpha,
         }
     }
 }
@@ -229,5 +257,30 @@ impl<C: Round> Round for Alpha<C> {
 
 #[cfg(test)]
 mod test {
+    use super::super::*;
 
+    #[test]
+    fn adjust_hue_for_rgb() {
+        let red_rgb = RgbColor::new(255, 0, 0);
+        let green_rgb = red_rgb.adjust_hue(120.);
+        assert_eq!(green_rgb.red, 0, "wrong red cmp of green color: {}", green_rgb);
+        assert_eq!(green_rgb.green, 255, "wrong green cmp of green color: {}", green_rgb);
+        assert_eq!(green_rgb.blue, 0, "wrong blue cmp of green color: {}", green_rgb);
+    }
+
+    #[test]
+    fn adjust_hue_for_hsv() {
+        let red_hsv: HsvColor = RgbColor::new(255, 0, 0).into_color();
+        let green_hsv = red_hsv.adjust_hue(120.);
+        assert_eq!(red_hsv.hue, 0.);
+        assert_eq!(red_hsv.saturation, 100.);
+        assert_eq!(red_hsv.value, 100.);
+        assert_eq!(green_hsv.hue, 120.);
+        assert_eq!(green_hsv.saturation, 100.);
+        assert_eq!(green_hsv.value, 100.);
+        let green_rgb: RgbColor = green_hsv.into();
+        assert_eq!(green_rgb.red, 0, "wrong red: {}", green_rgb);
+        assert_eq!(green_rgb.green, 255, "wrong green: {}", green_rgb);
+        assert_eq!(green_rgb.blue, 0, "wrong blue: {}", green_rgb);
+    }
 }

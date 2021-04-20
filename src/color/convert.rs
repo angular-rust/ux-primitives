@@ -8,18 +8,6 @@ pub trait IntoColor<To> {
     fn into_color(self) -> To;
 }
 
-impl<Fr, To> IntoColor<To> for Fr
-    where To: FromColor<Fr>
-{
-    fn into_color(self) -> To {
-        To::from_color(self)
-    }
-}
-
-// impl<C> FromColor<C> for C {
-//     fn from_color(color: C) -> C { color }
-// }
-
 impl<Fr, To> FromColor<Fr> for To
     where To: From<Rgb>,
           Fr: Into<Rgb>
@@ -29,39 +17,20 @@ impl<Fr, To> FromColor<Fr> for To
     }
 }
 
+impl<Fr, To> IntoColor<To> for Fr
+    where To: FromColor<Fr>
+{
+    fn into_color(self) -> To {
+        To::from_color(self)
+    }
+}
+
 pub trait ColorSpace: Clone + Copy + From<Rgb> + Into<Rgb> {}
-
-pub trait RadialSpace: Clone + Copy + Into<Rgb> + IntoColor<RgbColor> {
-    fn get_hue(self) -> f64;
-    fn set_hue(self, delta: f64) -> Self;
-}
-
-pub trait HasSaturation: Clone + Copy + Into<Rgb> + IntoColor<RgbColor> {
-    fn get_saturation(self) -> f64;
-    fn set_saturation(self, saturation: f64) -> Self;
-}
-
 pub trait NonRgbSpace: ColorSpace {}
 pub trait NonRadialSpace: ColorSpace {}
 pub trait NonSaturationSpace: ColorSpace {}
 
-impl RadialSpace for HslColor {
-    fn get_hue(self) -> f64 { self.hue }
-    fn set_hue(mut self, hue: f64) -> Self { self.hue = hue_bound(hue); self }
-}
-impl RadialSpace for HsvColor {
-    fn get_hue(self) -> f64 { self.hue }
-    fn set_hue(mut self, hue: f64) -> Self { self.hue = hue_bound(hue); self }
-}
-impl HasSaturation for HslColor {
-    fn get_saturation(self) -> f64 { self.saturation }
-    fn set_saturation(mut self, saturation: f64) -> Self { self.saturation = percentage_bound(saturation); self }
-}
-impl HasSaturation for HsvColor {
-    fn get_saturation(self) -> f64 { self.saturation }
-    fn set_saturation(mut self, saturation: f64) -> Self { self.saturation = percentage_bound(saturation); self }
-}
-
+impl ColorSpace for Rgb {}
 impl ColorSpace for RgbColor {}
 impl ColorSpace for RgbaColor {}
 impl ColorSpace for HslColor {}
@@ -82,6 +51,7 @@ impl NonRgbSpace for LabColor {}
 #[cfg(feature = "experimental")]
 impl NonRgbSpace for XyzColor {}
 
+impl NonRadialSpace for Rgb {}
 impl NonRadialSpace for RgbColor {}
 impl NonRadialSpace for RgbaColor {}
 impl NonRadialSpace for CmykColor {}
@@ -91,6 +61,7 @@ impl NonRadialSpace for LabColor {}
 #[cfg(feature = "experimental")]
 impl NonRadialSpace for XyzColor {}
 
+impl NonSaturationSpace for Rgb {}
 impl NonSaturationSpace for RgbColor {}
 impl NonSaturationSpace for RgbaColor {}
 impl NonSaturationSpace for CmykColor {}
@@ -168,5 +139,16 @@ impl From<CmyColor> for XyzColor { fn from(c: CmyColor) -> Self { Self::from_col
 
 #[cfg(test)]
 mod test {
+    use super::super::*;
 
+    #[test]
+    fn into_color_self() {
+        let rgb1 = Rgb::new(200., 200., 200.);
+        let rgb2: Rgb = rgb1.into_color();
+        assert_eq!(rgb1.red, rgb2.red);
+        assert_eq!(rgb1.green, rgb2.green);
+        assert_eq!(rgb1.blue, rgb2.blue);
+        assert_eq!(rgb1.get_hue(), rgb2.get_hue());
+        assert_eq!(rgb1.get_saturation(), rgb2.get_saturation());
+    }
 }

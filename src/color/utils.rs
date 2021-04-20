@@ -18,8 +18,11 @@ pub(crate) fn hue_bound(hue: f64) -> f64 {
     if (hue_rest.abs() - 0.) < f64::EPSILON {
         return 0.
     }
-    if hue_rest < f64::MIN_POSITIVE { hue_rest }
-    else { 360. - hue_rest }
+    if hue_rest < f64::MIN_POSITIVE {
+        360. - hue_rest
+    } else {
+        hue_rest
+    }
 }
 
 #[inline(always)]
@@ -28,7 +31,7 @@ pub(crate) fn percentage_bound(value: f64) -> f64 {
     if (abs_value - 0.) < f64::EPSILON {
         return 0.
     }
-    if 100. - abs_value < f64::MIN_POSITIVE {
+    if (abs_value - 100.) > f64::MIN_POSITIVE {
         let sign = if value < f64::MIN_POSITIVE { -1. } else { 1. };
         return 100. * sign
     }
