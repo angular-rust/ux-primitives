@@ -149,6 +149,6 @@ mod test {
         assert_eq!(rgb1.green, rgb2.green);
         assert_eq!(rgb1.blue, rgb2.blue);
         assert_eq!(rgb1.get_hue(), rgb2.get_hue());
-        assert_eq!(rgb1.get_saturation(), rgb2.get_saturation());
+        assert_eq!(rgb1.get_hsl_saturation(), rgb2.get_hsl_saturation());
     }
 }

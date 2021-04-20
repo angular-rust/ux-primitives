@@ -25,17 +25,27 @@ pub(crate) fn hue_bound(hue: f64) -> f64 {
     }
 }
 
-#[inline(always)]
-pub(crate) fn percentage_bound(value: f64) -> f64 {
-    let abs_value = value.abs();
-    if (abs_value - 0.) < f64::EPSILON {
+pub(crate) fn percentage_delta_bound(delta: f64) -> f64 {
+    let abs_delta = delta.abs();
+    if (abs_delta - 0.) < f64::EPSILON {
         return 0.
     }
-    if (abs_value - 100.) > f64::MIN_POSITIVE {
-        let sign = if value < f64::MIN_POSITIVE { -1. } else { 1. };
+    if (abs_delta - 100.) >= f64::MIN_POSITIVE {
+        let sign = if delta < f64::MIN_POSITIVE { -1. } else { 1. };
         return 100. * sign
     }
-    value
+    delta
+}
+
+#[inline(always)]
+pub(crate) fn percentage_bound(value: f64) -> f64 {
+    if (value - 0.) < f64::MIN_POSITIVE {
+        0.
+    } else if (value - 100.) >= f64::MIN_POSITIVE {
+        100.
+    } else {
+        value
+    }
 }
 
 #[inline(always)]

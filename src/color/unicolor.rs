@@ -62,6 +62,16 @@ pub trait FromUniColor {
     fn from_uni_color(c: Color) -> Self;
 }
 
+pub trait IntoUniColor<T> {
+    fn into_uni_color(self) -> T;
+}
+
+impl<C: FromUniColor> IntoUniColor<C> for Color {
+    fn into_uni_color(self) -> C {
+        C::from_uni_color(self)
+    }
+}
+
 impl<C> FromUniColor for C
     where C: From<Rgb>
 {
@@ -99,9 +109,9 @@ impl From<Color> for Rgb {
 impl From<Rgb> for Color {
     fn from(rgb: Rgb) -> Self {
         Color::RGB(
-            rgb.red as u8,
-            rgb.green as u8,
-            rgb.blue as u8
+            rgb.red.round() as u8,
+            rgb.green.round() as u8,
+            rgb.blue.round() as u8
         )
     }
 }

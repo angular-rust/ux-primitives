@@ -46,6 +46,9 @@ pub mod palette;
 #[cfg(feature = "color_from_css")]
 pub mod css;
 
+pub mod round;
+pub use round::*;
+
 mod utils;
 pub(crate) use utils::*;
 
@@ -63,6 +66,12 @@ pub struct Rgb<T: Float = f64> {
 impl<T: Float> Rgb<T> {
     fn new(red: T, green: T, blue: T) -> Self {
         Rgb { red, green, blue }
+    }
+}
+
+impl fmt::Display for Rgb {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "rgb({}, {}, {})", self.red, self.green, self.blue)
     }
 }
 
