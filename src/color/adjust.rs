@@ -214,16 +214,6 @@ impl<C: NonRgbSpace> Invert for C {
     }
 }
 
-impl Round for Rgb {
-    fn round(self) -> Self {
-        Rgb {
-            red: self.red.round(),
-            green: self.green.round(),
-            blue: self.blue.round(),
-        }
-    }
-}
-
 // Implementations for colors with alpha channel
 impl<C: Lighten> Lighten for Alpha<C> {
     fn lighten(self, delta: f64) -> Self {
@@ -247,12 +237,6 @@ impl<C: Invert> Invert for Alpha<C> {
     fn invert(self) -> Self {
         let (color, alpha) = self.split();
         Alpha::new(color.invert(), alpha)
-    }
-}
-impl<C: Round> Round for Alpha<C> {
-    fn round(self) -> Self {
-        let (color, alpha) = self.split();
-        Alpha::new(color.round(), alpha)
     }
 }
 

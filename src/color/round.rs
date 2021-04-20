@@ -4,6 +4,16 @@ pub trait Round {
     fn round(self) -> Self;
 }
 
+impl Round for Rgb {
+    fn round(self) -> Self {
+        Rgb {
+            red: self.red.round(),
+            green: self.green.round(),
+            blue: self.blue.round(),
+        }
+    }
+}
+
 impl Round for HslColor {
     fn round(self) -> Self {
         HslColor {
@@ -42,5 +52,12 @@ impl Round for CmyColor {
             magenta: self.magenta.round(),
             yellow: self.yellow.round(),
         }
+    }
+}
+
+impl<C: Round> Round for Alpha<C> {
+    fn round(self) -> Self {
+        let (color, alpha) = self.split();
+        Alpha::new(color.round(), alpha)
     }
 }
