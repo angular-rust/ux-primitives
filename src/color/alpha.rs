@@ -16,7 +16,7 @@ pub struct Alpha<C> {
 }
 
 impl<C> Alpha<C> {
-    fn new(color: C, alpha: f64) -> Self {
+    pub fn new(color: C, alpha: f64) -> Self {
         Self { color, alpha }
     }
 }
@@ -29,12 +29,6 @@ impl<C> WithAlpha<C> for Alpha<C> {
     fn alpha(self) -> f64 { self.alpha }
     fn set_alpha(mut self, alpha: f64) -> Self { self.alpha = alpha; self }
     fn split(self) -> (C, f64) { (self.color, self.alpha) }
-}
-
-impl<C> From<C> for Alpha<C> {
-    fn from(color: C) -> Self {
-        Self::new(color, 0.0)
-    }
 }
 
 impl WithAlpha<RgbColor> for RgbaColor {

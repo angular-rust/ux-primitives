@@ -72,31 +72,53 @@ impl<C: FromUniColor> IntoUniColor<C> for Color {
     }
 }
 
+fn color_to_rgb(c: Color) -> Rgb {
+    match c {
+        Color::RGB(red, green, blue) => Rgb {
+            red: red as f64 / 255.,
+            green: green as f64 / 255.,
+            blue: blue as f64 / 255.
+        },
+        Color::RGBA(red, green, blue, _) => Rgb {
+            red: red as f64 / 255.,
+            green: green as f64 / 255.,
+            blue: blue as f64 / 255.
+        },
+        Color::HSL(hue, saturation, lightness) => Rgb::from(HslColor{ hue, saturation, lightness }),
+        Color::HSV(hue, saturation, value) => Rgb::from(HsvColor{ hue, saturation, value }),
+        Color::CMYK(cyan, magenta, yellow, key) => Rgb::from(CmykColor{ cyan, magenta, yellow, key }),
+        Color::CMY(cyan, magenta, yellow) => Rgb::from(CmyColor{ cyan, magenta, yellow }),
+        #[cfg(feature = "experimental")]
+        Color::LAB(l, a, b) => Rgb::from(LabColor{l, a, b}),
+        #[cfg(feature = "experimental")]
+        Color::XYZ(x, y, z) => Rgb::from(XyzColor{x, y, z})
+    }
+}
+
 impl<C> FromUniColor for C
     where C: From<Rgb>
 {
     fn from_uni_color(c: Color) -> Self {
-        let rgb = match c {
-            Color::RGB(red, green, blue) => Rgb {
-                red: red as f64 / 255.,
-                green: green as f64 / 255.,
-                blue: blue as f64 / 255. 
-            },
-            Color::RGBA(red, green, blue, _) => Rgb {
-                red: red as f64 / 255.,
-                green: green as f64 / 255.,
-                blue: blue as f64 / 255.
-            },
-            Color::HSL(hue, saturation, lightness) => Rgb::from(HslColor{ hue, saturation, lightness }),
-            Color::HSV(hue, saturation, value) => Rgb::from(HsvColor{ hue, saturation, value }),
-            Color::CMYK(cyan, magenta, yellow, key) => Rgb::from(CmykColor{ cyan, magenta, yellow, key }),
-            Color::CMY(cyan, magenta, yellow) => Rgb::from(CmyColor{ cyan, magenta, yellow }),
-            #[cfg(feature = "experimental")]
-            Color::LAB(l, a, b) => Rgb::from(LabColor{l, a, b}),
-            #[cfg(feature = "experimental")]
-            Color::XYZ(x, y, z) => Rgb::from(XyzColor{x, y, z})
+        C::from(color_to_rgb(c))
+    }
+}
+
+impl<C> FromUniColor for Alpha<C>
+    where C: From<Rgb>
+{
+    fn from_uni_color(c: Color) -> Self {
+        let  (rgb, alpha) = match c {
+            Color::RGBA(red, green, blue, alpha) => (
+                Rgb {
+                    red: red as f64 / 255.,
+                    green: green as f64 / 255.,
+                    blue: blue as f64 / 255.
+                },
+                alpha as f64 / 255.
+            ),
+            _ => (color_to_rgb(c), 1.)
         };
-        C::from(rgb)
+        Alpha::new(C::from(rgb), alpha)
     }
 }
 

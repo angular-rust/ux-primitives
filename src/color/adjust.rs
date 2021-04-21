@@ -103,27 +103,6 @@ impl<C: NonRadialSpace> SetHue for C {
     }
 }
 
-// impl<C: NonRadialSpace> GetRadialSaturation for C {
-//     fn get_hsl_saturation(self) -> f64 {
-//         HslColor::from_color(self).saturation
-//     }
-//     fn get_hsv_saturation(self) -> f64 {
-//         HsvColor::from_color(self).saturation
-//     }
-// }
-// impl<C: NonRadialSpace> SetRadialSaturation for C {
-//     fn set_hsl_saturation(&mut self, saturation: f64) -> Self {
-//         let mut hsl: HslColor = (*self).into_color();
-//         *self = hsl.set_hsl_saturation(saturation).into_color();
-//         *self
-//     }
-//     fn set_hsv_saturation(&mut self, saturation: f64) -> Self {
-//         let mut hsv: HsvColor = (*self).into_color();
-//         *self = hsv.set_hsv_saturation(saturation).into_color();
-//         *self
-//     }
-// }
-
 impl<C> GetRadialSaturation for C
     where C : Clone + Copy
             + FromColor<HslColor> + IntoColor<HslColor>
@@ -247,8 +226,7 @@ mod test {
     use math::round::half_down;
 
     // [x] make test for all adjustments
-    // [ ] make generic adding all adjustments impls
-    // [ ] add adjustments impl for alpha::Alpha
+    // [x] add adjustments impl for alpha::Alpha
     // [ ] add adjustments impl for unicolor::Color
     // [ ] add tests of adjustments for alpha::Alpha
     // [ ] add tests of adjustments for unicolor::Color
