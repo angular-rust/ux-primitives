@@ -27,6 +27,7 @@ impl From<RgbColor> for Rgb {
             red: c.red as f64 / 255.0,
             green: c.green as f64 / 255.0,
             blue: c.blue as f64 / 255.0,
+            alpha: 1.,
         }
     }
 }

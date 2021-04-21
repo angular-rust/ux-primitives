@@ -143,7 +143,7 @@ mod test {
 
     #[test]
     fn into_color_self() {
-        let rgb1 = Rgb::new(200., 200., 200.);
+        let rgb1 = Rgb::new(200., 200., 200., 1.);
         let rgb2: Rgb = rgb1.into_color();
         assert_eq!(rgb1.red, rgb2.red);
         assert_eq!(rgb1.green, rgb2.green);

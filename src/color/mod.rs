@@ -60,12 +60,13 @@ mod test_utils;
 pub struct Rgb<T: Float = f64> {
     red: T,
     green: T,
-    blue: T
+    blue: T,
+    alpha: T
 }
 
 impl<T: Float> Rgb<T> {
-    fn new(red: T, green: T, blue: T) -> Self {
-        Rgb { red, green, blue }
+    fn new(red: T, green: T, blue: T, alpha: T) -> Self {
+        Rgb { red, green, blue, alpha }
     }
 }
 

@@ -53,7 +53,8 @@ impl From<HslColor> for Rgb {
         Rgb {
             red: r_prime + m,
             green: g_prime + m,
-            blue: b_prime + m
+            blue: b_prime + m,
+            alpha: 1.
         }
     }
 }
@@ -61,7 +62,7 @@ impl From<HslColor> for Rgb {
 // RGB -> HSL
 impl From<Rgb> for HslColor {
     fn from(rgb: Rgb) -> Self {
-        let Rgb { red, green, blue } = rgb;
+        let Rgb { red, green, blue, alpha: _ } = rgb;
 
         let (c_min, c_max) = utils::min_max_tuple([red, green, blue].iter());
         let delta = c_max - c_min;

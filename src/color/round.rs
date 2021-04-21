@@ -10,6 +10,7 @@ impl Round for Rgb {
             red: self.red.round(),
             green: self.green.round(),
             blue: self.blue.round(),
+            alpha: self.alpha.round(),
         }
     }
 }

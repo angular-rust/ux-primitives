@@ -184,11 +184,12 @@ impl Invert for RgbaColor {
 
 impl<C: NonRgbSpace> Invert for C {
     fn invert(self) -> Self {
-        let Rgb { red, green, blue } = self.into();
+        let Rgb { red, green, blue, alpha } = self.into();
         C::from(Rgb {
             red: 255. - red,
             green: 255. - green,
             blue: 255. - blue,
+            alpha,
         })
     }
 }

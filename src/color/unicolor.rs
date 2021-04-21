@@ -77,12 +77,14 @@ fn color_to_rgb(c: Color) -> Rgb {
         Color::RGB(red, green, blue) => Rgb {
             red: red as f64 / 255.,
             green: green as f64 / 255.,
-            blue: blue as f64 / 255.
+            blue: blue as f64 / 255.,
+            alpha: 1.
         },
-        Color::RGBA(red, green, blue, _) => Rgb {
+        Color::RGBA(red, green, blue, alpha) => Rgb {
             red: red as f64 / 255.,
             green: green as f64 / 255.,
-            blue: blue as f64 / 255.
+            blue: blue as f64 / 255.,
+            alpha: alpha as f64 / 255.,
         },
         Color::HSL(hue, saturation, lightness) => Rgb::from(HslColor{ hue, saturation, lightness }),
         Color::HSV(hue, saturation, value) => Rgb::from(HsvColor{ hue, saturation, value }),
@@ -112,7 +114,8 @@ impl<C> FromUniColor for Alpha<C>
                 Rgb {
                     red: red as f64 / 255.,
                     green: green as f64 / 255.,
-                    blue: blue as f64 / 255.
+                    blue: blue as f64 / 255.,
+                    alpha: alpha as f64 / 255.
                 },
                 alpha as f64 / 255.
             ),

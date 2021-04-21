@@ -27,7 +27,8 @@ impl From<RgbaColor> for Rgb {
         Rgb {
             red: rgba.red as f64 / 255.0,
             green: rgba.green as f64 / 255.0,
-            blue: rgba.blue  as f64 / 255.0
+            blue: rgba.blue  as f64 / 255.0,
+            alpha: rgba.alpha  as f64 / 255.0,
         }
     }
 }

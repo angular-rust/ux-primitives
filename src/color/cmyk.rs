@@ -31,7 +31,8 @@ impl From<CmykColor> for Rgb {
         Rgb {
             red: apply(cmyk.cyan),
             green: apply(cmyk.magenta),
-            blue: apply(cmyk.yellow)
+            blue: apply(cmyk.yellow),
+            alpha: 1.
         }
     }
 }

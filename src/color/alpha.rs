@@ -73,14 +73,4 @@ mod test {
         assert_eq!(blue, 200);
         assert_eq!(alpha, 0.5);
     }
-
-    #[test]
-    fn lin_rgb_with_alpha() {
-        let Alpha {color: Rgb {red, green, blue}, alpha }
-            = Alpha::new(Rgb::new(0.5, 0.5, 0.5), 0.5);
-        assert_eq!(red, 0.5);
-        assert_eq!(green, 0.5);
-        assert_eq!(blue, 0.5);
-        assert_eq!(alpha, 0.5);
-    }
 }
