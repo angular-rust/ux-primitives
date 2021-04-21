@@ -25,52 +25,6 @@ impl<Fr, To> IntoColor<To> for Fr
     }
 }
 
-pub trait ColorSpace: Clone + Copy + From<Rgb> + Into<Rgb> {}
-pub trait NonRgbSpace: ColorSpace {}
-pub trait NonRadialSpace: ColorSpace {}
-pub trait NonSaturationSpace: ColorSpace {}
-
-impl ColorSpace for Rgb {}
-impl ColorSpace for RgbColor {}
-impl ColorSpace for RgbaColor {}
-impl ColorSpace for HslColor {}
-impl ColorSpace for HsvColor {}
-impl ColorSpace for CmykColor {}
-impl ColorSpace for CmyColor {}
-#[cfg(feature = "experimental")]
-impl ColorSpace for LabColor {}
-#[cfg(feature = "experimental")]
-impl ColorSpace for XyzColor {}
-
-impl NonRgbSpace for HslColor {}
-impl NonRgbSpace for HsvColor {}
-impl NonRgbSpace for CmykColor {}
-impl NonRgbSpace for CmyColor {}
-#[cfg(feature = "experimental")]
-impl NonRgbSpace for LabColor {}
-#[cfg(feature = "experimental")]
-impl NonRgbSpace for XyzColor {}
-
-impl NonRadialSpace for Rgb {}
-impl NonRadialSpace for RgbColor {}
-impl NonRadialSpace for RgbaColor {}
-impl NonRadialSpace for CmykColor {}
-impl NonRadialSpace for CmyColor {}
-#[cfg(feature = "experimental")]
-impl NonRadialSpace for LabColor {}
-#[cfg(feature = "experimental")]
-impl NonRadialSpace for XyzColor {}
-
-impl NonSaturationSpace for Rgb {}
-impl NonSaturationSpace for RgbColor {}
-impl NonSaturationSpace for RgbaColor {}
-impl NonSaturationSpace for CmykColor {}
-impl NonSaturationSpace for CmyColor {}
-#[cfg(feature = "experimental")]
-impl NonSaturationSpace for LabColor {}
-#[cfg(feature = "experimental")]
-impl NonSaturationSpace for XyzColor {}
-
 // RGB -> ALL
 impl From<RgbColor> for RgbaColor { fn from(c: RgbColor) -> Self { RgbaColor { red: c.red, green: c.green, blue: c.blue, alpha: 255 } } }
 impl From<RgbColor> for HslColor { fn from(c: RgbColor) -> Self { Self::from_color(c) } }

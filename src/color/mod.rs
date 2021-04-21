@@ -38,6 +38,9 @@ pub use unicolor::*;
 pub mod convert;
 pub use convert::*;
 
+pub mod marker;
+pub use marker::*;
+
 pub mod to_hex_string;
 pub use to_hex_string::*;
 
@@ -63,13 +66,6 @@ pub struct Rgb<T: Float = f64> {
     blue: T,
     alpha: T
 }
-// #[derive(Clone, Copy, PartialEq, Debug)]
-// pub struct Rgb {
-//     red: f64,
-//     green: f64,
-//     blue: f64,
-//     alpha: f64
-// }
 
 impl Rgb {
     pub fn new(red: f64, green: f64, blue: f64, alpha: f64) -> Self {
