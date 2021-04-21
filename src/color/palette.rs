@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
 use super::Color;
-#[cfg(feature = "color_quantization")]
+#[cfg(any(feature = "color_quantization",test))]
 use super::RgbColor;
 
 pub const WHITE: Color = Color { red: 255./255., green: 255./255., blue: 255./255., alpha: 1. };
@@ -150,7 +150,7 @@ pub const ORANGE_7: Color = Color { red: 247./255., green: 103./255., blue: 7./2
 pub const ORANGE_8: Color = Color { red: 232./255., green: 89./255., blue: 12./255., alpha: 1. };
 pub const ORANGE_9: Color = Color { red: 217./255., green: 72./255., blue: 15./255., alpha: 1. };
 
-#[cfg(feature = "color_quantization")]
+#[cfg(any(feature = "color_quantization",test))]
 lazy_static! {
     static ref PALETTE: Vec<Color> = vec!(
         BLACK, WHITE,
@@ -170,16 +170,15 @@ lazy_static! {
     );
 }
 
-#[cfg(feature = "color_quantization")]
+#[cfg(any(feature = "color_quantization",test))]
 impl Color {
     pub fn distance(&self, other: Self) -> f64 {
         let RgbColor { red: s_red, green: s_green, blue: s_blue } = (*self).into();
-        if let Self::RGB(p_red, p_green, p_blue) = other {
-            (((p_red as i32 - s_red as i32).pow(2)
-                + (p_green as i32 - s_green as i32).pow(2)
-                + (p_blue as i32 - s_blue as i32).pow(2)
-            ) as f64).sqrt().abs()
-        } else { panic!("Palette color should be RGB") }
+        let RgbColor { red: p_red, green: p_green, blue: p_blue } = other.into();
+        (((p_red as i32 - s_red as i32).pow(2)
+            + (p_green as i32 - s_green as i32).pow(2)
+            + (p_blue as i32 - s_blue as i32).pow(2)
+        ) as f64).sqrt().abs()
     }
 
     fn quantize(&self) -> Self {
@@ -196,11 +195,11 @@ impl Color {
     }
 }
 
-#[cfg(feature = "color_quantization")]
 #[cfg(test)]
 pub mod test {
     use super::*;
     use math::round::stochastic;
+    use crate::RgbColor;
 
     #[test]
     fn calc_distance() {
@@ -211,18 +210,17 @@ pub mod test {
         for delta in [2u8, 3u8, 4u8].iter() {
             let delta = *delta;
             for src_color in [TEAL_1, TEAL_2, TEAL_3, TEAL_4, TEAL_5, TEAL_6, TEAL_7, TEAL_8].iter() {
-                if let Color::RGB(s_red, s_green, s_blue) = *src_color {
-                    let dst_color = Color::RGB(s_red + delta, s_green + delta, s_blue + delta);
-                    assert_eq!(
-                        stochastic(src_color.distance(dst_color), stochastic_scale),
-                        stochastic(
-                            (((delta as i32).pow(2)
-                                + (delta as i32).pow(2)
-                                + (delta as i32).pow(2)) as f64).sqrt(),
-                            stochastic_scale
-                        )
+                let RgbColor { red: s_red, green: s_green, blue: s_blue } = (*src_color).into();
+                let dst_color = Color::rgb(s_red + delta, s_green + delta, s_blue + delta);
+                assert_eq!(
+                    stochastic(src_color.distance(dst_color), stochastic_scale),
+                    stochastic(
+                        (((delta as i32).pow(2)
+                            + (delta as i32).pow(2)
+                            + (delta as i32).pow(2)) as f64).sqrt(),
+                        stochastic_scale
                     )
-                } else { unreachable!() }
+                )
             }
         }
     }
@@ -232,20 +230,18 @@ pub mod test {
         for delta in [2u8, 3u8, 4u8].iter() {
             let delta = *delta;
             for palette_color in [CYAN_2, CYAN_3, CYAN_4, CYAN_5, CYAN_6, CYAN_7].iter() {
-                if let Color::RGB(p_red, p_green, p_blue) = *palette_color {
-                    let test_color = Color::RGB(p_red + delta, p_green + delta, p_blue + delta);
-                    // println!("test_color = {}", test_color.to_hex_string());
-                    let found_color = test_color.quantize();
-                    // println!("test_color = {}; found_color = {} == {} ?",
-                    //          test_color.to_hex_string(),
-                    //          found_color.to_hex_string(),
-                    //          palette_color.to_hex_string());
-                    if let Color::RGB(f_red, f_green, f_blue) = found_color {
-                        assert_eq!(f_red, p_red);
-                        assert_eq!(f_green, p_green);
-                        assert_eq!(f_blue, p_blue);
-                    } else { unreachable!() }
-                } else { unreachable!() }
+                let RgbColor { red: p_red, green: p_green, blue: p_blue } = (*palette_color).into();
+                let test_color = Color::rgb(p_red + delta, p_green + delta, p_blue + delta);
+                // println!("test_color = {}", test_color.to_hex_string());
+                let found_color = test_color.quantize();
+                // println!("test_color = {}; found_color = {} == {} ?",
+                //          test_color.to_hex_string(),
+                //          found_color.to_hex_string(),
+                //          palette_color.to_hex_string());
+                let RgbColor { red: f_red, green: f_green, blue: f_blue } = found_color.into();
+                assert_eq!(f_red, p_red);
+                assert_eq!(f_green, p_green);
+                assert_eq!(f_blue, p_blue);
             }
         }
     }

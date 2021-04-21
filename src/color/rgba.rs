@@ -34,12 +34,12 @@ impl From<RgbaColor> for Color {
 }
 
 impl From<Color> for RgbaColor {
-    fn from(rgb: Color) -> Self {
+    fn from(color: Color) -> Self {
         RgbaColor {
-            red: (rgb.red * 255.0).round() as u8,
-            green: (rgb.green * 255.0).round() as u8,
-            blue: (rgb.blue * 255.0).round() as u8,
-            alpha: 255,
+            red: (color.red * 255.0).round() as u8,
+            green: (color.green * 255.0).round() as u8,
+            blue: (color.blue * 255.0).round() as u8,
+            alpha: (color.alpha * 255.0).round() as u8,
         }
     }
 }

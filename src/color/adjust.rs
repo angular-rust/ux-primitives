@@ -79,13 +79,20 @@ impl SetHue for HsvColor {
 
 impl HasHue for HslColor {}
 impl HasHue for HsvColor {}
+
 impl HasSaturation for HslColor {
     fn get_saturation(self) -> f64 { self.saturation }
-    fn set_saturation(&mut self, saturation: f64) -> Self { self.saturation = percentage_bound(saturation); *self }
+    fn set_saturation(&mut self, saturation: f64) -> Self {
+        self.saturation = clamp(saturation, 0., 100.);
+        *self
+    }
 }
 impl HasSaturation for HsvColor {
     fn get_saturation(self) -> f64 { self.saturation }
-    fn set_saturation(&mut self, saturation: f64) -> Self { self.saturation = percentage_bound(saturation); *self }
+    fn set_saturation(&mut self, saturation: f64) -> Self {
+        self.saturation = clamp(saturation, 0., 100.);
+        *self
+    }
 }
 
 impl<C: NonRadialSpace> GetHue for C {
@@ -138,12 +145,11 @@ impl<C> SetRadialSaturation for C
 impl<C: FromColor<HslColor> + IntoColor<HslColor>> Lighten for C {
     fn lighten(self, delta: f64) -> Self {
         let hsl: HslColor = self.into_color();
+        let lightness = hsl.lightness + utils::clamp(delta, -100., 100.);
         C::from_color(HslColor {
             hue: hsl.hue,
             saturation: hsl.saturation,
-            lightness: utils::percentage_bound(
-                hsl.lightness + utils::percentage_delta_bound(delta)
-            )
+            lightness: utils::clamp(lightness, 0., 100.)
         })
     }
 }
@@ -157,63 +163,43 @@ impl<C: Clone + GetHue + SetHue> AdjustHue for C {
 impl<C: Clone + GetRadialSaturation + SetRadialSaturation> Saturate for C {
     fn saturate(self, delta: f64) -> Self {
         self.clone().set_hsl_saturation(
-            self.get_hsl_saturation() + percentage_delta_bound(delta)
+            self.get_hsl_saturation() + clamp(delta, -100., 100.)
         )
     }
 }
 
-impl Invert for RgbColor {
-    fn invert(self) -> Self {
-        RgbColor {
-            red: 255 - self.red,
-            green: 255 - self.green,
-            blue: 255 - self.blue
-        }
-    }
-}
-impl Invert for RgbaColor {
-    fn invert(self) -> Self {
-        RgbaColor {
-            red: 255 - self.red,
-            green: 255 - self.green,
-            blue: 255 - self.blue,
-            alpha: self.alpha,
-        }
-    }
-}
-
-impl<C: NonRgbSpace> Invert for C {
+impl<C: ColorTransition> Invert for C {
     fn invert(self) -> Self {
         let Color { red, green, blue, alpha } = self.into();
         C::from(Color {
-            red: 255. - red,
-            green: 255. - green,
-            blue: 255. - blue,
+            red: 1. - red,
+            green: 1. - green,
+            blue: 1. - blue,
             alpha,
         })
     }
 }
 
 // Implementations for colors with alpha channel
-impl<C: Lighten> Lighten for Alpha<C> {
+impl<C: Lighten + ColorSpace> Lighten for Alpha<C> {
     fn lighten(self, delta: f64) -> Self {
         let (color, alpha) = self.split();
         Alpha::new(color.lighten(delta), alpha)
     }
 }
-impl<C: AdjustHue> AdjustHue for Alpha<C> {
+impl<C: AdjustHue + ColorSpace> AdjustHue for Alpha<C> {
     fn adjust_hue(self, delta: f64) -> Self {
         let (color, alpha) = self.split();
         Alpha::new(color.adjust_hue(delta), alpha)
     }
 }
-impl<C: Saturate> Saturate for Alpha<C> {
+impl<C: Saturate + ColorSpace> Saturate for Alpha<C> {
     fn saturate(self, delta: f64) -> Self {
         let (color, alpha) = self.split();
         Alpha::new(color.saturate(delta), alpha)
     }
 }
-impl<C: Invert> Invert for Alpha<C> {
+impl<C: Invert + ColorSpace> Invert for Alpha<C> {
     fn invert(self) -> Self {
         let (color, alpha) = self.split();
         Alpha::new(color.invert(), alpha)
@@ -228,10 +214,9 @@ mod test {
 
     // [x] make test for all adjustments
     // [x] add adjustments impl for alpha::Alpha
-    // [ ] add adjustments impl for unicolor::Color
+    // [x] replace unicolor::Color enum by Color struct with rgba floats (0.0 - 1.0)
     // [ ] add tests of adjustments for alpha::Alpha
-    // [ ] add tests of adjustments for unicolor::Color
-    // [ ] test of saving color space of unicolor::Color enum (Color::HSL after invert should be Color::HSL)
+    // [ ] add tests of adjustments for Color
 
     #[test]
     fn adjust_hue_for_rgb() {

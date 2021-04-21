@@ -43,7 +43,7 @@ pub use to_hex_string::*;
 
 pub mod palette;
 
-#[cfg(feature = "color_from_css")]
+#[cfg(any(feature = "color_from_css",test))]
 pub mod css;
 
 pub mod round;

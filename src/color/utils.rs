@@ -1,6 +1,4 @@
 use core::slice::Iter;
-#[cfg(feature = "color_from_css")]
-use super::Color;
 
 #[inline(always)]
 pub(crate) fn min_max_tuple(color_cmp_iter: Iter<'_, f64>) -> (f64, f64) {
@@ -11,6 +9,20 @@ pub(crate) fn min_max_tuple(color_cmp_iter: Iter<'_, f64>) -> (f64, f64) {
         )
     })
 }
+
+/// Returns `value` clamped between `low` and `high`.
+#[inline(always)]
+pub fn clamp<T: PartialOrd>(value: T, low: T, high: T) -> T {
+    debug_assert!(low < high, "low is bigger than high!");
+    if value < low {
+        low
+    } else if value > high {
+        high
+    } else {
+        value
+    }
+}
+
 
 #[inline(always)]
 pub(crate) fn hue_bound(hue: f64) -> f64 {
@@ -25,30 +37,23 @@ pub(crate) fn hue_bound(hue: f64) -> f64 {
     }
 }
 
-pub(crate) fn percentage_delta_bound(delta: f64) -> f64 {
-    let abs_delta = delta.abs();
-    if (abs_delta - 0.) < f64::EPSILON {
-        return 0.
-    }
-    if (abs_delta - 100.) >= f64::MIN_POSITIVE {
-        let sign = if delta < f64::MIN_POSITIVE { -1. } else { 1. };
-        return 100. * sign
-    }
-    delta
-}
-
-#[inline(always)]
-pub(crate) fn percentage_bound(value: f64) -> f64 {
-    if (value - 0.) < f64::MIN_POSITIVE {
-        0.
-    } else if (value - 100.) >= f64::MIN_POSITIVE {
-        100.
-    } else {
-        value
-    }
-}
-
 #[inline(always)]
 pub(crate) fn percentage_to_fraction(value: f64) -> f64 {
-    percentage_bound(value) / 100.
+    clamp(value, 0., 100.) / 100.
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    #[test]
+    fn test_clamp() {
+        assert_eq!(clamp(0.5, 1.0, 2.0), 1.0);
+        assert_eq!(clamp(1.5, 1.0, 2.0), 1.5);
+        assert_eq!(clamp(3.0, 1.0, 2.0), 2.0);
+
+        let low = 1.0;
+        let value = 2.0;
+        let high = 3.0;
+        assert_eq!(clamp(&value, &low, &high), &value);
+    }
 }

@@ -56,7 +56,7 @@ impl Round for CmyColor {
     }
 }
 
-impl<C: Round> Round for Alpha<C> {
+impl<C: Round + ColorSpace> Round for Alpha<C> {
     fn round(self) -> Self {
         let (color, alpha) = self.split();
         Alpha::new(color.round(), alpha)
