@@ -63,10 +63,151 @@ pub struct Rgb<T: Float = f64> {
     blue: T,
     alpha: T
 }
+// #[derive(Clone, Copy, PartialEq, Debug)]
+// pub struct Rgb {
+//     red: f64,
+//     green: f64,
+//     blue: f64,
+//     alpha: f64
+// }
 
-impl<T: Float> Rgb<T> {
-    fn new(red: T, green: T, blue: T, alpha: T) -> Self {
+impl Rgb {
+    pub fn new(red: f64, green: f64, blue: f64, alpha: f64) -> Self {
         Rgb { red, green, blue, alpha }
+    }
+
+    pub fn rgb(red: u8, green: u8, blue: u8) -> Self {
+        Self::new(
+            red as f64 / 255.,
+            green as f64 / 255.,
+            blue as f64 / 255.,
+            1.,
+        )
+    }
+
+    pub fn rgba(red: u8, green: u8, blue: u8, alpha: u8) -> Self {
+        Self::new(
+            red as f64 / 255.,
+            green as f64 / 255.,
+            blue as f64 / 255.,
+            alpha as f64 / 255.,
+        )
+    }
+
+    pub fn hsl(hue: f64, saturation: f64, lightness: f64) -> Self {
+        Self::from_color(HslColor::new(hue, saturation, lightness))
+    }
+
+    pub fn hsla(hue: f64, saturation: f64, lightness: f64, alpha: f64) -> Self {
+        let mut color = Self::from_color(HslColor::new(hue, saturation, lightness));
+        color.alpha = alpha;
+        color
+    }
+
+    pub fn hsv(hue: f64, saturation: f64, value: f64) -> Self {
+        Self::from_color(HslColor::new(hue, saturation, value))
+    }
+
+    pub fn hsva(hue: f64, saturation: f64, value: f64, alpha: f64) -> Self {
+        let mut color = Self::from_color(HslColor::new(hue, saturation, value));
+        color.alpha = alpha;
+        color
+    }
+
+    pub fn cmyk(cyan: f64, magenta: f64, yellow: f64, key: f64) -> Self {
+        Self::from_color(CmykColor::new(cyan, magenta, yellow, key))
+    }
+    //noinspection SpellCheckingInspection
+    pub fn cmyka(cyan: f64, magenta: f64, yellow: f64, key: f64, alpha: f64) -> Self {
+        let mut color = Self::from_color(CmykColor::new(cyan, magenta, yellow, key));
+        color.alpha = alpha;
+        color
+    }
+
+    pub fn cmy(cyan: f64, magenta: f64, yellow: f64) -> Self {
+        Self::from_color(CmyColor::new(cyan, magenta, yellow))
+    }
+    //noinspection SpellCheckingInspection
+    pub fn cmya(cyan: f64, magenta: f64, yellow: f64, alpha: f64) -> Self {
+        let mut color = Self::from_color(CmyColor::new(cyan, magenta, yellow));
+        color.alpha = alpha;
+        color
+    }
+
+    #[cfg(feature = "experimental")]
+    pub fn xyz(x: f64, y: f64, z: f64) -> Self {
+        Self::from_color(XyzColor::new(x, y, z))
+    }
+    //noinspection SpellCheckingInspection
+    #[cfg(feature = "experimental")]
+    pub fn xyza(x: f64, y: f64, z: f64, alpha: f64) -> Self {
+        let mut color = Self::from_color(XyzColor::new(x, y, z));
+        color.alpha = alpha;
+        color
+    }
+
+    #[cfg(feature = "experimental")]
+    pub fn lab(l: f64, a: f64, b: f64) -> Self {
+        Self::from_color(XyzColor::new(l, a, b))
+    }
+    //noinspection SpellCheckingInspection
+    #[cfg(feature = "experimental")]
+    pub fn laba(l: f64, a: f64, b: f64, alpha: f64) -> Self {
+        let mut color = Self::from_color(XyzColor::new(l, a, b));
+        color.alpha = alpha;
+        color
+    }
+
+    // EMULATE creation of unicolor::Color enum
+
+    #[allow(non_snake_case)]
+    #[deprecated]
+    pub fn RGB(red: u8, green: u8, blue: u8) -> Self {
+        Self::rgb(red, green, blue)
+    }
+
+    #[allow(non_snake_case)]
+    #[deprecated]
+    pub fn RGBA(red: u8, green: u8, blue: u8, alpha: u8) -> Self {
+        Self::rgba(red, green, blue, alpha)
+    }
+
+    #[allow(non_snake_case)]
+    #[deprecated]
+    pub fn HSL(hue: f64, saturation: f64, lightness: f64) -> Self {
+        Self::hsl(hue, saturation, lightness)
+    }
+
+    #[allow(non_snake_case)]
+    #[deprecated]
+    pub fn HSV(hue: f64, saturation: f64, value: f64) -> Self {
+        Self::hsv(hue, saturation, value)
+    }
+
+    #[allow(non_snake_case)]
+    #[deprecated]
+    pub fn CMYK(cyan: f64, magenta: f64, yellow: f64, key: f64) -> Self {
+        Self::cmyk(cyan, magenta, yellow, key)
+    }
+
+    #[allow(non_snake_case)]
+    #[deprecated]
+    pub fn CMY(cyan: f64, magenta: f64, yellow: f64) -> Self {
+        Self::cmy(cyan, magenta, yellow)
+    }
+
+    #[cfg(feature = "experimental")]
+    #[allow(non_snake_case)]
+    #[deprecated]
+    pub fn XYZ(x: f64, y: f64, z: f64) -> Self {
+        Self::xyz(x, y, z)
+    }
+
+    #[cfg(feature = "experimental")]
+    #[allow(non_snake_case)]
+    #[deprecated]
+    pub fn LAB(l: f64, a: f64, b: f64) -> Self {
+        Self::lab(l, a, b)
     }
 }
 

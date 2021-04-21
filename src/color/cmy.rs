@@ -14,6 +14,12 @@ impl fmt::Display for CmyColor {
     }
 }
 
+impl CmyColor {
+    pub fn new(cyan: f64, magenta: f64, yellow: f64) -> Self {
+        Self { cyan, magenta, yellow }
+    }
+}
+
 // CMY -> RGB
 impl From<CmyColor> for Rgb {
     fn from(_: CmyColor) -> Self {
