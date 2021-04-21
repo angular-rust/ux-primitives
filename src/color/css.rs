@@ -263,16 +263,16 @@ mod test {
     #[test]
     fn get_color_from_impl() {
         let test_data: Vec<(&str, &str, u32, Color)> = vec![
-            ("palegoldenrod",  "#eee8aa", 0xeee8aa, Color::RGB(0xee, 0xe8, 0xaa)),
-            ("palegreen",      "#98fb98", 0x98fb98, Color::RGB(0x98, 0xfb, 0x98)),
-            ("paleturquoise",  "#afeeee", 0xafeeee, Color::RGB(0xaf, 0xee, 0xee)),
-            ("palevioletred",  "#db7093", 0xdb7093, Color::RGB(0xdb, 0x70, 0x93)),
-            ("papayawhip",     "#ffefd5", 0xffefd5, Color::RGB(0xff, 0xef, 0xd5)),
-            ("peachpuff",      "#ffdab9", 0xffdab9, Color::RGB(0xff, 0xda, 0xb9)),
-            ("peru",           "#cd853f", 0xcd853f, Color::RGB(0xcd, 0x85, 0x3f)),
-            ("pink",           "#ffc0cb", 0xffc0cb, Color::RGB(0xff, 0xc0, 0xcb)),
-            ("plum",           "#dda0dd", 0xdda0dd, Color::RGB(0xdd, 0xa0, 0xdd)),
-            ("powderblue",     "#b0e0e6", 0xb0e0e6, Color::RGB(0xb0, 0xe0, 0xe6)),
+            ("palegoldenrod",  "#eee8aa", 0xeee8aa, Color::rgb(0xee, 0xe8, 0xaa)),
+            ("palegreen",      "#98fb98", 0x98fb98, Color::rgb(0x98, 0xfb, 0x98)),
+            ("paleturquoise",  "#afeeee", 0xafeeee, Color::rgb(0xaf, 0xee, 0xee)),
+            ("palevioletred",  "#db7093", 0xdb7093, Color::rgb(0xdb, 0x70, 0x93)),
+            ("papayawhip",     "#ffefd5", 0xffefd5, Color::rgb(0xff, 0xef, 0xd5)),
+            ("peachpuff",      "#ffdab9", 0xffdab9, Color::rgb(0xff, 0xda, 0xb9)),
+            ("peru",           "#cd853f", 0xcd853f, Color::rgb(0xcd, 0x85, 0x3f)),
+            ("pink",           "#ffc0cb", 0xffc0cb, Color::rgb(0xff, 0xc0, 0xcb)),
+            ("plum",           "#dda0dd", 0xdda0dd, Color::rgb(0xdd, 0xa0, 0xdd)),
+            ("powderblue",     "#b0e0e6", 0xb0e0e6, Color::rgb(0xb0, 0xe0, 0xe6)),
         ];
         for (color_name, color_hex_str, color_u32, color) in test_data.iter() {
             if let Color::RGB(expected_red, expected_green, expected_blue) = *color {

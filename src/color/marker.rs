@@ -1,12 +1,12 @@
 use super::*;
 
-pub trait ColorTransition: Clone + Copy + From<Rgb> + Into<Rgb> {}
+pub trait ColorTransition: Clone + Copy + From<Color> + Into<Color> {}
 pub trait ColorSpace: ColorTransition {}
 pub trait NonRgbSpace: ColorTransition {}
 pub trait NonRadialSpace: ColorTransition {}
 pub trait NonSaturationSpace: ColorTransition {}
 
-impl ColorTransition for Rgb {}
+impl ColorTransition for Color {}
 impl ColorTransition for RgbColor {}
 impl ColorTransition for RgbaColor {}
 impl ColorTransition for HslColor {}
@@ -38,7 +38,7 @@ impl NonRgbSpace for LabColor {}
 #[cfg(feature = "experimental")]
 impl NonRgbSpace for XyzColor {}
 
-impl NonRadialSpace for Rgb {}
+impl NonRadialSpace for Color {}
 impl NonRadialSpace for RgbColor {}
 impl NonRadialSpace for RgbaColor {}
 impl NonRadialSpace for CmykColor {}
@@ -48,7 +48,7 @@ impl NonRadialSpace for LabColor {}
 #[cfg(feature = "experimental")]
 impl NonRadialSpace for XyzColor {}
 
-impl NonSaturationSpace for Rgb {}
+impl NonSaturationSpace for Color {}
 impl NonSaturationSpace for RgbColor {}
 impl NonSaturationSpace for RgbaColor {}
 impl NonSaturationSpace for CmykColor {}

@@ -1,6 +1,6 @@
 #![cfg(feature = "experimental")]
 
-use super::{Rgb, ColorError};
+use super::{Color, ColorError};
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct XyzColor {
@@ -16,7 +16,7 @@ impl XyzColor {
 }
 
 // XYZ -> RGB
-impl From<XyzColor> for Rgb {
+impl From<XyzColor> for Color {
     fn from(_: XyzColor) -> Self {
         // TODO: implement L*a*b -> RGB
         panic!("{}: XYZ -> RGB", ColorError::Unimplemented)
@@ -24,8 +24,8 @@ impl From<XyzColor> for Rgb {
 }
 
 // RGB -> XYZ
-impl From<Rgb> for XyzColor {
-    fn from(_: Rgb) -> Self {
+impl From<Color> for XyzColor {
+    fn from(_: Color) -> Self {
         // TODO: implement RGB -> XYZ
         panic!("{}: RGB -> XYZ", ColorError::Unimplemented)
     }

@@ -21,7 +21,7 @@ impl CmyColor {
 }
 
 // CMY -> RGB
-impl From<CmyColor> for Rgb {
+impl From<CmyColor> for Color {
     fn from(_: CmyColor) -> Self {
         // TODO: implement CMY -> RGB
         unimplemented!("{}: CMY -> RGB", ColorError::Unimplemented);
@@ -29,8 +29,8 @@ impl From<CmyColor> for Rgb {
 }
 
 // RGB -> CMY
-impl From<Rgb> for CmyColor {
-    fn from(_: Rgb) -> Self {
+impl From<Color> for CmyColor {
+    fn from(_: Color) -> Self {
         // TODO: implement RGB -> CMY
         unimplemented!("{}: RGB -> CMY", ColorError::Unimplemented);
     }

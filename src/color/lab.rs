@@ -1,7 +1,7 @@
 #![cfg(feature = "experimental")]
 
 use std::fmt;
-use super::{Rgb, ColorError};
+use super::{Color, ColorError};
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct LabColor {
@@ -17,7 +17,7 @@ impl fmt::Display for LabColor {
 }
 
 // L*a*b -> RGB
-impl From<LabColor> for Rgb {
+impl From<LabColor> for Color {
     fn from(_: LabColor) -> Self {
         // TODO: implement L*a*b -> RGB
         unimplemented!("{}: L*a*b -> RGB", ColorError::Unimplemented)
@@ -25,8 +25,8 @@ impl From<LabColor> for Rgb {
 }
 
 // RGB -> L*a*b
-impl From<Rgb> for LabColor {
-    fn from(_: Rgb) -> Self {
+impl From<Color> for LabColor {
+    fn from(_: Color) -> Self {
         unimplemented!("{}: RGB -> L*a*b", ColorError::Unimplemented)
     }
 }

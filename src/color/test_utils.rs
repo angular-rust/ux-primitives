@@ -30,12 +30,12 @@ pub(super) fn test_conversion<C, F>(test_colors_iterator: Iter<'_, (Color, C)>, 
 }
 
 pub(super) fn test_to_rgb_conversion<C>(test_colors_iterator: Iter<'_, (Color, C)>)
-    where C: fmt::Display + Copy + Clone + IntoColor<RgbColor> + Into<Rgb>
+    where C: fmt::Display + Copy + Clone + IntoColor<RgbColor> + Into<Color>
 {
     test_utils::test_conversion(
         test_colors_iterator,
         |expected_color, actual_color| {
-            let expected_rgb = RgbColor::from_uni_color(*expected_color);
+            let expected_rgb = RgbColor::from(*expected_color);
             let actual_rgb = RgbColor::from_color(*actual_color);
             let RgbColor { red: expected_r, green: expected_g, blue: expected_b } = expected_rgb;
             let RgbColor { red: actual_r, green: actual_g, blue: actual_b} = actual_rgb;

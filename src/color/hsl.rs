@@ -1,5 +1,5 @@
 use std::fmt;
-use super::{Rgb, ColorError, utils};
+use super::{Color, ColorError, utils};
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct HslColor {
@@ -25,7 +25,7 @@ impl fmt::Display for HslColor {
 }
 
 // HSL -> RGB
-impl From<HslColor> for Rgb {
+impl From<HslColor> for Color {
     fn from(hsl: HslColor) -> Self {
         let HslColor { hue, saturation, lightness} = hsl;
         let c = ( 1.   -   ( (2. * (lightness as f64 / 100.)) - 1. ).abs() )
@@ -50,7 +50,7 @@ impl From<HslColor> for Rgb {
                 unreachable!("{}", ColorError::DegreeOverflow)
             }
         };
-        Rgb {
+        Color {
             red: r_prime + m,
             green: g_prime + m,
             blue: b_prime + m,
@@ -60,9 +60,9 @@ impl From<HslColor> for Rgb {
 }
 
 // RGB -> HSL
-impl From<Rgb> for HslColor {
-    fn from(rgb: Rgb) -> Self {
-        let Rgb { red, green, blue, alpha: _ } = rgb;
+impl From<Color> for HslColor {
+    fn from(rgb: Color) -> Self {
+        let Color { red, green, blue, alpha: _ } = rgb;
 
         let (c_min, c_max) = utils::min_max_tuple([red, green, blue].iter());
         let delta = c_max - c_min;

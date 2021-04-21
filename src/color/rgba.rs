@@ -22,9 +22,9 @@ impl RgbaColor {
 }
 
 // RGBAu8 -> RGB
-impl From<RgbaColor> for Rgb {
+impl From<RgbaColor> for Color {
     fn from(rgba: RgbaColor) -> Self {
-        Rgb {
+        Color {
             red: rgba.red as f64 / 255.0,
             green: rgba.green as f64 / 255.0,
             blue: rgba.blue  as f64 / 255.0,
@@ -33,8 +33,8 @@ impl From<RgbaColor> for Rgb {
     }
 }
 
-impl From<Rgb> for RgbaColor {
-    fn from(rgb: Rgb) -> Self {
+impl From<Color> for RgbaColor {
+    fn from(rgb: Color) -> Self {
         RgbaColor {
             red: (rgb.red * 255.0).round() as u8,
             green: (rgb.green * 255.0).round() as u8,

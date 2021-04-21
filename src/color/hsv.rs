@@ -1,6 +1,6 @@
 use std::fmt;
 use crate::{hue_bound, percentage_to_fraction};
-use super::{Rgb, ColorError, utils};
+use super::{Color, ColorError, utils};
 
 
 #[derive(Clone, Copy, PartialEq, Debug)]
@@ -27,7 +27,7 @@ impl fmt::Display for HsvColor {
 }
 
 // HSV -> RGB
-impl From<HsvColor> for Rgb {
+impl From<HsvColor> for Color {
     fn from(hsv: HsvColor) -> Self {
         //Err(ColorError::Unimplemented)
         let hue = hue_bound(hsv.hue);
@@ -39,17 +39,17 @@ impl From<HsvColor> for Rgb {
         let a = (value - min) * ((hue % 60.) / 60.);
 
         if hue >= 0. && hue < 60. {
-            Rgb::new(value, min + a, min, 1.)
+            Color::new(value, min + a, min, 1.)
         } else if hue >= 60. && hue < 120. {
-            Rgb::new(value - a, value, min, 1.)
+            Color::new(value - a, value, min, 1.)
         } else if hue >= 120. && hue < 180. {
-            Rgb::new(min, value, min + a, 1.)
+            Color::new(min, value, min + a, 1.)
         } else if hue >= 180. && hue < 240. {
-            Rgb::new(min, value - a, value, 1.)
+            Color::new(min, value - a, value, 1.)
         } else if hue >= 240. && hue < 300. {
-            Rgb::new(min + a, min, value, 1.)
+            Color::new(min + a, min, value, 1.)
         } else if hue >= 300. && hue < 360. {
-            Rgb::new(value, min, value - a, 1.)
+            Color::new(value, min, value - a, 1.)
         } else {
             unreachable!("HSV -> RGB: {}", ColorError::DegreeOverflow);
         }
@@ -57,10 +57,10 @@ impl From<HsvColor> for Rgb {
 }
 
 // RGB -> HSV
-impl From<Rgb> for HsvColor {
-    fn from(rgb: Rgb) -> Self {
+impl From<Color> for HsvColor {
+    fn from(rgb: Color) -> Self {
         // https://ru.wikipedia.org/wiki/HSV_(%D1%86%D0%B2%D0%B5%D1%82%D0%BE%D0%B2%D0%B0%D1%8F_%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C)#RGB_%E2%86%92_HSV
-        let Rgb { red, green, blue, alpha: _ } = rgb;
+        let Color { red, green, blue, alpha: _ } = rgb;
         let (min, max) = utils::min_max_tuple([red, green, blue].iter());
         let hue = if max == red {
             //normalize_hue(60. * (green - blue) / delta - 30.)

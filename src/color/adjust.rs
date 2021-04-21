@@ -184,8 +184,8 @@ impl Invert for RgbaColor {
 
 impl<C: NonRgbSpace> Invert for C {
     fn invert(self) -> Self {
-        let Rgb { red, green, blue, alpha } = self.into();
-        C::from(Rgb {
+        let Color { red, green, blue, alpha } = self.into();
+        C::from(Color {
             red: 255. - red,
             green: 255. - green,
             blue: 255. - blue,
@@ -271,7 +271,7 @@ mod test {
 
     #[test]
     fn lighten_for_lin_rgb() {
-        let base: Rgb = RgbColor::new(204, 0, 0).into(); // hsl(0, 100, 40)
+        let base: Color = RgbColor::new(204, 0, 0).into(); // hsl(0, 100, 40)
         let lighten = base.lighten(5.); // rgb(230, 0, 0) <- hsl(0, 100, 45)
         let darken = base.darken(10.); // rgb(153, 0, 0) <- hsl(0, 100, 30)
         assert_eq!(half_down(HslColor::from(lighten).lightness, 0), 45.);

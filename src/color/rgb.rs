@@ -1,5 +1,5 @@
 use std::fmt;
-use super::{Rgb};
+use super::{Color};
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub struct RgbColor {
@@ -21,9 +21,9 @@ impl fmt::Display for RgbColor {
 }
 
 // RGBu8 -> RGB
-impl From<RgbColor> for Rgb {
+impl From<RgbColor> for Color {
     fn from(c: RgbColor) -> Self {
-        Rgb {
+        Color {
             red: c.red as f64 / 255.0,
             green: c.green as f64 / 255.0,
             blue: c.blue as f64 / 255.0,
@@ -33,8 +33,8 @@ impl From<RgbColor> for Rgb {
 }
 
 // RGB -> RGBu8
-impl From<Rgb> for RgbColor {
-    fn from(c: Rgb) -> Self {
+impl From<Color> for RgbColor {
+    fn from(c: Color) -> Self {
         RgbColor {
             red: (c.red * 255.0).round() as u8,
             green: (c.green * 255.0).round() as u8,

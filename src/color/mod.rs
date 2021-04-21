@@ -32,9 +32,6 @@ pub use adjust::*;
 pub mod mix;
 pub use mix::*;
 
-pub mod unicolor;
-pub use unicolor::*;
-
 pub mod convert;
 pub use convert::*;
 
@@ -60,16 +57,16 @@ mod test_utils;
 
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
-pub struct Rgb<T: Float = f64> {
+pub struct Color<T: Float = f64> {
     red: T,
     green: T,
     blue: T,
     alpha: T
 }
 
-impl Rgb {
+impl Color {
     pub fn new(red: f64, green: f64, blue: f64, alpha: f64) -> Self {
-        Rgb { red, green, blue, alpha }
+        Color { red, green, blue, alpha }
     }
 
     pub fn rgb(red: u8, green: u8, blue: u8) -> Self {
@@ -207,7 +204,7 @@ impl Rgb {
     }
 }
 
-impl fmt::Display for Rgb {
+impl fmt::Display for Color {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "rgb({}, {}, {})", self.red, self.green, self.blue)
     }

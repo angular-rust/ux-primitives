@@ -1,5 +1,5 @@
 use std::fmt;
-use super::Rgb;
+use super::Color;
 
 
 #[derive(Clone, Copy, PartialEq, Debug)]
@@ -23,12 +23,12 @@ impl fmt::Display for CmykColor {
 }
 
 // CMYK -> RGB
-impl From<CmykColor> for Rgb {
+impl From<CmykColor> for Color {
     fn from(cmyk: CmykColor) -> Self {
         let apply = |v| {
             (1.0f64 - v / 100.0) * (1.0 - cmyk.key / 100.0)
         };
-        Rgb {
+        Color {
             red: apply(cmyk.cyan),
             green: apply(cmyk.magenta),
             blue: apply(cmyk.yellow),
@@ -38,8 +38,8 @@ impl From<CmykColor> for Rgb {
 }
 
 // RGB -> CMYK
-impl From<Rgb> for CmykColor {
-    fn from(rgb: Rgb) -> Self {
+impl From<Color> for CmykColor {
+    fn from(rgb: Color) -> Self {
         let key = 1.
             - [rgb.red, rgb.green, rgb.blue]
             .iter()

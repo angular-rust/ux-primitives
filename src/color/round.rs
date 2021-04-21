@@ -4,9 +4,9 @@ pub trait Round {
     fn round(self) -> Self;
 }
 
-impl Round for Rgb {
+impl Round for Color {
     fn round(self) -> Self {
-        Rgb {
+        Color {
             red: self.red.round(),
             green: self.green.round(),
             blue: self.blue.round(),

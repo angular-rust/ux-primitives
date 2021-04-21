@@ -9,8 +9,8 @@ pub trait IntoColor<To> {
 }
 
 impl<Fr, To> FromColor<Fr> for To
-    where To: From<Rgb>,
-          Fr: Into<Rgb>
+    where To: From<Color>,
+          Fr: Into<Color>
 {
     fn from_color(from_color: Fr) -> To {
         To::from(from_color.into())
@@ -97,8 +97,8 @@ mod test {
 
     #[test]
     fn into_color_self() {
-        let rgb1 = Rgb::new(200., 200., 200., 1.);
-        let rgb2: Rgb = rgb1.into_color();
+        let rgb1 = Color::new(200., 200., 200., 1.);
+        let rgb2: Color = rgb1.into_color();
         assert_eq!(rgb1.red, rgb2.red);
         assert_eq!(rgb1.green, rgb2.green);
         assert_eq!(rgb1.blue, rgb2.blue);
