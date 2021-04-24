@@ -1,7 +1,7 @@
 #![cfg(feature = "experimental")]
 
-use std::fmt;
 use super::{Color, ColorError};
+use std::fmt;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct LabColor {

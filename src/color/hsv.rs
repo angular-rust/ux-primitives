@@ -1,7 +1,6 @@
-use std::fmt;
+use super::{utils, Color, ColorError};
 use crate::{hue_bound, percentage_to_fraction};
-use super::{Color, ColorError, utils};
-
+use std::fmt;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct HsvColor {
@@ -14,8 +13,20 @@ impl HsvColor {
     pub fn new(hue: f64, saturation: f64, value: f64) -> Self {
         Self {
             hue: hue_bound(hue),
-            saturation: if saturation > 100. { 100. } else if saturation < 0. { 0. } else { saturation },
-            value: if saturation > 100. { 100. } else if saturation < 0. { 0. } else { value }
+            saturation: if saturation > 100. {
+                100.
+            } else if saturation < 0. {
+                0.
+            } else {
+                saturation
+            },
+            value: if saturation > 100. {
+                100.
+            } else if saturation < 0. {
+                0.
+            } else {
+                value
+            },
         }
     }
 }
@@ -60,7 +71,12 @@ impl From<HsvColor> for Color {
 impl From<Color> for HsvColor {
     fn from(rgb: Color) -> Self {
         // https://ru.wikipedia.org/wiki/HSV_(%D1%86%D0%B2%D0%B5%D1%82%D0%BE%D0%B2%D0%B0%D1%8F_%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C)#RGB_%E2%86%92_HSV
-        let Color { red, green, blue, alpha: _ } = rgb;
+        let Color {
+            red,
+            green,
+            blue,
+            alpha: _,
+        } = rgb;
         let (min, max) = utils::min_max_tuple([red, green, blue].iter());
         let hue = if max == red {
             //normalize_hue(60. * (green - blue) / delta - 30.)
@@ -76,7 +92,12 @@ impl From<Color> for HsvColor {
         } else {
             0.
         };
-        let saturation = 1. - (if (max - 0.) < f64::EPSILON { 0f64 } else { min as f64 / max as f64 });
+        let saturation = 1.
+            - (if (max - 0.) < f64::EPSILON {
+                0f64
+            } else {
+                min as f64 / max as f64
+            });
         HsvColor::new(hue, saturation * 100., max * 100.)
     }
 }
@@ -92,19 +113,42 @@ mod test {
 
     #[test]
     fn rgb_to_hsv() {
-        test_utils::test_conversion(
-            test_utils::RGB_HSV.iter(),
-            |actual_color, expected_hsv| {
-                let actual_rgb: RgbColor = (*actual_color).into();
-                let actual_hsv: HsvColor = actual_rgb.into();
-                let HsvColor { hue: actual_h, saturation: actual_s, value: actual_v } = actual_hsv;
-                let (actual_h, actual_s, actual_v) = (actual_h.round() ,actual_s.round(), actual_v.round());
-                let HsvColor { hue: expected_h, saturation: expected_s, value: expected_v } = *expected_hsv;
-                assert!(test_utils::diff_less_than_f64(actual_h, expected_h, 1.), "wrong hue: {} -> {} != {}", actual_rgb, actual_hsv, expected_hsv);
-                assert!(test_utils::diff_less_than_f64(actual_s, expected_s, 1.), "wrong saturation: {} -> {} != {}", actual_rgb, actual_hsv, expected_hsv);
-                assert!(test_utils::diff_less_than_f64(actual_v, expected_v, 1.), "wrong brightness: {} -> {} != {}", actual_rgb, actual_hsv, expected_hsv);
-            }
-        )
+        test_utils::test_conversion(test_utils::RGB_HSV.iter(), |actual_color, expected_hsv| {
+            let actual_rgb: RgbColor = (*actual_color).into();
+            let actual_hsv: HsvColor = actual_rgb.into();
+            let HsvColor {
+                hue: actual_h,
+                saturation: actual_s,
+                value: actual_v,
+            } = actual_hsv;
+            let (actual_h, actual_s, actual_v) =
+                (actual_h.round(), actual_s.round(), actual_v.round());
+            let HsvColor {
+                hue: expected_h,
+                saturation: expected_s,
+                value: expected_v,
+            } = *expected_hsv;
+            assert!(
+                test_utils::diff_less_than_f64(actual_h, expected_h, 1.),
+                "wrong hue: {} -> {} != {}",
+                actual_rgb,
+                actual_hsv,
+                expected_hsv
+            );
+            assert!(
+                test_utils::diff_less_than_f64(actual_s, expected_s, 1.),
+                "wrong saturation: {} -> {} != {}",
+                actual_rgb,
+                actual_hsv,
+                expected_hsv
+            );
+            assert!(
+                test_utils::diff_less_than_f64(actual_v, expected_v, 1.),
+                "wrong brightness: {} -> {} != {}",
+                actual_rgb,
+                actual_hsv,
+                expected_hsv
+            );
+        })
     }
 }
-

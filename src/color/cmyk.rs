@@ -1,6 +1,5 @@
-use std::fmt;
 use super::Color;
-
+use std::fmt;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct CmykColor {
@@ -12,27 +11,34 @@ pub struct CmykColor {
 
 impl CmykColor {
     pub fn new(cyan: f64, magenta: f64, yellow: f64, key: f64) -> Self {
-        Self { cyan, magenta, yellow, key }
+        Self {
+            cyan,
+            magenta,
+            yellow,
+            key,
+        }
     }
 }
 
 impl fmt::Display for CmykColor {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "cmyk({}%, {}%, {}%, {}%)", self.cyan, self.magenta, self.yellow, self.key)
+        write!(
+            f,
+            "cmyk({}%, {}%, {}%, {}%)",
+            self.cyan, self.magenta, self.yellow, self.key
+        )
     }
 }
 
 // CMYK -> RGB
 impl From<CmykColor> for Color {
     fn from(cmyk: CmykColor) -> Self {
-        let apply = |v| {
-            (1.0f64 - v / 100.0) * (1.0 - cmyk.key / 100.0)
-        };
+        let apply = |v| (1.0f64 - v / 100.0) * (1.0 - cmyk.key / 100.0);
         Color {
             red: apply(cmyk.cyan),
             green: apply(cmyk.magenta),
             blue: apply(cmyk.yellow),
-            alpha: 1.
+            alpha: 1.,
         }
     }
 }
@@ -42,16 +48,16 @@ impl From<Color> for CmykColor {
     fn from(rgb: Color) -> Self {
         let key = 1.
             - [rgb.red, rgb.green, rgb.blue]
-            .iter()
-            .cloned()
-            .fold(f64::NAN, f64::max);
+                .iter()
+                .cloned()
+                .fold(f64::NAN, f64::max);
 
         let apply = |v: f64| (((1. - v - key) / (1. - key)) * 100.).round();
         CmykColor {
             cyan: apply(rgb.red),
             magenta: apply(rgb.green),
             yellow: apply(rgb.blue),
-            key: key * 100.
+            key: key * 100.,
         }
     }
 }

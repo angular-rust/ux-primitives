@@ -1,5 +1,5 @@
-use std::fmt;
 use super::*;
+use std::fmt;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct CmyColor {
@@ -10,13 +10,21 @@ pub struct CmyColor {
 
 impl fmt::Display for CmyColor {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "cmy({}%, {}%, {}%)", self.cyan, self.magenta, self.yellow)
+        write!(
+            f,
+            "cmy({}%, {}%, {}%)",
+            self.cyan, self.magenta, self.yellow
+        )
     }
 }
 
 impl CmyColor {
     pub fn new(cyan: f64, magenta: f64, yellow: f64) -> Self {
-        Self { cyan, magenta, yellow }
+        Self {
+            cyan,
+            magenta,
+            yellow,
+        }
     }
 }
 

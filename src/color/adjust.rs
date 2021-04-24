@@ -13,16 +13,14 @@ pub trait HasSaturation: Clone + Copy {
     fn set_saturation(&mut self, saturation: f64) -> Self;
 }
 
-pub trait GetRadialSaturation
-    : FromColor<HslColor> + IntoColor<HslColor>
-    + FromColor<HsvColor> + IntoColor<HsvColor>
+pub trait GetRadialSaturation:
+    FromColor<HslColor> + IntoColor<HslColor> + FromColor<HsvColor> + IntoColor<HsvColor>
 {
     fn get_hsl_saturation(self) -> f64;
     fn get_hsv_saturation(self) -> f64;
 }
-pub trait SetRadialSaturation
-    : FromColor<HslColor> + IntoColor<HslColor>
-    + FromColor<HsvColor> + IntoColor<HsvColor>
+pub trait SetRadialSaturation:
+    FromColor<HslColor> + IntoColor<HslColor> + FromColor<HsvColor> + IntoColor<HsvColor>
 {
     fn set_hsl_saturation(&mut self, saturation: f64) -> Self;
     fn set_hsv_saturation(&mut self, saturation: f64) -> Self;
@@ -50,7 +48,9 @@ pub trait Saturate: Sized {
 }
 
 pub trait Grayscale: Saturate {
-    fn grayscale(self) -> Self { self.saturate(-100.) }
+    fn grayscale(self) -> Self {
+        self.saturate(-100.)
+    }
 }
 impl<C: Saturate> Grayscale for C {}
 
@@ -62,13 +62,20 @@ pub trait Adjust: Lighten + AdjustHue + Saturate + Grayscale {}
 impl<C: Lighten + AdjustHue + Saturate + Grayscale> Adjust for C {}
 
 impl GetHue for HslColor {
-    fn get_hue(self) -> f64 { self.hue }
+    fn get_hue(self) -> f64 {
+        self.hue
+    }
 }
 impl SetHue for HslColor {
-    fn set_hue(&mut self, hue: f64) -> Self { self.hue = hue_bound(hue); *self }
+    fn set_hue(&mut self, hue: f64) -> Self {
+        self.hue = hue_bound(hue);
+        *self
+    }
 }
 impl GetHue for HsvColor {
-    fn get_hue(self) -> f64 { self.hue }
+    fn get_hue(self) -> f64 {
+        self.hue
+    }
 }
 impl SetHue for HsvColor {
     fn set_hue(&mut self, hue: f64) -> Self {
@@ -81,14 +88,18 @@ impl HasHue for HslColor {}
 impl HasHue for HsvColor {}
 
 impl HasSaturation for HslColor {
-    fn get_saturation(self) -> f64 { self.saturation }
+    fn get_saturation(self) -> f64 {
+        self.saturation
+    }
     fn set_saturation(&mut self, saturation: f64) -> Self {
         self.saturation = clamp(saturation, 0., 100.);
         *self
     }
 }
 impl HasSaturation for HsvColor {
-    fn get_saturation(self) -> f64 { self.saturation }
+    fn get_saturation(self) -> f64 {
+        self.saturation
+    }
     fn set_saturation(&mut self, saturation: f64) -> Self {
         self.saturation = clamp(saturation, 0., 100.);
         *self
@@ -111,9 +122,13 @@ impl<C: NonRadialSpace> SetHue for C {
 }
 
 impl<C> GetRadialSaturation for C
-    where C : Clone + Copy
-            + FromColor<HslColor> + IntoColor<HslColor>
-            + FromColor<HsvColor> + IntoColor<HsvColor>
+where
+    C: Clone
+        + Copy
+        + FromColor<HslColor>
+        + IntoColor<HslColor>
+        + FromColor<HsvColor>
+        + IntoColor<HsvColor>,
 {
     fn get_hsl_saturation(self) -> f64 {
         let hsl: HslColor = self.into_color();
@@ -125,9 +140,13 @@ impl<C> GetRadialSaturation for C
     }
 }
 impl<C> SetRadialSaturation for C
-    where C : Clone + Copy
-            + FromColor<HslColor> + IntoColor<HslColor>
-            + FromColor<HsvColor> + IntoColor<HsvColor>
+where
+    C: Clone
+        + Copy
+        + FromColor<HslColor>
+        + IntoColor<HslColor>
+        + FromColor<HsvColor>
+        + IntoColor<HsvColor>,
 {
     fn set_hsl_saturation(&mut self, saturation: f64) -> Self {
         let mut hsl: HslColor = (*self).into_color();
@@ -141,7 +160,6 @@ impl<C> SetRadialSaturation for C
     }
 }
 
-
 impl<C: FromColor<HslColor> + IntoColor<HslColor>> Lighten for C {
     fn lighten(self, delta: f64) -> Self {
         let hsl: HslColor = self.into_color();
@@ -149,7 +167,7 @@ impl<C: FromColor<HslColor> + IntoColor<HslColor>> Lighten for C {
         C::from_color(HslColor {
             hue: hsl.hue,
             saturation: hsl.saturation,
-            lightness: utils::clamp(lightness, 0., 100.)
+            lightness: utils::clamp(lightness, 0., 100.),
         })
     }
 }
@@ -162,15 +180,19 @@ impl<C: Clone + GetHue + SetHue> AdjustHue for C {
 
 impl<C: Clone + GetRadialSaturation + SetRadialSaturation> Saturate for C {
     fn saturate(self, delta: f64) -> Self {
-        self.clone().set_hsl_saturation(
-            self.get_hsl_saturation() + clamp(delta, -100., 100.)
-        )
+        self.clone()
+            .set_hsl_saturation(self.get_hsl_saturation() + clamp(delta, -100., 100.))
     }
 }
 
 impl<C: ColorTransition> Invert for C {
     fn invert(self) -> Self {
-        let Color { red, green, blue, alpha } = self.into();
+        let Color {
+            red,
+            green,
+            blue,
+            alpha,
+        } = self.into();
         C::from(Color {
             red: 1. - red,
             green: 1. - green,
@@ -206,7 +228,6 @@ impl<C: Invert + ColorSpace> Invert for Alpha<C> {
     }
 }
 
-
 #[cfg(test)]
 mod test {
     use super::super::*;
@@ -222,9 +243,21 @@ mod test {
     fn adjust_hue_for_rgb() {
         let red_rgb = RgbColor::new(255, 0, 0);
         let green_rgb = red_rgb.adjust_hue(120.);
-        assert_eq!(green_rgb.red, 0, "wrong red cmp of green color: {}", green_rgb);
-        assert_eq!(green_rgb.green, 255, "wrong green cmp of green color: {}", green_rgb);
-        assert_eq!(green_rgb.blue, 0, "wrong blue cmp of green color: {}", green_rgb);
+        assert_eq!(
+            green_rgb.red, 0,
+            "wrong red cmp of green color: {}",
+            green_rgb
+        );
+        assert_eq!(
+            green_rgb.green, 255,
+            "wrong green cmp of green color: {}",
+            green_rgb
+        );
+        assert_eq!(
+            green_rgb.blue, 0,
+            "wrong blue cmp of green color: {}",
+            green_rgb
+        );
     }
 
     #[test]
@@ -310,7 +343,7 @@ mod test {
 
     #[test]
     fn invert() {
-        let color= RgbColor::new(100, 60, 255);
+        let color = RgbColor::new(100, 60, 255);
         let inverted = color.invert();
         assert_eq!(inverted.red, 155);
         assert_eq!(inverted.green, 195);

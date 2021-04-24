@@ -1,5 +1,5 @@
+use super::Color;
 use std::fmt;
-use super::{Color};
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub struct RgbColor {

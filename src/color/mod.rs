@@ -1,5 +1,5 @@
-use std::fmt;
 use num_traits::Float;
+use std::fmt;
 
 mod rgb;
 pub use rgb::RgbColor;
@@ -43,7 +43,7 @@ pub use to_hex_string::*;
 
 pub mod palette;
 
-#[cfg(any(feature = "color_from_css",test))]
+#[cfg(any(feature = "color_from_css", test))]
 pub mod css;
 
 pub mod round;
@@ -55,18 +55,22 @@ pub(crate) use utils::*;
 //#[cfg(test)]
 mod test_utils;
 
-
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub struct Color<T: Float = f64> {
     red: T,
     green: T,
     blue: T,
-    alpha: T
+    alpha: T,
 }
 
 impl Color {
     pub fn new(red: f64, green: f64, blue: f64, alpha: f64) -> Self {
-        Color { red, green, blue, alpha }
+        Color {
+            red,
+            green,
+            blue,
+            alpha,
+        }
     }
 
     pub fn rgb(red: u8, green: u8, blue: u8) -> Self {
@@ -220,10 +224,15 @@ pub enum ColorError {
 impl fmt::Display for ColorError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Self::PercentageOverflow => write!(f, "Overflow of Color percentage value (can't be greater than 100%)"),
-            Self::DegreeOverflow => write!(f, "Overflow of Hue in hsl(v) color space (can't be greater than 360 deg"),
+            Self::PercentageOverflow => write!(
+                f,
+                "Overflow of Color percentage value (can't be greater than 100%)"
+            ),
+            Self::DegreeOverflow => write!(
+                f,
+                "Overflow of Hue in hsl(v) color space (can't be greater than 360 deg"
+            ),
             Self::Unimplemented => write!(f, "Unimplemented color conversion"),
         }
     }
 }
-

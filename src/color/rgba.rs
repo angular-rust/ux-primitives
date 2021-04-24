@@ -11,13 +11,22 @@ pub struct RgbaColor {
 
 impl fmt::Display for RgbaColor {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "rgba({}, {}, {}, {})", self.red, self.green, self.blue, self.alpha)
+        write!(
+            f,
+            "rgba({}, {}, {}, {})",
+            self.red, self.green, self.blue, self.alpha
+        )
     }
 }
 
 impl RgbaColor {
     pub fn new(red: u8, green: u8, blue: u8, alpha: u8) -> Self {
-        Self { red, green, blue, alpha }
+        Self {
+            red,
+            green,
+            blue,
+            alpha,
+        }
     }
 }
 
@@ -27,8 +36,8 @@ impl From<RgbaColor> for Color {
         Color {
             red: rgba.red as f64 / 255.0,
             green: rgba.green as f64 / 255.0,
-            blue: rgba.blue  as f64 / 255.0,
-            alpha: rgba.alpha  as f64 / 255.0,
+            blue: rgba.blue as f64 / 255.0,
+            alpha: rgba.alpha as f64 / 255.0,
         }
     }
 }
