@@ -1,26 +1,27 @@
+#[cfg(feature = "canvas")]
+pub mod canvas;
 pub mod color;
-
-mod colorspace;
-pub use colorspace::*;
-
-mod text;
-pub use text::*;
-
-#[cfg(feature = "canvas")]
-mod canvas;
-#[cfg(feature = "canvas")]
-pub use canvas::*;
-
 #[cfg(any(feature = "geom", feature = "canvas"))]
-mod geom;
-#[cfg(any(feature = "geom", feature = "canvas"))]
-pub use geom::*;
+pub mod geom;
+pub mod text;
 
-#[allow(unused_imports)]
-#[macro_use]
+//#[macro_use]
+#[cfg(any(feature = "color_quantization", test))]
 extern crate lazy_static;
 
+pub use prelude::*;
+
 pub mod prelude {
-    pub use super::color;
-    pub use super::colorspace::*;
+    #[cfg(feature = "canvas")]
+    pub use crate::canvas;
+    #[cfg(feature = "canvas")]
+    pub use crate::canvas::*;
+    pub use crate::color;
+    pub use crate::color::palette;
+    pub use crate::color::prelude::*;
+    #[cfg(any(feature = "geom", feature = "canvas"))]
+    pub use crate::geom;
+    #[cfg(any(feature = "geom", feature = "canvas"))]
+    pub use crate::geom::*;
+    pub use crate::text::*;
 }

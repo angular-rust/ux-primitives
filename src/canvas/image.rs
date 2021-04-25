@@ -8,7 +8,7 @@ pub enum PixelFormat {
     A8,
     A1,
     Rgb16_565,
-    Rgb30
+    Rgb30,
 }
 
 impl Default for PixelFormat {
@@ -16,7 +16,6 @@ impl Default for PixelFormat {
         PixelFormat::ARgb32
     }
 }
-
 
 #[derive(Debug, Clone)]
 pub struct ImageData {

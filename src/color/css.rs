@@ -1,11 +1,11 @@
-#![cfg(feature = "color_from_css")]
+#![cfg(any(feature = "color_from_css", test))]
 
-use super::utils;
+use lazy_static::lazy_static;
 use super::Color;
 use std::collections::HashMap;
 
 lazy_static! {
-    static ref COLORS: HashMap<&'static str, Color> = {
+    pub static ref COLORS: HashMap<&'static str, Color> = {
         let colors: Vec<(&'static str, u32)> = vec![
             // css 1
             ("black",   0x000000),
@@ -173,7 +173,7 @@ lazy_static! {
 
 impl From<u32> for Color {
     fn from(color_u32: u32) -> Self {
-        utils::color_from_rgb_u32(color_u32)
+        Self::from_rgb_u32(color_u32)
     }
 }
 
@@ -205,18 +205,58 @@ impl Color {
         }
         let color_u32 = u32::from_str_radix(color_hex_str, 16).expect(&*panic_string);
         match color_len {
-            3 => utils::color_from_short_rgb_u16(color_u32 as u16),
-            6 => utils::color_from_rgb_u32(color_u32),
-            4 => utils::color_from_short_rgba_u16(color_u32 as u16),
-            8 => utils::color_from_rgba_u32(color_u32),
+            3 => Self::from_short_rgb_u16(color_u32 as u16),
+            6 => Self::from_rgb_u32(color_u32),
+            4 => Self::from_short_rgba_u16(color_u32 as u16),
+            8 => Self::from_rgba_u32(color_u32),
             _ => panic!("{}", panic_string),
         }
+    }
+
+    pub fn from_short_rgb_u16(c: u16) -> Color {
+        let (red, green, blue, _) = (
+            ((c >> 8) + ((c >> 8) << 4)) as u8,
+            ((c & 0x0f0) + ((c & 0x0f0) >> 4)) as u8,
+            ((c & 0x00f) + ((c & 0x00f) << 4)) as u8,
+            0xff,
+        );
+        Color::rgb(red, green, blue)
+    }
+
+    pub fn from_rgb_u32(c: u32) -> Color {
+        let (red, green, blue, _) = (
+            (c >> 16) as u8,
+            ((c & 0x00ff00) >> 8) as u8,
+            (c & 0x0000ff) as u8,
+            0xff,
+        );
+        Color::rgb(red, green, blue)
+    }
+
+    pub fn from_short_rgba_u16(c: u16) -> Color {
+        let (red, green, blue, alpha) = (
+            ((c >> 12) + ((c >> 12) << 4)) as u8,
+            (((c & 0x0f00) >> 4) + ((c & 0x0f00) >> 8)) as u8,
+            ((c & 0x00f0) + ((c & 0x00f0) >> 4)) as u8,
+            ((c & 0x000f) + ((c & 0x000f) << 4)) as u8,
+        );
+        Color::rgba(red, green, blue, alpha)
+    }
+
+    pub fn from_rgba_u32(c: u32) -> Color {
+        let (red, green, blue, alpha) = (
+            (c >> 24) as u8,
+            ((c & 0x00ff0000) >> 16) as u8,
+            ((c & 0x0000ff00) >> 8) as u8,
+            (c & 0x000000ff) as u8,
+        );
+        Color::rgba(red, green, blue, alpha)
     }
 }
 
 #[cfg(test)]
 mod test {
-    use super::Color;
+    use super::super::{Color, IntoColor, RgbColor};
 
     #[test]
     fn get_color_from_impl() {
@@ -225,66 +265,68 @@ mod test {
                 "palegoldenrod",
                 "#eee8aa",
                 0xeee8aa,
-                Color::RGB(0xee, 0xe8, 0xaa),
+                Color::rgb(0xee, 0xe8, 0xaa),
             ),
             (
                 "palegreen",
                 "#98fb98",
                 0x98fb98,
-                Color::RGB(0x98, 0xfb, 0x98),
+                Color::rgb(0x98, 0xfb, 0x98),
             ),
             (
                 "paleturquoise",
                 "#afeeee",
                 0xafeeee,
-                Color::RGB(0xaf, 0xee, 0xee),
+                Color::rgb(0xaf, 0xee, 0xee),
             ),
             (
                 "palevioletred",
                 "#db7093",
                 0xdb7093,
-                Color::RGB(0xdb, 0x70, 0x93),
+                Color::rgb(0xdb, 0x70, 0x93),
             ),
             (
                 "papayawhip",
                 "#ffefd5",
                 0xffefd5,
-                Color::RGB(0xff, 0xef, 0xd5),
+                Color::rgb(0xff, 0xef, 0xd5),
             ),
             (
                 "peachpuff",
                 "#ffdab9",
                 0xffdab9,
-                Color::RGB(0xff, 0xda, 0xb9),
+                Color::rgb(0xff, 0xda, 0xb9),
             ),
-            ("peru", "#cd853f", 0xcd853f, Color::RGB(0xcd, 0x85, 0x3f)),
-            ("pink", "#ffc0cb", 0xffc0cb, Color::RGB(0xff, 0xc0, 0xcb)),
-            ("plum", "#dda0dd", 0xdda0dd, Color::RGB(0xdd, 0xa0, 0xdd)),
+            ("peru", "#cd853f", 0xcd853f, Color::rgb(0xcd, 0x85, 0x3f)),
+            ("pink", "#ffc0cb", 0xffc0cb, Color::rgb(0xff, 0xc0, 0xcb)),
+            ("plum", "#dda0dd", 0xdda0dd, Color::rgb(0xdd, 0xa0, 0xdd)),
             (
                 "powderblue",
                 "#b0e0e6",
                 0xb0e0e6,
-                Color::RGB(0xb0, 0xe0, 0xe6),
+                Color::rgb(0xb0, 0xe0, 0xe6),
             ),
         ];
         for (color_name, color_hex_str, color_u32, color) in test_data.iter() {
-            if let Color::RGB(expected_red, expected_green, expected_blue) = *color {
-                let actual_colors_vec: Vec<Color> = vec![
-                    (*color_name).into(),
-                    (*color_hex_str).into(),
-                    (*color_u32).into(),
-                ];
-                for actual_color in actual_colors_vec {
-                    if let Color::RGB(actual_red, actual_green, actual_blue) = actual_color {
-                        assert_eq!(actual_red, expected_red);
-                        assert_eq!(actual_green, expected_green);
-                        assert_eq!(actual_blue, expected_blue);
-                    } else {
-                        assert!(false, "Actual color should be in RGB notation");
-                    }
-                }
-            } else {
-                assert!(false, "Expected color should be in RGB notation");
+            let RgbColor {
+                red: expected_red,
+                green: expected_green,
+                blue: expected_blue,
+            } = (*color).into_color();
+            let actual_colors_vec: Vec<Color> = vec![
+                (*color_name).into(),
+                (*color_hex_str).into(),
+                (*color_u32).into(),
+            ];
+            for actual_color in actual_colors_vec {
+                let RgbColor {
+                    red: actual_red,
+                    green: actual_green,
+                    blue: actual_blue,
+                } = actual_color.into_color();
+                assert_eq!(actual_red, expected_red);
+                assert_eq!(actual_green, expected_green);
+                assert_eq!(actual_blue, expected_blue);
             }
         }
     }
