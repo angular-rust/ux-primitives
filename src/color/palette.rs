@@ -1,10 +1,9 @@
 //#![rustfmt::skip]
 #![cfg_attr(rustfmt, rustfmt_skip)]
 
-
 use super::Color;
 
-pub const WHITE: Color = Color { red: 255./255., green: 255./255., blue: 255./255., alpha: 1. };
+pub const WHITE: Color = Color { red: 1., green: 1., blue: 1., alpha: 1. };
 pub const BLACK: Color = Color { red: 0./255., green: 0./255., blue: 0./255., alpha: 1. };
 
 pub const GRAY_0: Color = Color { red:248./255., green: 249./255., blue: 250./255., alpha: 1. };
@@ -18,19 +17,19 @@ pub const GRAY_7: Color = Color { red:73./255., green: 80./255., blue: 87./255.,
 pub const GRAY_8: Color = Color { red:52./255., green: 58./255., blue: 64./255., alpha: 1. };
 pub const GRAY_9: Color = Color { red:33./255., green: 37./255., blue: 41./255., alpha: 1. };
 
-pub const RED_0: Color = Color { red: 255./255., green: 245./255., blue: 245./255., alpha: 1. };
-pub const RED_1: Color = Color { red: 255./255., green: 227./255., blue: 227./255., alpha: 1. };
-pub const RED_2: Color = Color { red: 255./255., green: 201./255., blue: 201./255., alpha: 1. };
-pub const RED_3: Color = Color { red: 255./255., green: 168./255., blue: 168./255., alpha: 1. };
-pub const RED_4: Color = Color { red: 255./255., green: 135./255., blue: 135./255., alpha: 1. };
-pub const RED_5: Color = Color { red: 255./255., green: 107./255., blue: 107./255., alpha: 1. };
+pub const RED_0: Color = Color { red: 1., green: 245./255., blue: 245./255., alpha: 1. };
+pub const RED_1: Color = Color { red: 1., green: 227./255., blue: 227./255., alpha: 1. };
+pub const RED_2: Color = Color { red: 1., green: 201./255., blue: 201./255., alpha: 1. };
+pub const RED_3: Color = Color { red: 1., green: 168./255., blue: 168./255., alpha: 1. };
+pub const RED_4: Color = Color { red: 1., green: 135./255., blue: 135./255., alpha: 1. };
+pub const RED_5: Color = Color { red: 1., green: 107./255., blue: 107./255., alpha: 1. };
 pub const RED_6: Color = Color { red: 250./255., green: 82./255., blue: 82./255., alpha: 1. };
 pub const RED_7: Color = Color { red: 240./255., green: 62./255., blue: 62./255., alpha: 1. };
 pub const RED_8: Color = Color { red: 224./255., green: 49./255., blue: 49./255., alpha: 1. };
 pub const RED_9: Color = Color { red: 201./255., green: 42./255., blue: 42./255., alpha: 1. };
 
-pub const PINK_0: Color = Color { red: 255./255., green: 240./255., blue: 246./255., alpha: 1. };
-pub const PINK_1: Color = Color { red: 255./255., green: 222./255., blue: 235./255., alpha: 1. };
+pub const PINK_0: Color = Color { red: 1., green: 240./255., blue: 246./255., alpha: 1. };
+pub const PINK_1: Color = Color { red: 1., green: 222./255., blue: 235./255., alpha: 1. };
 pub const PINK_2: Color = Color { red: 252./255., green: 194./255., blue: 215./255., alpha: 1. };
 pub const PINK_3: Color = Color { red: 250./255., green: 162./255., blue: 193./255., alpha: 1. };
 pub const PINK_4: Color = Color { red: 247./255., green: 131./255., blue: 172./255., alpha: 1. };
@@ -51,9 +50,9 @@ pub const GRAPE_7: Color = Color { red: 174./255., green: 62./255., blue: 201./2
 pub const GRAPE_8: Color = Color { red: 156./255., green: 54./255., blue: 181./255., alpha: 1. };
 pub const GRAPE_9: Color = Color { red: 134./255., green: 46./255., blue: 156./255., alpha: 1. };
 
-pub const VIOLET_0: Color = Color { red: 243./255., green: 240./255., blue: 255./255., alpha: 1. };
-pub const VIOLET_1: Color = Color { red: 229./255., green: 219./255., blue: 255./255., alpha: 1. };
-pub const VIOLET_2: Color = Color { red: 208./255., green: 191./255., blue: 255./255., alpha: 1. };
+pub const VIOLET_0: Color = Color { red: 243./255., green: 240./255., blue: 1., alpha: 1. };
+pub const VIOLET_1: Color = Color { red: 229./255., green: 219./255., blue: 1., alpha: 1. };
+pub const VIOLET_2: Color = Color { red: 208./255., green: 191./255., blue: 1., alpha: 1. };
 pub const VIOLET_3: Color = Color { red: 177./255., green: 151./255., blue: 252./255., alpha: 1. };
 pub const VIOLET_4: Color = Color { red: 151./255., green: 117./255., blue: 250./255., alpha: 1. };
 pub const VIOLET_5: Color = Color { red: 132./255., green: 94./255., blue: 247./255., alpha: 1. };
@@ -62,10 +61,10 @@ pub const VIOLET_7: Color = Color { red: 112./255., green: 72./255., blue: 232./
 pub const VIOLET_8: Color = Color { red: 103./255., green: 65./255., blue: 217./255., alpha: 1. };
 pub const VIOLET_9: Color = Color { red: 95./255., green: 61./255., blue: 196./255., alpha: 1. };
 
-pub const INDIGO_0: Color = Color { red: 237./255., green: 242./255., blue: 255./255., alpha: 1. };
-pub const INDIGO_1: Color = Color { red: 219./255., green: 228./255., blue: 255./255., alpha: 1. };
-pub const INDIGO_2: Color = Color { red: 186./255., green: 200./255., blue: 255./255., alpha: 1. };
-pub const INDIGO_3: Color = Color { red: 145./255., green: 167./255., blue: 255./255., alpha: 1. };
+pub const INDIGO_0: Color = Color { red: 237./255., green: 242./255., blue: 1., alpha: 1. };
+pub const INDIGO_1: Color = Color { red: 219./255., green: 228./255., blue: 1., alpha: 1. };
+pub const INDIGO_2: Color = Color { red: 186./255., green: 200./255., blue: 1., alpha: 1. };
+pub const INDIGO_3: Color = Color { red: 145./255., green: 167./255., blue: 1., alpha: 1. };
 pub const INDIGO_4: Color = Color { red: 116./255., green: 143./255., blue: 252./255., alpha: 1. };
 pub const INDIGO_5: Color = Color { red: 92./255., green: 124./255., blue: 250./255., alpha: 1. };
 pub const INDIGO_6: Color = Color { red: 76./255., green: 110./255., blue: 245./255., alpha: 1. };
@@ -73,9 +72,9 @@ pub const INDIGO_7: Color = Color { red: 66./255., green: 99./255., blue: 235./2
 pub const INDIGO_8: Color = Color { red: 59./255., green: 91./255., blue: 219./255., alpha: 1. };
 pub const INDIGO_9: Color = Color { red: 54./255., green: 79./255., blue: 199./255., alpha: 1. };
 
-pub const BLUE_0: Color = Color { red: 231./255., green: 245./255., blue: 255./255., alpha: 1. };
-pub const BLUE_1: Color = Color { red: 208./255., green: 235./255., blue: 255./255., alpha: 1. };
-pub const BLUE_2: Color = Color { red: 165./255., green: 216./255., blue: 255./255., alpha: 1. };
+pub const BLUE_0: Color = Color { red: 231./255., green: 245./255., blue: 1., alpha: 1. };
+pub const BLUE_1: Color = Color { red: 208./255., green: 235./255., blue: 1., alpha: 1. };
+pub const BLUE_2: Color = Color { red: 165./255., green: 216./255., blue: 1., alpha: 1. };
 pub const BLUE_3: Color = Color { red: 116./255., green: 192./255., blue: 252./255., alpha: 1. };
 pub const BLUE_4: Color = Color { red: 77./255., green: 171./255., blue: 247./255., alpha: 1. };
 pub const BLUE_5: Color = Color { red: 51./255., green: 154./255., blue: 240./255., alpha: 1. };
@@ -128,23 +127,23 @@ pub const LIME_7: Color = Color { red: 116./255., green: 184./255., blue: 22./25
 pub const LIME_8: Color = Color { red: 102./255., green: 168./255., blue: 15./255., alpha: 1. };
 pub const LIME_9: Color = Color { red: 92./255., green: 148./255., blue: 13./255., alpha: 1. };
 
-pub const YELLOW_0: Color = Color { red: 255./255., green: 249./255., blue: 219./255., alpha: 1. };
-pub const YELLOW_1: Color = Color { red: 255./255., green: 243./255., blue: 191./255., alpha: 1. };
-pub const YELLOW_2: Color = Color { red: 255./255., green: 236./255., blue: 153./255., alpha: 1. };
-pub const YELLOW_3: Color = Color { red: 255./255., green: 224./255., blue: 102./255., alpha: 1. };
-pub const YELLOW_4: Color = Color { red: 255./255., green: 212./255., blue: 59./255., alpha: 1. };
+pub const YELLOW_0: Color = Color { red: 1., green: 249./255., blue: 219./255., alpha: 1. };
+pub const YELLOW_1: Color = Color { red: 1., green: 243./255., blue: 191./255., alpha: 1. };
+pub const YELLOW_2: Color = Color { red: 1., green: 236./255., blue: 153./255., alpha: 1. };
+pub const YELLOW_3: Color = Color { red: 1., green: 224./255., blue: 102./255., alpha: 1. };
+pub const YELLOW_4: Color = Color { red: 1., green: 212./255., blue: 59./255., alpha: 1. };
 pub const YELLOW_5: Color = Color { red: 252./255., green: 196./255., blue: 25./255., alpha: 1. };
 pub const YELLOW_6: Color = Color { red: 250./255., green: 176./255., blue: 5./255., alpha: 1. };
 pub const YELLOW_7: Color = Color { red: 245./255., green: 159./255., blue: 0./255., alpha: 1. };
 pub const YELLOW_8: Color = Color { red: 240./255., green: 140./255., blue: 0./255., alpha: 1. };
 pub const YELLOW_9: Color = Color { red: 230./255., green: 119./255., blue: 0./255., alpha: 1. };
 
-pub const ORANGE_0: Color = Color { red: 255./255., green: 244./255., blue: 230./255., alpha: 1. };
-pub const ORANGE_1: Color = Color { red: 255./255., green: 232./255., blue: 204./255., alpha: 1. };
-pub const ORANGE_2: Color = Color { red: 255./255., green: 216./255., blue: 168./255., alpha: 1. };
-pub const ORANGE_3: Color = Color { red: 255./255., green: 192./255., blue: 120./255., alpha: 1. };
-pub const ORANGE_4: Color = Color { red: 255./255., green: 169./255., blue: 77./255., alpha: 1. };
-pub const ORANGE_5: Color = Color { red: 255./255., green: 146./255., blue: 43./255., alpha: 1. };
+pub const ORANGE_0: Color = Color { red: 1., green: 244./255., blue: 230./255., alpha: 1. };
+pub const ORANGE_1: Color = Color { red: 1., green: 232./255., blue: 204./255., alpha: 1. };
+pub const ORANGE_2: Color = Color { red: 1., green: 216./255., blue: 168./255., alpha: 1. };
+pub const ORANGE_3: Color = Color { red: 1., green: 192./255., blue: 120./255., alpha: 1. };
+pub const ORANGE_4: Color = Color { red: 1., green: 169./255., blue: 77./255., alpha: 1. };
+pub const ORANGE_5: Color = Color { red: 1., green: 146./255., blue: 43./255., alpha: 1. };
 pub const ORANGE_6: Color = Color { red: 253./255., green: 126./255., blue: 20./255., alpha: 1. };
 pub const ORANGE_7: Color = Color { red: 247./255., green: 103./255., blue: 7./255., alpha: 1. };
 pub const ORANGE_8: Color = Color { red: 232./255., green: 89./255., blue: 12./255., alpha: 1. };

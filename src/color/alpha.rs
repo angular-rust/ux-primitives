@@ -122,7 +122,7 @@ impl SetAlpha<Self> for Color {
 
 impl HasAlpha<Self> for Color {
     fn get_color(&self) -> Self {
-        self.clone().into()
+        *self
     }
     fn set_color(&mut self, color: Self) -> &Self {
         self.red = color.red;

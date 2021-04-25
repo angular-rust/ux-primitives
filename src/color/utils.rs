@@ -34,7 +34,7 @@ pub fn clamp<T: PartialOrd>(value: T, low: T, high: T) -> T {
 #[inline(always)]
 pub(crate) fn hue_bound(hue: f64) -> f64 {
     let hue_rest = hue % 360.;
-    if (hue_rest.abs() - 0.) < f64::EPSILON {
+    if (hue_rest - 0.).abs() < f64::EPSILON {
         return 0.;
     }
     if hue_rest < f64::MIN_POSITIVE {

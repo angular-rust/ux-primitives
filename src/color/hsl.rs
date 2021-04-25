@@ -41,17 +41,17 @@ impl From<HslColor> for Color {
         let m = (lightness as f64 / 100.) - (c / 2.);
 
         let (r_prime, g_prime, b_prime) = {
-            if hue >= 0. && hue < 60. {
+            if (0.0..60.0).contains(&hue) {
                 (c, x, 0.)
-            } else if hue >= 60. && hue < 120. {
+            } else if (60.0..120.0).contains(&hue) {
                 (x, c, 0.)
-            } else if hue >= 120. && hue < 180. {
+            } else if (120.0..180.0).contains(&hue) {
                 (0., c, x)
-            } else if hue >= 180. && hue < 240. {
+            } else if (180.0..240.0).contains(&hue) {
                 (0., x, c)
-            } else if hue >= 240. && hue < 300. {
+            } else if (240.0..300.0).contains(&hue) {
                 (x, 0., c)
-            } else if hue >= 300. && hue < 360. {
+            } else if (300.0..360.0).contains(&hue) {
                 (c, 0., x)
             } else {
                 unreachable!("{}", ColorError::DegreeOverflow)
@@ -79,20 +79,20 @@ impl From<Color> for HslColor {
         let (c_min, c_max) = utils::min_max_tuple([red, green, blue].iter());
         let delta = c_max - c_min;
 
-        let hue = if (delta - 0.) < f64::EPSILON {
+        let hue = if (delta - 0.).abs() < f64::EPSILON {
             0.
         } else {
             match c_max {
-                x if x == red => 60. * (((green - blue) / delta) % 6.),
-                x if x == green => 60. * (((blue - red) / delta) + 2.),
-                x if x == blue => 60. * (((red - green) / delta) + 4.),
+                x if (x - red).abs() < f64::MIN_POSITIVE => 60. * (((green - blue) / delta) % 6.),
+                x if (x - green).abs() < f64::MIN_POSITIVE => 60. * (((blue - red) / delta) + 2.),
+                x if (x - blue).abs() < f64::MIN_POSITIVE => 60. * (((red - green) / delta) + 4.),
                 _ => unreachable!("Invalid hue calculation!"),
             }
         };
 
         let lightness = (c_max + c_min) / 2.;
 
-        let saturation = if (delta - 0.) < f64::EPSILON {
+        let saturation = if (delta - 0.).abs() < f64::EPSILON {
             0.
         } else {
             delta / (1. - ((2. * lightness) - 1.).abs()) * 100.

@@ -49,17 +49,17 @@ impl From<HsvColor> for Color {
         let min = (1. - saturation) * value;
         let a = (value - min) * ((hue % 60.) / 60.);
 
-        if hue >= 0. && hue < 60. {
+        if (0.0..60.0).contains(&hue) {
             Color::new(value, min + a, min, 1.)
-        } else if hue >= 60. && hue < 120. {
+        } else if (60.0..120.0).contains(&hue) {
             Color::new(value - a, value, min, 1.)
-        } else if hue >= 120. && hue < 180. {
+        } else if (120.0..180.0).contains(&hue) {
             Color::new(min, value, min + a, 1.)
-        } else if hue >= 180. && hue < 240. {
+        } else if (180.0..240.0).contains(&hue) {
             Color::new(min, value - a, value, 1.)
-        } else if hue >= 240. && hue < 300. {
+        } else if (240.0..300.0).contains(&hue) {
             Color::new(min + a, min, value, 1.)
-        } else if hue >= 300. && hue < 360. {
+        } else if (300.0..360.0).contains(&hue) {
             Color::new(value, min, value - a, 1.)
         } else {
             unreachable!("HSV -> RGB: {}", ColorError::DegreeOverflow);
@@ -78,22 +78,22 @@ impl From<Color> for HsvColor {
             alpha: _,
         } = rgb;
         let (min, max) = utils::min_max_tuple([red, green, blue].iter());
-        let hue = if max == red {
+        let hue = if (max - red).abs() < f64::MIN_POSITIVE {
             //normalize_hue(60. * (green - blue) / delta - 30.)
             if green >= blue {
                 60. * (green as f64 - blue as f64) / (max - min) as f64
             } else {
                 360. - (green as f64 - blue as f64) / (max - min) as f64 * 60.
             }
-        } else if max == green {
+        } else if (max - green).abs() < f64::MIN_POSITIVE {
             60. * (blue as f64 - red as f64) / (max - min) as f64 + 120.
-        } else if max == blue {
+        } else if (max - blue).abs() < f64::MIN_POSITIVE {
             60. * (red as f64 - green as f64) / (max - min) as f64 + 240.
         } else {
             0.
         };
         let saturation = 1.
-            - (if (max - 0.) < f64::EPSILON {
+            - (if (max - 0.).abs() < f64::EPSILON {
                 0f64
             } else {
                 min as f64 / max as f64
