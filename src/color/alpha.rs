@@ -1,19 +1,40 @@
 use super::*;
 
-pub trait HasAlpha<C> {
-    fn get_color(&self) -> C;
-    fn set_color(&mut self, color: C) -> Self;
+pub trait GetAlpha<C> {
     fn get_alpha(&self) -> f64;
-    fn set_alpha(&mut self, alpha: f64) -> Self;
     fn get_opacity(&self) -> f64;
-    fn set_opacity(&mut self, opacity: f64) -> Self;
     fn get_transparency(&self) -> f64;
-    fn set_transparency(&mut self, transparency: f64) -> Self;
-    fn split(&self) -> (C, f64)
-    where
-        Self: Sized,
-    {
+}
+
+pub trait SetAlpha<C> {
+    fn set_alpha(&mut self, alpha: f64) -> &Self;
+    fn set_opacity(&mut self, opacity: f64) -> &Self;
+    fn set_transparency(&mut self, transparency: f64) -> &Self;
+}
+
+pub trait HasAlpha<C>: GetAlpha<C> + SetAlpha<C> {
+    fn get_color(&self) -> C;
+    fn set_color(&mut self, color: C) -> &Self;
+    fn split(&self) -> (C, f64) where Self: Sized {
         (self.get_color(), self.get_alpha())
+    }
+}
+
+pub trait AdjustAlpha<C>: Clone + SetAlpha<C> {
+    fn alpha(&self, alpha: f64) -> Self {
+        let mut color = self.clone();
+        color.set_alpha(alpha);
+        color
+    }
+    fn opacity(&self, opacity: f64) -> Self {
+        let mut color = self.clone();
+        color.set_opacity(opacity);
+        color
+    }
+    fn transparency(&self, transparency: f64) -> Self {
+        let mut color = self.clone();
+        color.set_transparency(transparency);
+        color
     }
 }
 
@@ -29,37 +50,70 @@ impl<C: ColorSpace> Alpha<C> {
     }
 }
 
-impl<C: ColorSpace> HasAlpha<C> for Alpha<C> {
-    fn get_color(&self) -> C {
-        self.color
-    }
+impl<C: ColorSpace> GetAlpha<C> for Alpha<C> {
     fn get_alpha(&self) -> f64 {
         self.alpha
-    }
-    fn set_color(&mut self, color: C) -> Self {
-        self.color = color;
-        *self
-    }
-    fn set_alpha(&mut self, alpha: f64) -> Self {
-        self.alpha = alpha;
-        *self
     }
     fn get_opacity(&self) -> f64 {
         self.alpha * 100.
     }
-    fn set_opacity(&mut self, opacity: f64) -> Self {
-        self.alpha = opacity / 100.;
-        *self
+    fn get_transparency(&self) -> f64 {
+        (1. - self.alpha) * 100.
+    }
+}
+
+impl<C: ColorSpace> SetAlpha<C> for Alpha<C> {
+    fn set_alpha(&mut self, alpha: f64) -> &Self {
+        self.alpha = alpha;
+        self
+    }
+    fn set_opacity(&mut self, opacity: f64) -> &Self {
+        self.alpha = utils::clamp(opacity, 0., 100.) / 100.;
+        self
+    }
+    fn set_transparency(&mut self, transparency: f64) -> &Self {
+        self.alpha = 1. - utils::clamp(transparency, 0., 100.) / 100.;
+        self
+    }
+}
+
+impl<C: ColorSpace> HasAlpha<C> for Alpha<C> {
+    fn get_color(&self) -> C {
+        self.color
+    }
+    fn set_color(&mut self, color: C) -> &Self {
+        self.color = color;
+        self
+    }
+    fn split(&self) -> (C, f64) {
+        (self.color, self.alpha)
+    }
+}
+
+impl GetAlpha<Self> for Color {
+    fn get_alpha(&self) -> f64 {
+        self.alpha
+    }
+    fn get_opacity(&self) -> f64 {
+        self.alpha * 100.
     }
     fn get_transparency(&self) -> f64 {
         (1. - self.alpha) * 100.
     }
-    fn set_transparency(&mut self, transparency: f64) -> Self {
-        self.alpha = 1. - transparency / 100.;
-        *self
+}
+
+impl SetAlpha<Self> for Color {
+    fn set_alpha(&mut self, alpha: f64) -> &Self {
+        self.alpha = alpha;
+        self
     }
-    fn split(&self) -> (C, f64) {
-        (self.color, self.alpha)
+    fn set_opacity(&mut self, opacity: f64) -> &Self {
+        self.alpha = opacity / 100.;
+        self
+    }
+    fn set_transparency(&mut self, transparency: f64) -> &Self {
+        self.alpha = 1. - transparency / 100.;
+        self
     }
 }
 
@@ -67,35 +121,41 @@ impl HasAlpha<Self> for Color {
     fn get_color(&self) -> Self {
         self.clone().into()
     }
-    fn set_color(&mut self, color: Self) -> Self {
+    fn set_color(&mut self, color: Self) -> &Self {
         self.red = color.red;
         self.green = color.green;
         self.blue = color.blue;
-        *self
+        self
     }
+    fn split(&self) -> (Self, f64) {
+        (self.get_color(), self.get_alpha())
+    }
+}
+
+impl GetAlpha<RgbColor> for RgbaColor {
     fn get_alpha(&self) -> f64 {
-        self.alpha
-    }
-    fn set_alpha(&mut self, alpha: f64) -> Self {
-        self.alpha = alpha;
-        *self
+        (self.alpha as f64) / 255.0
     }
     fn get_opacity(&self) -> f64 {
         self.alpha as f64 / 255. * 100.
     }
-    fn set_opacity(&mut self, opacity: f64) -> Self {
-        self.alpha = opacity / 100.;
-        *self
-    }
     fn get_transparency(&self) -> f64 {
-        (1. - self.alpha) * 100.
+        (1. - self.alpha as f64 / 255.) * 100.
     }
-    fn set_transparency(&mut self, transparency: f64) -> Self {
-        self.alpha = 1. - transparency / 100.;
-        *self
+}
+
+impl SetAlpha<RgbColor> for RgbaColor {
+    fn set_alpha(&mut self, alpha: f64) -> &Self {
+        self.alpha = (alpha * 255.).round() as u8;
+        self
     }
-    fn split(&self) -> (Self, f64) {
-        (self.get_color(), self.get_alpha())
+    fn set_opacity(&mut self, opacity: f64) -> &Self {
+        self.alpha = (opacity / 100.).round() as u8;
+        self
+    }
+    fn set_transparency(&mut self, transparency: f64) -> &Self {
+        self.alpha = (1. - transparency / 100.).round() as u8;
+        self
     }
 }
 
@@ -103,32 +163,11 @@ impl HasAlpha<RgbColor> for RgbaColor {
     fn get_color(&self) -> RgbColor {
         self.clone().into()
     }
-    fn set_color(&mut self, color: RgbColor) -> Self {
+    fn set_color(&mut self, color: RgbColor) -> &Self {
         self.red = color.red;
         self.green = color.green;
         self.blue = color.blue;
-        *self
-    }
-    fn get_alpha(&self) -> f64 {
-        (self.alpha as f64) / 255.0
-    }
-    fn set_alpha(&mut self, alpha: f64) -> Self {
-        self.alpha = (alpha * 255.).round() as u8;
-        *self
-    }
-    fn get_opacity(&self) -> f64 {
-        self.alpha as f64 / 255. * 100.
-    }
-    fn set_opacity(&mut self, opacity: f64) -> Self {
-        self.alpha = (opacity / 100.).round() as u8;
-        *self
-    }
-    fn get_transparency(&self) -> f64 {
-        (1. - self.alpha as f64 / 255.) * 100.
-    }
-    fn set_transparency(&mut self, transparency: f64) -> Self {
-        self.alpha = (1. - transparency / 100.).round() as u8;
-        *self
+        self
     }
     fn split(&self) -> (RgbColor, f64) {
         (self.get_color(), self.get_alpha())
@@ -138,14 +177,14 @@ impl HasAlpha<RgbColor> for RgbaColor {
 impl From<Alpha<RgbColor>> for Color {
     fn from(from_color_with_alpha: Alpha<RgbColor>) -> Self {
         let mut color: Self = from_color_with_alpha.get_color().into_color();
-        color.set_alpha(from_color_with_alpha.get_alpha())
+        *color.set_alpha(from_color_with_alpha.get_alpha())
     }
 }
 
 impl From<Alpha<RgbColor>> for RgbaColor {
     fn from(from_color_with_alpha: Alpha<RgbColor>) -> Self {
         let mut color: Self = from_color_with_alpha.get_color().into_color();
-        color.set_alpha(from_color_with_alpha.get_alpha())
+        *color.set_alpha(from_color_with_alpha.get_alpha())
     }
 }
 
