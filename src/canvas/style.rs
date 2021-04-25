@@ -1,6 +1,6 @@
 use std::cell::RefCell;
 
-use crate::Color;
+use crate::color::Color;
 
 #[derive(Default, Copy, Clone, Debug)]
 pub struct RadialGradient {

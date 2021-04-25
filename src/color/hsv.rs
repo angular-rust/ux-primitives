@@ -1,5 +1,5 @@
 use super::{utils, Color, ColorError};
-use crate::{hue_bound, percentage_to_fraction};
+use utils::{hue_bound, percentage_to_fraction};
 use std::fmt;
 
 #[derive(Clone, Copy, PartialEq, Debug)]

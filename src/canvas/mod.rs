@@ -2,7 +2,7 @@
 #![allow(unused_imports)]
 #![allow(clippy::too_many_arguments)]
 
-use crate::{BaseLine, Color, TextAlign, TextStyle, TextWeight};
+use crate::prelude::{BaseLine, Color, TextAlign, TextStyle, TextWeight};
 
 mod style;
 pub use style::*;

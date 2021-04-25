@@ -198,8 +198,8 @@ impl Color {
 #[cfg(test)]
 pub mod test {
     use super::*;
+    use super::super::RgbColor;
     use math::round::stochastic;
-    use crate::RgbColor;
 
     #[test]
     fn calc_distance() {
