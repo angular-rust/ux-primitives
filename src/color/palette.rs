@@ -1,9 +1,8 @@
-#![rustfmt::skip]
+//#![rustfmt::skip]
+#![cfg_attr(rustfmt, rustfmt_skip)]
 
 
 use super::Color;
-#[cfg(any(feature = "color_quantization",test))]
-use super::RgbColor;
 
 pub const WHITE: Color = Color { red: 255./255., green: 255./255., blue: 255./255., alpha: 1. };
 pub const BLACK: Color = Color { red: 0./255., green: 0./255., blue: 0./255., alpha: 1. };

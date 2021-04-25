@@ -1,6 +1,6 @@
 use super::{utils, Color, ColorError};
-use utils::{hue_bound, percentage_to_fraction};
 use std::fmt;
+use utils::{hue_bound, percentage_to_fraction};
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct HsvColor {

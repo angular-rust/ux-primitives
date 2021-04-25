@@ -15,7 +15,10 @@ pub trait SetAlpha<C> {
 pub trait HasAlpha<C>: GetAlpha<C> + SetAlpha<C> {
     fn get_color(&self) -> C;
     fn set_color(&mut self, color: C) -> &Self;
-    fn split(&self) -> (C, f64) where Self: Sized {
+    fn split(&self) -> (C, f64)
+    where
+        Self: Sized,
+    {
         (self.get_color(), self.get_alpha())
     }
 }
