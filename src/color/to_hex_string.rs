@@ -14,6 +14,7 @@ impl<C: Into<RgbColor> + Clone> ToHexString for C {
 #[cfg(test)]
 mod test {
     use super::*;
+    use lazy_static::lazy_static;
 
     lazy_static! {
         static ref TEST_DATA: Vec<(Color, &'static str)> = {//, CmykColor, HslColor)> = {

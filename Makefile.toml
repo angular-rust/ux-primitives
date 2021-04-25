@@ -1,5 +1,0 @@
-[tasks.test]
-description="Test with all features"
-command = "cargo"
-env = { RUST_BACKTRACE = 0 }
-args = ["test", "--features", "color_from_css color_quantization experimental"]

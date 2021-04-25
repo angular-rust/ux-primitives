@@ -1,6 +1,8 @@
 //#![rustfmt::skip]
 #![cfg_attr(rustfmt, rustfmt_skip)]
 
+#[cfg(any(feature = "color_quantization",test))]
+use lazy_static::lazy_static;
 use super::Color;
 
 pub const WHITE: Color = Color { red: 1., green: 1., blue: 1., alpha: 1. };

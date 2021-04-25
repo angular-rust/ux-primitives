@@ -1,10 +1,11 @@
 #![cfg(any(feature = "color_from_css", test))]
 
+use lazy_static::lazy_static;
 use super::Color;
 use std::collections::HashMap;
 
 lazy_static! {
-    static ref COLORS: HashMap<&'static str, Color> = {
+    pub static ref COLORS: HashMap<&'static str, Color> = {
         let colors: Vec<(&'static str, u32)> = vec![
             // css 1
             ("black",   0x000000),
@@ -188,7 +189,7 @@ impl From<&str> for Color {
 
 impl Color {
     pub fn from_css_name(name: &str) -> Self {
-        COLORS.get(name).expect("Unknown css name of color").clone()
+        *COLORS.get(name).expect("Unknown css name of color")
     }
 
     pub fn from_hex_str(color: &str) -> Self {

@@ -5,8 +5,8 @@ pub mod color;
 pub mod geom;
 pub mod text;
 
-#[cfg(test)]
-#[macro_use]
+//#[macro_use]
+#[cfg(any(feature = "color_quantization", test))]
 extern crate lazy_static;
 
 pub use prelude::*;
