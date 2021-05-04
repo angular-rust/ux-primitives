@@ -2,6 +2,7 @@
 use lazy_static::lazy_static;
 
 use super::*;
+use crate::color;
 use core::slice::Iter;
 use std::fmt;
 
@@ -73,30 +74,30 @@ where
 
 lazy_static! {
     pub(super) static ref RGB_HSV: Vec<(Color, HsvColor)> = vec!(
-        (palette::BLUE_5,   HsvColor::new(207.0, 78.0,  94.0)),  // rgb(51, 154, 240)
-        (palette::CYAN_6,   HsvColor::new(187.0, 89.0,  75.0)),  // rgb(21, 170, 191)
-        (palette::TEAL_5,   HsvColor::new(162.0, 84.0,  79.0)),  // rgb(32, 201, 151)
-        (palette::GREEN_4,  HsvColor::new(130.0, 52.0,  86.0)),  // rgb(105, 219, 124)
-        (palette::LIME_1,   HsvColor::new(80.0,  20.0,  98.0)),  // rgb(233, 250, 200)
-        (palette::LIME_6,   HsvColor::new(85.0,  85.0,  79.0)),  // rgb(130, 201, 30)
-        (palette::YELLOW_4, HsvColor::new(47.0,  77.0,  100.0)), // rgb(255, 212, 59)
-        (palette::YELLOW_8, HsvColor::new(35.0,  100.0, 94.0)),  // rgb(240, 140, 0)
-        (palette::ORANGE_2, HsvColor::new(33.0,  34.0,  100.0)), // rgb(255, 216, 168)
-        (palette::ORANGE_6, HsvColor::new(27.0,  92.0,  99.0)),  // rgb(253, 126, 20)
+        (color::BLUE_5,   HsvColor::new(207.0, 78.0,  94.0)),  // rgb(51, 154, 240)
+        (color::CYAN_6,   HsvColor::new(187.0, 89.0,  75.0)),  // rgb(21, 170, 191)
+        (color::TEAL_5,   HsvColor::new(162.0, 84.0,  79.0)),  // rgb(32, 201, 151)
+        (color::GREEN_4,  HsvColor::new(130.0, 52.0,  86.0)),  // rgb(105, 219, 124)
+        (color::LIME_1,   HsvColor::new(80.0,  20.0,  98.0)),  // rgb(233, 250, 200)
+        (color::LIME_6,   HsvColor::new(85.0,  85.0,  79.0)),  // rgb(130, 201, 30)
+        (color::YELLOW_4, HsvColor::new(47.0,  77.0,  100.0)), // rgb(255, 212, 59)
+        (color::YELLOW_8, HsvColor::new(35.0,  100.0, 94.0)),  // rgb(240, 140, 0)
+        (color::ORANGE_2, HsvColor::new(33.0,  34.0,  100.0)), // rgb(255, 216, 168)
+        (color::ORANGE_6, HsvColor::new(27.0,  92.0,  99.0)),  // rgb(253, 126, 20)
     );
 }
 
 lazy_static! {
     pub(super) static ref RGB_HSL: Vec<(Color, HslColor)> = vec!(
-        (palette::BLUE_5,   HslColor::new(207.0, 86.0,  57.0)), // rgb(51, 154, 240)
-        (palette::CYAN_6,   HslColor::new(187.0, 80.0,  42.0)), // rgb(21, 170, 191)
-        (palette::TEAL_5,   HslColor::new(162.0, 73.0,  46.0)), // rgb(32, 201, 151)
-        (palette::GREEN_4,  HslColor::new(130.0, 61.0,  64.0)), // rgb(105, 219, 124)
-        (palette::LIME_1,   HslColor::new(80.0,  83.0,  88.0)), // rgb(233, 250, 200)
-        (palette::LIME_6,   HslColor::new(85.0,  74.0,  45.0)), // rgb(130, 201, 30)
-        (palette::YELLOW_4, HslColor::new(47.0,  100.0, 62.0)), // rgb(255, 212, 59)
-        (palette::YELLOW_8, HslColor::new(35.0,  100.0, 47.0)), // rgb(240, 140, 0)
-        (palette::ORANGE_2, HslColor::new(33.0,  100.0, 83.0)), // rgb(255, 216, 168)
-        (palette::ORANGE_6, HslColor::new(27.0,  98.0,  54.0)), // rgb(253, 126, 20)
+        (color::BLUE_5,   HslColor::new(207.0, 86.0,  57.0)), // rgb(51, 154, 240)
+        (color::CYAN_6,   HslColor::new(187.0, 80.0,  42.0)), // rgb(21, 170, 191)
+        (color::TEAL_5,   HslColor::new(162.0, 73.0,  46.0)), // rgb(32, 201, 151)
+        (color::GREEN_4,  HslColor::new(130.0, 61.0,  64.0)), // rgb(105, 219, 124)
+        (color::LIME_1,   HslColor::new(80.0,  83.0,  88.0)), // rgb(233, 250, 200)
+        (color::LIME_6,   HslColor::new(85.0,  74.0,  45.0)), // rgb(130, 201, 30)
+        (color::YELLOW_4, HslColor::new(47.0,  100.0, 62.0)), // rgb(255, 212, 59)
+        (color::YELLOW_8, HslColor::new(35.0,  100.0, 47.0)), // rgb(240, 140, 0)
+        (color::ORANGE_2, HslColor::new(33.0,  100.0, 83.0)), // rgb(255, 216, 168)
+        (color::ORANGE_6, HslColor::new(27.0,  98.0,  54.0)), // rgb(253, 126, 20)
     );
 }

@@ -1,6 +1,6 @@
 use std::cell::RefCell;
 
-use crate::color::Color;
+use crate::colorspace::Color;
 
 #[derive(Default, Copy, Clone, Debug)]
 pub struct RadialGradient {
@@ -92,10 +92,7 @@ impl Gradient {
 
     pub fn get_color_stop(&self, index: usize) -> Option<ColorStop> {
         let stops = self.stops.borrow();
-        match stops.get(index) {
-            Some(stop) => Some(*stop),
-            None => None,
-        }
+        stops.get(index).copied()
     }
 }
 

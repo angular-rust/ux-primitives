@@ -3,7 +3,7 @@
 
 #[cfg(any(feature = "color_quantization",test))]
 use lazy_static::lazy_static;
-use super::Color;
+use crate::colorspace::Color;
 
 pub const WHITE: Color = Color { red: 1., green: 1., blue: 1., alpha: 1. };
 pub const BLACK: Color = Color { red: 0./255., green: 0./255., blue: 0./255., alpha: 1. };

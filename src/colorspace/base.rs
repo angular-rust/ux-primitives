@@ -1,4 +1,5 @@
 use super::*;
+use crate::color;
 use num_traits::Float;
 use std::{default, fmt};
 
@@ -163,7 +164,7 @@ impl fmt::Display for Color {
 
 impl default::Default for Color {
     fn default() -> Self {
-        palette::BLACK
+        color::BLACK
     }
 }
 
@@ -214,7 +215,7 @@ impl Color {
         let mut min_color_distance =
             ((0xFF_u32.pow(2) + 0xFF_u32.pow(2) + 0xFF_u32.pow(2)) as f64).sqrt();
         let mut min_distance_color: Option<&Color> = None;
-        for color in palette::PALETTE.iter() {
+        for color in color::PALETTE.iter() {
             let color_distance = self.distance(*color);
             if color_distance < min_color_distance {
                 min_color_distance = color_distance;
@@ -234,13 +235,23 @@ pub mod test {
     #[test]
     fn calc_distance() {
         //println!("distance: YELLOW_0 -> LINE_0 = {}", YELLOW_0.distance(LIME_0));
-        assert_eq!(stochastic(YELLOW_0.distance(LIME_0), 12), 13.928388277184);
+        assert_eq!(
+            stochastic(color::YELLOW_0.distance(color::LIME_0), 12),
+            13.928388277184
+        );
 
         let stochastic_scale = 10;
         for delta in [2u8, 3u8, 4u8].iter() {
             let delta = *delta;
             for src_color in [
-                TEAL_1, TEAL_2, TEAL_3, TEAL_4, TEAL_5, TEAL_6, TEAL_7, TEAL_8,
+                color::TEAL_1,
+                color::TEAL_2,
+                color::TEAL_3,
+                color::TEAL_4,
+                color::TEAL_5,
+                color::TEAL_6,
+                color::TEAL_7,
+                color::TEAL_8,
             ]
             .iter()
             {
@@ -267,7 +278,16 @@ pub mod test {
     fn quantization() {
         for delta in [2u8, 3u8, 4u8].iter() {
             let delta = *delta;
-            for palette_color in [CYAN_2, CYAN_3, CYAN_4, CYAN_5, CYAN_6, CYAN_7].iter() {
+            for palette_color in [
+                color::CYAN_2,
+                color::CYAN_3,
+                color::CYAN_4,
+                color::CYAN_5,
+                color::CYAN_6,
+                color::CYAN_7,
+            ]
+            .iter()
+            {
                 let RgbColor {
                     red: p_red,
                     green: p_green,

@@ -1,7 +1,7 @@
 #![cfg(any(feature = "color_from_css", test))]
 
-use lazy_static::lazy_static;
 use super::Color;
+use lazy_static::lazy_static;
 use std::collections::HashMap;
 
 lazy_static! {

@@ -18,7 +18,6 @@ pub mod round;
 pub mod convert;
 pub mod marker;
 
-pub mod palette;
 pub mod to_hex_string;
 
 #[cfg(any(feature = "color_from_css", test))]
@@ -54,7 +53,7 @@ pub mod prelude {
 
     pub use convert::*;
     pub use marker::*;
-    #[deprecated]
-    pub use palette::*;
+    // #[deprecated]
+    // pub use palette::*;
     pub use to_hex_string::*;
 }

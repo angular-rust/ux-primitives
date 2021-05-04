@@ -1,7 +1,7 @@
 [package]
 name = "ux-primitives"
 version = "0.1.4"
-authors = ["Victor Dudochkin <dudochkin.victor@gmail.com>", "Maksim Makarov <pr0n1x@yandex.ru>"]
+authors = ["Victor Dudochkin <dudochkin.victor@gmail.com>"]
 readme = "README.md"
 homepage = "https://angular-rust.github.io/ux-primitives"
 repository = "https://github.com/angular-rust/ux-primitives"
@@ -19,17 +19,15 @@ maintenance = { status = "actively-developed" }
 name = "primitives"
 
 [features]
-canvas = ["euclid", "lyon_geom", "lyon_path"]
-geom = ["euclid", "lyon_geom", "lyon_path"]
 color_from_css = []
 color_quantization = []
 experimental = []
 
 [dependencies]
 intmap = "0.7"
-lyon_geom = { version = "0.17", optional = true }
-lyon_path = { version = "0.17", optional = true }
-euclid = { version = "0.22", optional = true }
+lyon_geom = "0.17"
+lyon_path = "0.17"
+euclid = "0.22"
 lazy_static = "1.4.0"
 num-traits = "0.2.14"
 bytes = "1.0"
