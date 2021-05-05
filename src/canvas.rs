@@ -322,7 +322,7 @@ pub trait CanvasContext {
     // fn scrollPathIntoView(path: Path2D); // TODO:
 
     /// Set line dash
-    fn set_line_dash(&self, dash: &Vec<f64>);
+    fn set_line_dash(&self, dash: &[f64]);
 
     /// Set transform matrix
     fn set_transform(&self, a: f64, b: f64, c: f64, d: f64, e: f64, f: f64);
