@@ -25,8 +25,6 @@ experimental = []
 
 [dependencies]
 intmap = "0.7"
-lyon_geom = "0.17"
-lyon_path = "0.17"
 euclid = "0.22"
 lazy_static = "1.4.0"
 num-traits = "0.2.14"

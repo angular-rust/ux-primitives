@@ -18,4 +18,23 @@ pub mod prelude {
     pub use crate::text::*;
 }
 
-pub use lyon_geom::{Point, Rect, Size, Transform, Translation, Vector};
+/// Alias for `euclid::default::Point2D`.
+pub use euclid::default::Point2D as Point;
+
+/// Alias for `euclid::default::Vector2D`.
+pub use euclid::default::Vector2D as Vector;
+
+/// Alias for `euclid::default::Size2D`.
+pub use euclid::default::Size2D as Size;
+
+/// Alias for `euclid::default::Rect`
+pub use euclid::default::Rect;
+
+/// Alias for `euclid::default::Transform2D`
+pub type Transform<S> = euclid::default::Transform2D<S>;
+
+/// Alias for `euclid::default::Rotation2D`
+pub type Rotation<S> = euclid::default::Rotation2D<S>;
+
+/// Alias for `euclid::default::Translation2D`
+pub type Translation<S> = euclid::Translation2D<S, euclid::UnknownUnit, euclid::UnknownUnit>;

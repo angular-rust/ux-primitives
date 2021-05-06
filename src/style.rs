@@ -41,7 +41,7 @@ impl LinearGradient {
     }
 }
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Debug, Copy, Clone)]
 pub struct ColorStop {
     pub offset: f64,
     pub color: Color,
@@ -54,7 +54,7 @@ impl ColorStop {
 }
 
 /// A representation of the RGB (Red, Green, Blue) color space.
-#[derive(Copy, Clone, Debug)]
+#[derive(Debug, Copy, Clone)]
 pub enum GradientType {
     Linear(LinearGradient),
     Radial(RadialGradient),
@@ -66,7 +66,7 @@ impl Default for GradientType {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Debug, Clone)]
 pub struct Gradient {
     pub kind: GradientType,
     pub stops: RefCell<Vec<ColorStop>>,
