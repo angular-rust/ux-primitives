@@ -1,4 +1,12 @@
-#[derive(Clone, Debug, Copy)]
+/// TextAlign:
+/// Left: align text to the left
+/// Right: align text to the right
+/// Center: center the text
+/// Justify: justify the text
+///
+/// The horizontal alignment and layout of multiple lines of text.
+///
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum TextAlign {
     Left,
     Right,

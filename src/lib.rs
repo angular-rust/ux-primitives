@@ -12,11 +12,17 @@ pub use text::*;
 pub mod color;
 
 pub mod prelude {
+    pub use super::Object;
+    pub use super::Is;
     pub use super::canvas::CanvasContext;
     pub use super::color;
     pub use crate::colorspace::prelude::*;
     pub use crate::text::*;
 }
+
+/// Important part of UX Framework
+pub trait Object: 'static {}
+pub trait Is<T: Object>: AsRef<T> + 'static {}
 
 /// Alias for `euclid::default::Point2D`.
 pub use euclid::default::Point2D as Point;
