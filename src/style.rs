@@ -1,6 +1,6 @@
 use std::cell::RefCell;
 
-use crate::Color;
+use crate::colorspace::Color;
 
 #[derive(Default, Copy, Clone, Debug)]
 pub struct RadialGradient {
@@ -41,7 +41,7 @@ impl LinearGradient {
     }
 }
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Debug, Copy, Clone)]
 pub struct ColorStop {
     pub offset: f64,
     pub color: Color,
@@ -54,7 +54,7 @@ impl ColorStop {
 }
 
 /// A representation of the RGB (Red, Green, Blue) color space.
-#[derive(Copy, Clone, Debug)]
+#[derive(Debug, Copy, Clone)]
 pub enum GradientType {
     Linear(LinearGradient),
     Radial(RadialGradient),
@@ -66,7 +66,7 @@ impl Default for GradientType {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Debug, Clone)]
 pub struct Gradient {
     pub kind: GradientType,
     pub stops: RefCell<Vec<ColorStop>>,
@@ -92,10 +92,7 @@ impl Gradient {
 
     pub fn get_color_stop(&self, index: usize) -> Option<ColorStop> {
         let stops = self.stops.borrow();
-        match stops.get(index) {
-            Some(stop) => Some(*stop),
-            None => None,
-        }
+        stops.get(index).copied()
     }
 }
 

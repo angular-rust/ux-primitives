@@ -20,31 +20,35 @@ impl fmt::Display for RgbaColor {
 }
 
 impl RgbaColor {
-    pub fn new(r: u8, g: u8, b: u8, a: u8) -> Self {
+    pub fn new(red: u8, green: u8, blue: u8, alpha: u8) -> Self {
         Self {
-            red: r,
-            green: g,
-            blue: b,
-            alpha: a,
+            red,
+            green,
+            blue,
+            alpha,
         }
     }
 }
 
-impl From<RgbColor> for RgbaColor {
-    fn from(rgb: RgbColor) -> RgbaColor {
-        match Result::<RgbaColor, ColorError>::from(rgb) {
-            Ok(rgba) => rgba,
-            Err(err) => panic!("Converting RgbColor to RgbaColor failed: {}", err),
+// RGBAu8 -> RGB
+impl From<RgbaColor> for Color {
+    fn from(rgba: RgbaColor) -> Self {
+        Color {
+            red: rgba.red as Float / 255.0,
+            green: rgba.green as Float / 255.0,
+            blue: rgba.blue as Float / 255.0,
+            alpha: rgba.alpha as Float / 255.0,
         }
     }
 }
-impl From<RgbColor> for Result<RgbaColor, ColorError> {
-    fn from(rgb: RgbColor) -> Self {
-        Ok(RgbaColor {
-            red: rgb.red,
-            green: rgb.green,
-            blue: rgb.blue,
-            alpha: 0xFF,
-        })
+
+impl From<Color> for RgbaColor {
+    fn from(color: Color) -> Self {
+        RgbaColor {
+            red: (color.red * 255.0).round() as u8,
+            green: (color.green * 255.0).round() as u8,
+            blue: (color.blue * 255.0).round() as u8,
+            alpha: (color.alpha * 255.0).round() as u8,
+        }
     }
 }

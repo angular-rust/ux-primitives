@@ -1,20 +1,19 @@
-#![cfg(feature = "canvas")]
-#![allow(unused_imports)]
 #![allow(clippy::too_many_arguments)]
 
-use crate::{BaseLine, Color, TextAlign, TextStyle, TextWeight};
+use crate::{colorspace::Color, BaseLine, Gradient, TextAlign, FontStyle, FontWeight};
 
-mod style;
-pub use style::*;
+#[derive(Copy, Clone, Debug)]
+pub enum Direction {
+    Ltr,
+    Rtl,
+    Inherit,
+}
 
-mod image;
-pub use image::*;
-
-mod direction;
-pub use direction::*;
-
-mod text_metrics;
-pub use text_metrics::*;
+#[derive(Copy, Clone, Debug)]
+pub struct TextMetrics {
+    pub width: f64,
+    pub height: f64,
+}
 
 #[derive(Clone, Copy, Debug)]
 pub enum LineCap {
@@ -57,7 +56,8 @@ impl Default for PatternExtend {
     }
 }
 
-pub trait CanvasContext<P> {
+pub trait CanvasContext {
+    type Pattern;
     // /// Get current global transformation matrix
     // fn get_current_transform(&self) -> Matrix<f64>;
 
@@ -77,7 +77,7 @@ pub trait CanvasContext<P> {
     fn set_fill_gradient(&self, value: &Gradient);
 
     /// Set fill pattern
-    fn set_fill_pattern(&self, value: &P);
+    fn set_fill_pattern(&self, value: &Self::Pattern);
 
     /// Get filter
     fn get_filter(&self) -> String;
@@ -89,7 +89,7 @@ pub trait CanvasContext<P> {
     fn get_font(&self) -> String;
 
     /// Set direction
-    fn set_font(&self, family: &str, style: TextStyle, weight: TextWeight, size: f64);
+    fn set_font(&self, family: &str, style: FontStyle, weight: FontWeight, size: f64);
 
     /// Get global alpha
     fn get_global_alpha(&self) -> f64;
@@ -177,7 +177,7 @@ pub trait CanvasContext<P> {
     fn set_stroke_gradient(&self, value: &Gradient);
 
     /// Set stroke pattern
-    fn set_stroke_pattern(&self, value: &P);
+    fn set_stroke_pattern(&self, value: &Self::Pattern);
 
     /// Get text align
     fn get_text_align(&self) -> TextAlign;
@@ -322,7 +322,7 @@ pub trait CanvasContext<P> {
     // fn scrollPathIntoView(path: Path2D); // TODO:
 
     /// Set line dash
-    fn set_line_dash(&self, dash: Vec<f64>);
+    fn set_line_dash(&self, dash: &[f64]);
 
     /// Set transform matrix
     fn set_transform(&self, a: f64, b: f64, c: f64, d: f64, e: f64, f: f64);

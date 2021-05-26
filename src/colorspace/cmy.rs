@@ -1,10 +1,11 @@
+use super::*;
 use std::fmt;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct CmyColor {
-    pub cyan: f64,    // cyan
-    pub magenta: f64, // magenta
-    pub yellow: f64,  // yellow
+    pub cyan: Float,
+    pub magenta: Float,
+    pub yellow: Float, // yellow
 }
 
 impl fmt::Display for CmyColor {
@@ -14,5 +15,31 @@ impl fmt::Display for CmyColor {
             "cmy({}%, {}%, {}%)",
             self.cyan, self.magenta, self.yellow
         )
+    }
+}
+
+impl CmyColor {
+    pub fn new(cyan: Float, magenta: Float, yellow: Float) -> Self {
+        Self {
+            cyan,
+            magenta,
+            yellow,
+        }
+    }
+}
+
+// CMY -> RGB
+impl From<CmyColor> for Color {
+    fn from(_: CmyColor) -> Self {
+        // TODO: implement CMY -> RGB
+        unimplemented!("{}: CMY -> RGB", ColorError::Unimplemented);
+    }
+}
+
+// RGB -> CMY
+impl From<Color> for CmyColor {
+    fn from(_: Color) -> Self {
+        // TODO: implement RGB -> CMY
+        unimplemented!("{}: RGB -> CMY", ColorError::Unimplemented);
     }
 }

@@ -1,4 +1,12 @@
-#[derive(Clone, Debug, Copy)]
+/// TextAlign:
+/// Left: align text to the left
+/// Right: align text to the right
+/// Center: center the text
+/// Justify: justify the text
+///
+/// The horizontal alignment and layout of multiple lines of text.
+///
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum TextAlign {
     Left,
     Right,
@@ -12,8 +20,16 @@ impl Default for TextAlign {
     }
 }
 
-#[derive(Clone, Debug, Copy)]
-pub enum TextWeight {
+/// FontWeight:
+/// Normal: Normal font weight
+/// Bold: Bold font weight
+/// Bolder: Bolder font weight
+/// Lighter: Lighter font weight
+///
+/// Support values of font weight
+///
+#[derive(Clone, Debug, Copy, PartialEq, Eq)]
+pub enum FontWeight {
     Thin = 100,
     UltraLight = 200,
     Light = 300,
@@ -28,22 +44,22 @@ pub enum TextWeight {
     UltraHeavy = 1000,
 }
 
-impl Default for TextWeight {
+impl Default for FontWeight {
     fn default() -> Self {
-        TextWeight::Normal
+        FontWeight::Normal
     }
 }
 
 #[derive(Clone, Debug, Copy)]
-pub enum TextStyle {
+pub enum FontStyle {
     Normal = 0,
     Oblique = 1,
     Italic = 2,
 }
 
-impl Default for TextStyle {
+impl Default for FontStyle {
     fn default() -> Self {
-        TextStyle::Normal
+        FontStyle::Normal
     }
 }
 

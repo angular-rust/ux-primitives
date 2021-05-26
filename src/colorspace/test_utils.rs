@@ -1,3 +1,6 @@
+#![allow(dead_code)]
+use lazy_static::lazy_static;
+
 use super::*;
 use crate::color;
 use core::slice::Iter;
@@ -10,7 +13,7 @@ pub(super) fn diff_less_than_u8(left: u8, right: u8, diff: u8) -> bool {
         (right - left) <= diff
     }
 }
-pub(super) fn diff_less_than_f64(left: f64, right: f64, diff: f64) -> bool {
+pub(super) fn diff_less_than_f64(left: Float, right: Float, diff: Float) -> bool {
     if left > right {
         (left - right) <= diff
     } else {
@@ -30,11 +33,11 @@ where
 
 pub(super) fn test_to_rgb_conversion<C>(test_colors_iterator: Iter<'_, (Color, C)>)
 where
-    C: fmt::Display + Copy + Clone + Into<RgbColor>,
+    C: fmt::Display + Copy + Clone + IntoColor<RgbColor> + Into<Color>,
 {
-    test_utils::test_conversion(test_colors_iterator, |expected_color, actual_hsv| {
-        let expected_rgb: RgbColor = (*expected_color).into();
-        let actual_rgb: RgbColor = (*actual_hsv).into();
+    test_utils::test_conversion(test_colors_iterator, |expected_color, actual_color| {
+        let expected_rgb = RgbColor::from(*expected_color);
+        let actual_rgb = RgbColor::from_color(*actual_color);
         let RgbColor {
             red: expected_r,
             green: expected_g,
@@ -48,21 +51,21 @@ where
         assert!(
             test_utils::diff_less_than_u8(actual_r, expected_r, 3),
             "{} -> {} != {}",
-            *actual_hsv,
+            *actual_color,
             actual_rgb,
             expected_rgb
         );
         assert!(
             test_utils::diff_less_than_u8(actual_g, expected_g, 3),
             "{} -> {} != {}",
-            *actual_hsv,
+            *actual_color,
             actual_rgb,
             expected_rgb
         );
         assert!(
             test_utils::diff_less_than_u8(actual_b, expected_b, 3),
             "{} -> {} != {}",
-            *actual_hsv,
+            *actual_color,
             actual_rgb,
             expected_rgb
         );
