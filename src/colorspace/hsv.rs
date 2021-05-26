@@ -1,16 +1,16 @@
-use super::{utils, Color, ColorError};
+use super::{utils, Color, ColorError, Float};
 use std::fmt;
 use utils::{hue_bound, percentage_to_fraction};
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct HsvColor {
-    pub hue: f64,
-    pub saturation: f64,
-    pub value: f64,
+    pub hue: Float,
+    pub saturation: Float,
+    pub value: Float,
 }
 
 impl HsvColor {
-    pub fn new(hue: f64, saturation: f64, value: f64) -> Self {
+    pub fn new(hue: Float, saturation: Float, value: Float) -> Self {
         Self {
             hue: hue_bound(hue),
             saturation: if saturation > 100. {
@@ -78,25 +78,25 @@ impl From<Color> for HsvColor {
             alpha: _,
         } = rgb;
         let (min, max) = utils::min_max_tuple([red, green, blue].iter());
-        let hue = if (max - red).abs() < f64::MIN_POSITIVE {
+        let hue = if (max - red).abs() < Float::MIN_POSITIVE {
             //normalize_hue(60. * (green - blue) / delta - 30.)
             if green >= blue {
-                60. * (green as f64 - blue as f64) / (max - min) as f64
+                60. * (green as Float - blue as Float) / (max - min) as Float
             } else {
-                360. - (green as f64 - blue as f64) / (max - min) as f64 * 60.
+                360. - (green as Float - blue as Float) / (max - min) as Float * 60.
             }
-        } else if (max - green).abs() < f64::MIN_POSITIVE {
-            60. * (blue as f64 - red as f64) / (max - min) as f64 + 120.
-        } else if (max - blue).abs() < f64::MIN_POSITIVE {
-            60. * (red as f64 - green as f64) / (max - min) as f64 + 240.
+        } else if (max - green).abs() < Float::MIN_POSITIVE {
+            60. * (blue as Float - red as Float) / (max - min) as Float + 120.
+        } else if (max - blue).abs() < Float::MIN_POSITIVE {
+            60. * (red as Float - green as Float) / (max - min) as Float + 240.
         } else {
             0.
         };
         let saturation = 1.
-            - (if (max - 0.).abs() < f64::EPSILON {
-                0f64
+            - (if (max - 0.).abs() < Float::EPSILON {
+                0 as Float
             } else {
-                min as f64 / max as f64
+                min as Float / max as Float
             });
         HsvColor::new(hue, saturation * 100., max * 100.)
     }

@@ -13,7 +13,7 @@ pub(super) fn diff_less_than_u8(left: u8, right: u8, diff: u8) -> bool {
         (right - left) <= diff
     }
 }
-pub(super) fn diff_less_than_f64(left: f64, right: f64, diff: f64) -> bool {
+pub(super) fn diff_less_than_f64(left: Float, right: Float, diff: Float) -> bool {
     if left > right {
         (left - right) <= diff
     } else {

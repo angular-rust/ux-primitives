@@ -1,16 +1,16 @@
-use super::Color;
+use super::{Color, Float};
 use std::fmt;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct CmykColor {
-    pub cyan: f64,
-    pub magenta: f64,
-    pub yellow: f64,
-    pub key: f64,
+    pub cyan: Float,
+    pub magenta: Float,
+    pub yellow: Float,
+    pub key: Float,
 }
 
 impl CmykColor {
-    pub fn new(cyan: f64, magenta: f64, yellow: f64, key: f64) -> Self {
+    pub fn new(cyan: Float, magenta: Float, yellow: Float, key: Float) -> Self {
         Self {
             cyan,
             magenta,
@@ -33,7 +33,7 @@ impl fmt::Display for CmykColor {
 // CMYK -> RGB
 impl From<CmykColor> for Color {
     fn from(cmyk: CmykColor) -> Self {
-        let apply = |v| (1.0f64 - v / 100.0) * (1.0 - cmyk.key / 100.0);
+        let apply = |v| (1.0 as Float - v / 100.0) * (1.0 - cmyk.key / 100.0);
         Color {
             red: apply(cmyk.cyan),
             green: apply(cmyk.magenta),
@@ -50,9 +50,9 @@ impl From<Color> for CmykColor {
             - [rgb.red, rgb.green, rgb.blue]
                 .iter()
                 .cloned()
-                .fold(f64::NAN, f64::max);
+                .fold(Float::NAN, Float::max);
 
-        let apply = |v: f64| (((1. - v - key) / (1. - key)) * 100.).round();
+        let apply = |v: Float| (((1. - v - key) / (1. - key)) * 100.).round();
         CmykColor {
             cyan: apply(rgb.red),
             magenta: apply(rgb.green),

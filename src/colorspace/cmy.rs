@@ -3,9 +3,9 @@ use std::fmt;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct CmyColor {
-    pub cyan: f64,
-    pub magenta: f64,
-    pub yellow: f64, // yellow
+    pub cyan: Float,
+    pub magenta: Float,
+    pub yellow: Float, // yellow
 }
 
 impl fmt::Display for CmyColor {
@@ -19,7 +19,7 @@ impl fmt::Display for CmyColor {
 }
 
 impl CmyColor {
-    pub fn new(cyan: f64, magenta: f64, yellow: f64) -> Self {
+    pub fn new(cyan: Float, magenta: Float, yellow: Float) -> Self {
         Self {
             cyan,
             magenta,

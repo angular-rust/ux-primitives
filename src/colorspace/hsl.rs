@@ -1,15 +1,15 @@
-use super::{utils, Color, ColorError};
+use super::{utils, Color, ColorError, Float};
 use std::fmt;
 
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct HslColor {
-    pub hue: f64,
-    pub saturation: f64,
-    pub lightness: f64,
+    pub hue: Float,
+    pub saturation: Float,
+    pub lightness: Float,
 }
 
 impl HslColor {
-    pub fn new(h: f64, s: f64, l: f64) -> Self {
+    pub fn new(h: Float, s: Float, l: Float) -> Self {
         Self {
             hue: h % 360.0,
             saturation: if s > 100.0 { 100.0 } else { s },
@@ -36,9 +36,9 @@ impl From<HslColor> for Color {
             saturation,
             lightness,
         } = hsl;
-        let c = (1. - ((2. * (lightness as f64 / 100.)) - 1.).abs()) * (saturation as f64 / 100.);
-        let x = c * (1. - ((((hue as f64) / 60.) % 2.) - 1.).abs());
-        let m = (lightness as f64 / 100.) - (c / 2.);
+        let c = (1. - ((2. * (lightness as Float / 100.)) - 1.).abs()) * (saturation as Float / 100.);
+        let x = c * (1. - ((((hue as Float) / 60.) % 2.) - 1.).abs());
+        let m = (lightness as Float / 100.) - (c / 2.);
 
         let (r_prime, g_prime, b_prime) = {
             if (0.0..60.0).contains(&hue) {
@@ -79,20 +79,20 @@ impl From<Color> for HslColor {
         let (c_min, c_max) = utils::min_max_tuple([red, green, blue].iter());
         let delta = c_max - c_min;
 
-        let hue = if (delta - 0.).abs() < f64::EPSILON {
+        let hue = if (delta - 0.).abs() < Float::EPSILON {
             0.
         } else {
             match c_max {
-                x if (x - red).abs() < f64::MIN_POSITIVE => 60. * (((green - blue) / delta) % 6.),
-                x if (x - green).abs() < f64::MIN_POSITIVE => 60. * (((blue - red) / delta) + 2.),
-                x if (x - blue).abs() < f64::MIN_POSITIVE => 60. * (((red - green) / delta) + 4.),
+                x if (x - red).abs() < Float::MIN_POSITIVE => 60. * (((green - blue) / delta) % 6.),
+                x if (x - green).abs() < Float::MIN_POSITIVE => 60. * (((blue - red) / delta) + 2.),
+                x if (x - blue).abs() < Float::MIN_POSITIVE => 60. * (((red - green) / delta) + 4.),
                 _ => unreachable!("Invalid hue calculation!"),
             }
         };
 
         let lightness = (c_max + c_min) / 2.;
 
-        let saturation = if (delta - 0.).abs() < f64::EPSILON {
+        let saturation = if (delta - 0.).abs() < Float::EPSILON {
             0.
         } else {
             delta / (1. - ((2. * lightness) - 1.).abs()) * 100.

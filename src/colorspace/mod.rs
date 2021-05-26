@@ -20,6 +20,8 @@ pub mod marker;
 
 pub mod to_hex_string;
 
+pub(crate) type Float = f32;
+
 #[cfg(any(feature = "color_from_css", test))]
 pub mod css;
 

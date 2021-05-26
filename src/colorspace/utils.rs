@@ -1,8 +1,9 @@
+use super::Float;
 use core::slice::Iter;
 
 #[inline(always)]
-pub(crate) fn min_max_tuple(color_cmp_iter: Iter<'_, f64>) -> (f64, f64) {
-    color_cmp_iter.fold((1.0f64, 0f64), |acc, color_cmp| -> (f64, f64) {
+pub(crate) fn min_max_tuple(color_cmp_iter: Iter<'_, Float>) -> (Float, Float) {
+    color_cmp_iter.fold((1.0 as Float, 0 as Float), |acc, color_cmp| -> (Float, Float) {
         (
             if *color_cmp < acc.0 {
                 *color_cmp
@@ -32,12 +33,12 @@ pub fn clamp<T: PartialOrd>(value: T, low: T, high: T) -> T {
 }
 
 #[inline(always)]
-pub(crate) fn hue_bound(hue: f64) -> f64 {
+pub(crate) fn hue_bound(hue: Float) -> Float {
     let hue_rest = hue % 360.;
-    if (hue_rest - 0.).abs() < f64::EPSILON {
+    if (hue_rest - 0.).abs() < Float::EPSILON {
         return 0.;
     }
-    if hue_rest < f64::MIN_POSITIVE {
+    if hue_rest < Float::MIN_POSITIVE {
         360. - hue_rest
     } else {
         hue_rest
@@ -45,7 +46,7 @@ pub(crate) fn hue_bound(hue: f64) -> f64 {
 }
 
 #[inline(always)]
-pub(crate) fn percentage_to_fraction(value: f64) -> f64 {
+pub(crate) fn percentage_to_fraction(value: Float) -> Float {
     clamp(value, 0., 100.) / 100.
 }
 

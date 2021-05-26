@@ -25,10 +25,10 @@ experimental = []
 
 [dependencies]
 intmap = "0.7"
-euclid = "0.22"
 lazy_static = "1.4.0"
-num-traits = "0.2.14"
 bytes = "1.0"
+num-traits = "0.2.14"
+# cgmath = "0.18"
 
 [dev-dependencies]
 libmath = "0.2.1"

@@ -1,6 +1,6 @@
 #![allow(clippy::too_many_arguments)]
 
-use crate::{colorspace::Color, BaseLine, Gradient, TextAlign, TextStyle, TextWeight};
+use crate::{colorspace::Color, BaseLine, Gradient, TextAlign, FontStyle, FontWeight};
 
 #[derive(Copy, Clone, Debug)]
 pub enum Direction {
@@ -89,7 +89,7 @@ pub trait CanvasContext {
     fn get_font(&self) -> String;
 
     /// Set direction
-    fn set_font(&self, family: &str, style: TextStyle, weight: TextWeight, size: f64);
+    fn set_font(&self, family: &str, style: FontStyle, weight: FontWeight, size: f64);
 
     /// Get global alpha
     fn get_global_alpha(&self) -> f64;

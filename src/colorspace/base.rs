@@ -1,18 +1,17 @@
 use super::*;
 use crate::color;
-use num_traits::Float;
 use std::{default, fmt};
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
-pub struct Color<T: Float = f64> {
-    pub(crate) red: T,
-    pub(crate) green: T,
-    pub(crate) blue: T,
-    pub(crate) alpha: T,
+#[derive(Clone, Copy, PartialEq, Debug)] // Eq, Hash 
+pub struct Color {
+    pub(crate) red: Float,
+    pub(crate) green: Float,
+    pub(crate) blue: Float,
+    pub(crate) alpha: Float,
 }
 
 impl Color {
-    pub fn new(red: f64, green: f64, blue: f64, alpha: f64) -> Self {
+    pub fn new(red: Float, green: Float, blue: Float, alpha: Float) -> Self {
         Color {
             red,
             green,
@@ -23,81 +22,81 @@ impl Color {
 
     pub fn rgb(red: u8, green: u8, blue: u8) -> Self {
         Self::new(
-            red as f64 / 255.,
-            green as f64 / 255.,
-            blue as f64 / 255.,
+            red as Float / 255.,
+            green as Float / 255.,
+            blue as Float / 255.,
             1.,
         )
     }
 
     pub fn rgba(red: u8, green: u8, blue: u8, alpha: u8) -> Self {
         Self::new(
-            red as f64 / 255.,
-            green as f64 / 255.,
-            blue as f64 / 255.,
-            alpha as f64 / 255.,
+            red as Float / 255.,
+            green as Float / 255.,
+            blue as Float / 255.,
+            alpha as Float / 255.,
         )
     }
 
-    pub fn hsl(hue: f64, saturation: f64, lightness: f64) -> Self {
+    pub fn hsl(hue: Float, saturation: Float, lightness: Float) -> Self {
         Self::from_color(HslColor::new(hue, saturation, lightness))
     }
 
-    pub fn hsla(hue: f64, saturation: f64, lightness: f64, alpha: f64) -> Self {
+    pub fn hsla(hue: Float, saturation: Float, lightness: Float, alpha: Float) -> Self {
         let mut color = Self::from_color(HslColor::new(hue, saturation, lightness));
         color.alpha = alpha;
         color
     }
 
-    pub fn hsv(hue: f64, saturation: f64, value: f64) -> Self {
+    pub fn hsv(hue: Float, saturation: Float, value: Float) -> Self {
         Self::from_color(HslColor::new(hue, saturation, value))
     }
 
-    pub fn hsva(hue: f64, saturation: f64, value: f64, alpha: f64) -> Self {
+    pub fn hsva(hue: Float, saturation: Float, value: Float, alpha: Float) -> Self {
         let mut color = Self::from_color(HslColor::new(hue, saturation, value));
         color.alpha = alpha;
         color
     }
 
-    pub fn cmyk(cyan: f64, magenta: f64, yellow: f64, key: f64) -> Self {
+    pub fn cmyk(cyan: Float, magenta: Float, yellow: Float, key: Float) -> Self {
         Self::from_color(CmykColor::new(cyan, magenta, yellow, key))
     }
     //noinspection SpellCheckingInspection
-    pub fn cmyka(cyan: f64, magenta: f64, yellow: f64, key: f64, alpha: f64) -> Self {
+    pub fn cmyka(cyan: Float, magenta: Float, yellow: Float, key: Float, alpha: Float) -> Self {
         let mut color = Self::from_color(CmykColor::new(cyan, magenta, yellow, key));
         color.alpha = alpha;
         color
     }
 
-    pub fn cmy(cyan: f64, magenta: f64, yellow: f64) -> Self {
+    pub fn cmy(cyan: Float, magenta: Float, yellow: Float) -> Self {
         Self::from_color(CmyColor::new(cyan, magenta, yellow))
     }
     //noinspection SpellCheckingInspection
-    pub fn cmya(cyan: f64, magenta: f64, yellow: f64, alpha: f64) -> Self {
+    pub fn cmya(cyan: Float, magenta: Float, yellow: Float, alpha: Float) -> Self {
         let mut color = Self::from_color(CmyColor::new(cyan, magenta, yellow));
         color.alpha = alpha;
         color
     }
 
     #[cfg(feature = "experimental")]
-    pub fn xyz(x: f64, y: f64, z: f64) -> Self {
+    pub fn xyz(x: Float, y: Float, z: Float) -> Self {
         Self::from_color(XyzColor::new(x, y, z))
     }
     //noinspection SpellCheckingInspection
     #[cfg(feature = "experimental")]
-    pub fn xyza(x: f64, y: f64, z: f64, alpha: f64) -> Self {
+    pub fn xyza(x: Float, y: Float, z: Float, alpha: Float) -> Self {
         let mut color = Self::from_color(XyzColor::new(x, y, z));
         color.alpha = alpha;
         color
     }
 
     #[cfg(feature = "experimental")]
-    pub fn lab(l: f64, a: f64, b: f64) -> Self {
+    pub fn lab(l: Float, a: Float, b: Float) -> Self {
         Self::from_color(XyzColor::new(l, a, b))
     }
     //noinspection SpellCheckingInspection
     #[cfg(feature = "experimental")]
-    pub fn laba(l: f64, a: f64, b: f64, alpha: f64) -> Self {
+    pub fn laba(l: Float, a: Float, b: Float, alpha: Float) -> Self {
         let mut color = Self::from_color(XyzColor::new(l, a, b));
         color.alpha = alpha;
         color
@@ -119,39 +118,39 @@ impl Color {
 
     #[allow(non_snake_case)]
     #[deprecated]
-    pub fn HSL(hue: f64, saturation: f64, lightness: f64) -> Self {
+    pub fn HSL(hue: Float, saturation: Float, lightness: Float) -> Self {
         Self::hsl(hue, saturation, lightness)
     }
 
     #[allow(non_snake_case)]
     #[deprecated]
-    pub fn HSV(hue: f64, saturation: f64, value: f64) -> Self {
+    pub fn HSV(hue: Float, saturation: Float, value: Float) -> Self {
         Self::hsv(hue, saturation, value)
     }
 
     #[allow(non_snake_case)]
     #[deprecated]
-    pub fn CMYK(cyan: f64, magenta: f64, yellow: f64, key: f64) -> Self {
+    pub fn CMYK(cyan: Float, magenta: Float, yellow: Float, key: Float) -> Self {
         Self::cmyk(cyan, magenta, yellow, key)
     }
 
     #[allow(non_snake_case)]
     #[deprecated]
-    pub fn CMY(cyan: f64, magenta: f64, yellow: f64) -> Self {
+    pub fn CMY(cyan: Float, magenta: Float, yellow: Float) -> Self {
         Self::cmy(cyan, magenta, yellow)
     }
 
     #[cfg(feature = "experimental")]
     #[allow(non_snake_case)]
     #[deprecated]
-    pub fn XYZ(x: f64, y: f64, z: f64) -> Self {
+    pub fn XYZ(x: Float, y: Float, z: Float) -> Self {
         Self::xyz(x, y, z)
     }
 
     #[cfg(feature = "experimental")]
     #[allow(non_snake_case)]
     #[deprecated]
-    pub fn LAB(l: f64, a: f64, b: f64) -> Self {
+    pub fn LAB(l: Float, a: Float, b: Float) -> Self {
         Self::lab(l, a, b)
     }
 }

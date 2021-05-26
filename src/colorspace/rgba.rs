@@ -34,10 +34,10 @@ impl RgbaColor {
 impl From<RgbaColor> for Color {
     fn from(rgba: RgbaColor) -> Self {
         Color {
-            red: rgba.red as f64 / 255.0,
-            green: rgba.green as f64 / 255.0,
-            blue: rgba.blue as f64 / 255.0,
-            alpha: rgba.alpha as f64 / 255.0,
+            red: rgba.red as Float / 255.0,
+            green: rgba.green as Float / 255.0,
+            blue: rgba.blue as Float / 255.0,
+            alpha: rgba.alpha as Float / 255.0,
         }
     }
 }

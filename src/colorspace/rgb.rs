@@ -1,4 +1,4 @@
-use super::Color;
+use super::{Color, Float};
 use std::fmt;
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
@@ -24,9 +24,9 @@ impl fmt::Display for RgbColor {
 impl From<RgbColor> for Color {
     fn from(c: RgbColor) -> Self {
         Color {
-            red: c.red as f64 / 255.0,
-            green: c.green as f64 / 255.0,
-            blue: c.blue as f64 / 255.0,
+            red: c.red as Float / 255.0,
+            green: c.green as Float / 255.0,
+            blue: c.blue as Float / 255.0,
             alpha: 1.,
         }
     }
