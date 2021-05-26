@@ -44,6 +44,12 @@ pub use style::*;
 mod text;
 pub use text::*;
 
+mod vector2d;
+pub use vector2d::*;
+
+mod vector3d;
+pub use vector3d::*;
+
 pub mod prelude {
     pub use super::Object;
     pub use super::Is;
