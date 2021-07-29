@@ -1,3 +1,5 @@
+#![doc(html_logo_url = "https://dudochkin-victor.github.io/assets/ux-primitives/logo.svg")]
+
 pub mod colorspace;
 
 mod angle;
@@ -23,8 +25,8 @@ pub use length::*;
 mod offset;
 pub use offset::*;
 
-mod point2d;
-pub use point2d::*;
+// mod point2d;
+// pub use point2d::*;
 
 // mod point3d;
 // pub use point3d::*;
@@ -67,7 +69,10 @@ pub trait Is<T: Object>: AsRef<T> + 'static {}
 // pub use cgmath::*;
 
 /// Alias for `crate::Point2`.
-pub use crate::Point2D as Point;
+// pub use crate::Point2D as Point;
+pub use crate::Vector2D as Point;
+pub use crate::Vector2D as Point2D;
+pub use crate::Vector3D as Point3D;
 
 // /// Alias for `crate::Vector2`.
 // pub use cgmath::Vector2 as Vector;

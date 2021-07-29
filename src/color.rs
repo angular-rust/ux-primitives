@@ -1,3 +1,5 @@
+//! Very nice color palette 
+
 //#![rustfmt::skip]
 #![cfg_attr(rustfmt, rustfmt_skip)]
 

@@ -63,7 +63,7 @@ impl Default for FontStyle {
     }
 }
 
-/// see https://developer.mozilla.org/ru/docs/Web/API/Canvas_API/Tutorial/Drawing_text
+/// see <https://developer.mozilla.org/ru/docs/Web/API/Canvas_API/Tutorial/Drawing_text>
 #[derive(Clone, Debug, Copy)]
 pub enum BaseLine {
     Top,

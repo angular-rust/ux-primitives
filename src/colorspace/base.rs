@@ -2,12 +2,15 @@ use super::*;
 use crate::color;
 use std::{default, fmt};
 
+// Color components was crate only available "pub(crate) red: ..."
+// i made it public, coz i use it in dx crate. It need to deal with it
 #[derive(Clone, Copy, PartialEq, Debug)] // Eq, Hash 
+#[repr(C)]
 pub struct Color {
-    pub(crate) red: Float,
-    pub(crate) green: Float,
-    pub(crate) blue: Float,
-    pub(crate) alpha: Float,
+    pub red: Float,
+    pub green: Float,
+    pub blue: Float,
+    pub alpha: Float,
 }
 
 impl Color {
