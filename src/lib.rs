@@ -1,91 +1,12 @@
+//! oops
+//! <img src="https://github.com/hecrj/iced/blob/9712b319bb7a32848001b96bd84977430f14b623/examples/resources/ferris.png?raw=true" width="300">
+
+
 #![doc(html_logo_url = "https://dudochkin-victor.github.io/assets/ux-primitives/logo.svg")]
 
-pub mod colorspace;
+pub mod foundation;
 
-mod angle;
-pub use angle::*;
-
-mod box2d;
-pub use box2d::*;
-
-// mod box3d;
-// pub use box3d::*;
-
-mod canvas;
-pub use canvas::*;
-
-pub mod color;
-
-mod image;
-pub use image::*;
-
-mod length;
-pub use length::*;
-
-mod offset;
-pub use offset::*;
-
-// mod point2d;
-// pub use point2d::*;
-
-// mod point3d;
-// pub use point3d::*;
-
-mod rect;
-pub use rect::*;
-
-mod size2d;
-pub use size2d::*;
-
-// mod size3d;
-// pub use size3d::*;
-
-mod style;
-pub use style::*;
-
-mod text;
-pub use text::*;
-
-mod vector2d;
-pub use vector2d::*;
-
-mod vector3d;
-pub use vector3d::*;
-
-pub mod prelude {
-    pub use super::Object;
-    pub use super::Is;
-    pub use super::canvas::CanvasContext;
-    pub use super::color;
-    pub use crate::colorspace::prelude::*;
-    pub use crate::text::*;
-    // pub use cgmath::prelude::*;
-}
-
-/// Important part of UX Framework
-pub trait Object: 'static {}
-pub trait Is<T: Object>: AsRef<T> + 'static {}
-
-// pub use cgmath::*;
-
-/// Alias for `crate::Point2`.
-// pub use crate::Point2D as Point;
-pub use crate::Vector2D as Point;
-pub use crate::Vector2D as Point2D;
-pub use crate::Vector3D as Point3D;
-
-// /// Alias for `crate::Vector2`.
-// pub use cgmath::Vector2 as Vector;
-
-/// Alias for `crate::Size2D`.
-pub use crate::Size2D as Size;
-
-pub trait Zero {
-    fn zero() -> Self;
-}
-pub trait One {
-    fn one() -> Self;
-}
+pub mod prelude;
 
 
 // /// A one-dimensional distance, with value represented by `T` and unit of measurement `Unit`.

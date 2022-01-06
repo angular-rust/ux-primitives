@@ -27,20 +27,70 @@
 [loc-badge]: https://img.shields.io/tokei/lines/github/angular-rust/ux-primitives?style=flat-square
 [loc-url]: https://github.com/angular-rust/ux-primitives
 
-UX Primitives is a core graphic and color abstraction for Angular Rust.
+UX Primitives is a powerful library for working with color and graphics. It is one of the main building blocks of the Angular Rust framework. This library is well organized and easy to use. 
 
-**Angular Rust** is a high productivity, `platform-agnostic` frontend framework for the [Rust language](https://www.rust-lang.org/). It now supports desktop and web development. Angular Rust currently uses Clutter for desktop development and WebAssembly for web development. We are planning to add support for mobile development.
+## Quick Start
 
-![Angular Rust structure](https://dudochkin-victor.github.io/assets/angular-rust/structure.svg)
+Add UX primitives to your project using Cargo-edit or by editing the Cargo.toml file: 
+
+	cargo add ux-primitives
+
+### Basic usage
+
+```rust
+use primitives::prelude::*;
+
+use primitives::foundation::{colorschemes::Tetrad, colorspace::HslColor};
+
+fn main() {
+    // Get Palette Color
+    let base = color::TEAL_9;
+
+    println!("Base color {}", base.to_hex_string());
+
+    println!("Lighten {}", base.lighten(10.0).to_hex_string());
+
+    println!("Darken {}", base.darken(10.0).to_hex_string());
+
+    println!("Hue Adjusted {}", base.adjust_hue(90.).to_hex_string());
+
+    println!("Complement {}", base.complement().to_hex_string());
+
+    println!("Inverted {}", base.invert().to_hex_string());
+
+    println!("Saturated {}", base.saturate(50.).to_hex_string());
+
+    println!("Desaturated {}", base.desaturate(50.).to_hex_string());
+
+    println!("Grayscale {}", base.grayscale().to_hex_string());
+
+    let hsl: HslColor = base.into();
+
+    println!("{} {}", base, hsl);
+
+    // Generate color scheme
+    let scheme = Tetrad::new(base);
+    // You can adjust color scheme parameters before get colors
+    println!();
+
+    for idx in 0..scheme.num_of_colors() {
+        match scheme.get_color(idx) {
+            Some(col) => println!("Color: {}", col.to_hex_string()),
+            None => println!("No color")
+        }
+    }
+}
+```
 
 ## Features
 
-- [x] Graphic abstraction for cairo and web canvas, implemented in [UX Animate](https://github.com/angular-rust/ux-animate)
-- [x] Most used color spaces: RGB, RGBA, HSL, HSV, LAB, CMY, CMYK
+- [x] Graphic abstraction for native and web canvas implemented in [UX Animate](https://github.com/angular-rust/ux-animate)
+- [x] The most commonly used color spaces: RGB, RGBA, HSL, HSV, LAB, CMY, CMYK.
 - [x] Color conversion: RGB to HSL, etc.
-- [x] Support for color quantization to make the color closer to the palette
-- [x] Palette `Open Color`
-
+- [x] Support for color quantization to bring the color closer to the palette.
+- [x] Palette [Open Color](https://github.com/yeun/open-color) (4.5 thousand stars)
+- [x] Generation of color scheme according to [color theory](http://en.wikipedia.org/wiki/Color_theory).
+- [x] Basic traits for interactive applications (WIP). 
 
 ## Color scheme for UI design
 
@@ -54,12 +104,6 @@ UX Primitives contain powerfull palette for easy of use and more professional lo
 ## Available Colors
 
 ![available colors](https://dudochkin-victor.github.io/assets/ux-primitives/open-color.svg)
-
-## Quick Start
-
-Install UX Primitives:
-
-	cargo add ux-primitives
 
 ## Learn More
 
