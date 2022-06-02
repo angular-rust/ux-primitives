@@ -1,5 +1,6 @@
 /// Representing the touch input modes for a Touchscreen Joypad for use in the `Joypad` virtual controller.
 ///
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum JoypadTouch {
     /// Touch input is disabled for joypad.  The default.
     /// It is advised that [JoypadTouch] be set in Factory based on device interrogation.
@@ -14,11 +15,17 @@ pub enum JoypadTouch {
     /// If the horizontal drag vector is > distance then left or right is down.
     /// If the vertical drag vector is > distance then up or down is down.
     /// Any tap of less than 200ms triggers primary down.
-    Joystick { distance: i32 }, // is optional
+    Joystick { 
+        /// Distance value
+        distance: i32 
+    }, // is optional
 
     /// A swipe can begin anywhere.  Speed sets the minimum vector length (pixels per second) that determines movement.  100 pixels is the default.
     /// If the horizontal swipe vector is > speed then left or right is down.
     /// If the vertical swipe vector is > speed then up or down is down.
     /// Any tap of less than 200ms triggers primary down.
-    Swipe { speed: i32 }, // is optional
+    Swipe { 
+        /// Swipe speed value
+        speed: i32 
+    }, // is optional
 }

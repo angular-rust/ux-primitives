@@ -1,9 +1,18 @@
 use super::*;
 
+/// Defines ColorTransition marker
 pub trait ColorTransition: Clone + Copy + From<Color> + Into<Color> {}
+
+/// Defines ColorSpace marker
 pub trait ColorSpace: ColorTransition {}
+
+/// Defines NonRgbSpace marker
 pub trait NonRgbSpace: ColorTransition {}
+
+/// Defines NonRadialSpace marker
 pub trait NonRadialSpace: ColorTransition {}
+
+/// Defines NonSaturationSpace marker
 pub trait NonSaturationSpace: ColorTransition {}
 
 impl ColorTransition for Color {}

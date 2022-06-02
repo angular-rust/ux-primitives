@@ -1,10 +1,14 @@
 use super::*;
 
+/// Defines from-color converion functionality
 pub trait FromColor<Fr> {
+    /// Convert from color
     fn from_color(color: Fr) -> Self;
 }
 
+/// Defines into-color converion functionality
 pub trait IntoColor<To> {
+    /// Convert into color
     fn into_color(self) -> To;
 }
 

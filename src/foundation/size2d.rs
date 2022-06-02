@@ -255,23 +255,7 @@ impl<T: Copy> Size2D<T> {
         self.width * self.height
     }
 
-    // /// Linearly interpolate each component between this size and another size.
-    // ///
-    // /// # Example
-    // ///
-    // /// ```rust
-    // /// use euclid::size2;
-    // /// use euclid::default::Size2D;
-    // ///
-    // /// let from: Size2D<_> = size2(0.0, 10.0);
-    // /// let to:  Size2D<_> = size2(8.0, -4.0);
-    // ///
-    // /// assert_eq!(from.lerp(to, -1.0), size2(-8.0,  24.0));
-    // /// assert_eq!(from.lerp(to,  0.0), size2( 0.0,  10.0));
-    // /// assert_eq!(from.lerp(to,  0.5), size2( 4.0,   3.0));
-    // /// assert_eq!(from.lerp(to,  1.0), size2( 8.0,  -4.0));
-    // /// assert_eq!(from.lerp(to,  2.0), size2(16.0, -18.0));
-    // /// ```
+    /// Linearly interpolate each component between this size and another size.
     #[inline]
     pub fn lerp(self, other: Self, t: T) -> Self
     where

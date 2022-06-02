@@ -1,6 +1,8 @@
 use super::*;
 
+/// Defines conversion to hex sting functionality
 pub trait ToHexString {
+    /// Represents a color as a hexadecimal string
     fn to_hex_string(&self) -> String;
 }
 

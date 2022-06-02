@@ -11,6 +11,7 @@ pub trait Overlay {
     /// An optional [Entity] which is displayed and updated when the game is paused.
     fn pause_entity(&self) -> Box<dyn Entity>;
 
+    /// Set pause entity which is displayed and updated when the game is paused.
     fn set_pause_entity(&self, val: Box<dyn Entity>);
 
     /// Sets the visibility of a specific overlay button.

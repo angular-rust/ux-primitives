@@ -6,7 +6,7 @@ use super::{
 /// Handles main updates and provides global locators for all managers
 ///
 pub trait Kernel: Pauseable + Logger {
-    /// Defined by the [Factory], can be used for conditional logic relating to build modes and debug.
+    /// Defined by the [EngineFactory], can be used for conditional logic relating to build modes and debug.
     fn is_debug(&self) -> bool;
 
     /// Identifies a non network location, can be used for conditional logic relating to build modes and debug.
@@ -15,11 +15,13 @@ pub trait Kernel: Pauseable + Logger {
     /// Toggleable by the user, intended to be used as a switch to disable intensive, but non essential, content (performance vs wow).
     fn is_eyecandy(&self) -> bool;
 
+    /// Toggle eyecandy
     fn set_eyecandy(&self, val: bool);
 
     /// Toggleable by the user, enables or disables full screen mode.
     fn is_fullscreen(&self) -> bool;
 
+    /// Toggle fullscreen
     fn set_fullscreen(&self, val: bool);
 
     /// The topmost visual element, used for chrome & global controls.
@@ -49,6 +51,7 @@ pub trait Kernel: Pauseable + Logger {
     /// Read and write globally accessible variables.
     fn session(&self) -> Box<dyn Session>;
 
+    /// Set session variables
     fn set_session(&self, val: Box<dyn Session>);
 
     // /// Used for read only application settings and localisation text.
@@ -63,13 +66,13 @@ pub trait Kernel: Pauseable + Logger {
     /// 
     /// # Arguments
     /// 
-    /// * `asActual` - Use actual framerate (potentially laggy), or the desired framerate (from [Factory]). (optional: default: true)
+    /// * `asActual` - Use actual framerate (potentially laggy), or the desired framerate (from [EngineFactory]). (optional: default: true)
     ///
     /// Return: Frames per second.
     /// 
     fn get_framerate(&self, as_actual: Option<bool>) -> f32;
 
-    /// Internal method called when preloader completes; launches the starting scene as defined by Factory::startingSceneType.
+    /// Internal method called when preloader completes; launches the starting scene as defined by [EngineFactory::starting_scene_type].
     /// 
     /// # Arguments
     /// 

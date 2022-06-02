@@ -1,8 +1,17 @@
-//! oops
-//! <img src="https://github.com/hecrj/iced/blob/9712b319bb7a32848001b96bd84977430f14b623/examples/resources/ferris.png?raw=true" width="300">
+//! The library provides the basic building blocks for creating games and regular applications. 
+//! It contains behavior definitions for game applications and basic structures.
+//! 
+//! The basic fundamental entity for graphical applications such as games is color. 
+//! This library contains sufficient functionality for working with color, including storage, 
+//! processing and conversion between different color spaces. 
+//! 
+//! It also provides support for multiple color schemes and contains the 
+//! OpenColor palette for the convenience and higher quality of your applications.
 
 
 #![doc(html_logo_url = "https://dudochkin-victor.github.io/assets/ux-primitives/logo.svg")]
+
+#![warn(missing_docs)]
 
 pub mod foundation;
 
@@ -43,7 +52,7 @@ pub mod prelude;
 //     pub width: T,
 //     /// The extent of the element in the `U` units along the `y` axis.
 //     pub height: T,
-//     /// The extent of the element in the `U` units along the `z` axis.
+//     /// The extent #![warn(missing_docs)]of the element in the `U` units along the `z` axis.
 //     pub depth: T,
 //     #[doc(hidden)]
 //     pub _unit: PhantomData<U>,

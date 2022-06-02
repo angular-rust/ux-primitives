@@ -2,7 +2,9 @@ use super::prelude::*;
 
 use super::*;
 
+/// Defines round color components functionality
 pub trait Round {
+    /// Create color with rounded values
     fn round(self) -> Self;
 }
 

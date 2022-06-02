@@ -2,6 +2,7 @@
 
 use super::{Color, ColorError, Float};
 
+/// Xyz color representation
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct XyzColor {
     pub x: Float,
@@ -10,6 +11,7 @@ pub struct XyzColor {
 }
 
 impl XyzColor {
+    /// Create new Xyz color with parameters
     pub fn new(x: Float, y: Float, z: Float) -> Self {
         Self { x, y, z }
     }

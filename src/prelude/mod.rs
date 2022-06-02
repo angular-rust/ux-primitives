@@ -1,11 +1,12 @@
-//! oops
+//! The `primitives` prelude.
 //!
+//! The purpose of this module is to alleviate imports of many common primitives
+//! traits by adding a glob import to the top of primitives heavy modules:
 //!
-//! <img src="https://github.com/hecrj/iced/blob/9712b319bb7a32848001b96bd84977430f14b623/examples/resources/ferris.png?raw=true" width="300">
-//!
-//!
-//! [![Pane grid - Iced](https://thumbs.gfycat.com/MixedFlatJellyfish-small.gif)](https://www.youtube.com/watch?v=QQ7MimTj2vg)
-//!
+//! ```
+//! # #![allow(unused_imports)]
+//! use primitives::prelude::*;
+//! ```
 
 mod enums;
 pub use self::enums::*;
@@ -36,6 +37,7 @@ pub use crate::foundation::colorspace::{
 /// This interface is obsolete.
 ///
 pub trait Zero {
+    /// Creates a structure with zero values.
     fn zero() -> Self;
 }
 
@@ -44,5 +46,6 @@ pub trait Zero {
 /// This interface is obsolete.
 ///
 pub trait One {
+    /// Creates a structure with values equal to one.
     fn one() -> Self;
 }

@@ -5,5 +5,6 @@ pub trait Priority {
     /// Higher numbers should be considered on top of the list, therefore of higher priority.
     fn priority(&self) -> i32;
 
+    /// Set the rank score of this item.
     fn set_priority(&self, val: i32);
 }

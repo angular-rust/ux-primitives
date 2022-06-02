@@ -2,7 +2,7 @@ use crate::prelude::SceneKind;
 
 use super::EngineScene;
 
-/// The SceneManager should be implemented by objects intended to manage the [Scene] state machine.
+/// The SceneManager should be implemented by objects intended to manage the [EngineScene] state machine.
 /// 
 /// Only a single scene is active at any given update.  Which scene is configured by this manager.
 ///

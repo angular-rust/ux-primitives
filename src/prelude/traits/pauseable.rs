@@ -5,6 +5,7 @@ pub trait Pauseable {
     /// Determines if the object is updating or not.
     fn is_active(&self) -> bool;
 
+    /// Set active state
     fn set_active(&self, val: bool);
 
     /// Sets active to false.
