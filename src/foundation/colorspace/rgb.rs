@@ -1,14 +1,19 @@
 use super::{Color, Float};
 use std::fmt;
 
+/// Rgb color representation with u8 components
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub struct RgbColor {
+    /// Red component
     pub red: u8,
+    /// Green component
     pub green: u8,
+    /// Blue component
     pub blue: u8,
 }
 
 impl RgbColor {
+    /// Create new Rgb color with parameters
     pub fn new(red: u8, green: u8, blue: u8) -> Self {
         Self { red, green, blue }
     }

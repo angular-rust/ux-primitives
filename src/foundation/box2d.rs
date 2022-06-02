@@ -36,6 +36,8 @@ use super::Point;
     serde(bound(serialize = "T: Serialize", deserialize = "T: Deserialize<'de>"))
 )]
 pub struct Box2D<T> {
+    /// Represents min point
     pub min: Point<T>,
+    /// Represents max point
     pub max: Point<T>,
 }

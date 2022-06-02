@@ -1,14 +1,19 @@
 use super::{utils, Color, ColorError, Float};
 use std::fmt;
 
+/// Hsl color representation
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct HslColor {
+    /// Hue component
     pub hue: Float,
+    /// Saturation component
     pub saturation: Float,
+    /// Lightness component
     pub lightness: Float,
 }
 
 impl HslColor {
+    /// Create new Hsl color with parameters
     pub fn new(h: Float, s: Float, l: Float) -> Self {
         Self {
             hue: h % 360.0,

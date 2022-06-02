@@ -1,11 +1,15 @@
 use super::*;
 use std::fmt;
 
+/// Cmy color representation
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct CmyColor {
+    /// Cyan component
     pub cyan: Float,
+    /// Magenta component
     pub magenta: Float,
-    pub yellow: Float, // yellow
+    /// Yellow component
+    pub yellow: Float,
 }
 
 impl fmt::Display for CmyColor {
@@ -19,6 +23,7 @@ impl fmt::Display for CmyColor {
 }
 
 impl CmyColor {
+    /// Create new Cmy color with parameters
     pub fn new(cyan: Float, magenta: Float, yellow: Float) -> Self {
         Self {
             cyan,

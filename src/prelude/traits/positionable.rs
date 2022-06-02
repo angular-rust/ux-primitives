@@ -4,11 +4,13 @@ pub trait Positionable {
     /// The horizontal position.
     fn x(&self) -> f32;
 
+    /// Set horizontal position.
     fn set_x(&self, val: f32);
 
     /// The vertical position.
     fn y(&self) -> f32;
 
+    /// Set vertical position.
     fn set_y(&self, val: f32);
 
     /// Sets both the horizontal and vertical position

@@ -35,7 +35,9 @@ use super::{Box2D, Point, Size};
     serde(bound(serialize = "T: Serialize", deserialize = "T: Deserialize<'de>"))
 )]
 pub struct Rect<T> {
+    /// Origin of rectangle
     pub origin: Point<T>,
+    /// Size of rectangle
     pub size: Size<T>,
 }
 
@@ -110,6 +112,7 @@ impl<T> Rect<T>
 where
     T: Copy + Add<T, Output = T>,
 {
+    /// Retrieve origin of rectangle
     #[inline]
     pub fn min(&self) -> Point<T> {
         self.origin
@@ -120,41 +123,49 @@ where
     //     self.origin + self.size
     // }
 
+    /// Retrieve maximum x of rectangle
     #[inline]
     pub fn max_x(&self) -> T {
         self.origin.x + self.size.width
     }
 
+    /// Retrieve minimum x of rectangle
     #[inline]
     pub fn min_x(&self) -> T {
         self.origin.x
     }
 
+    /// Retrieve maximum y of rectangle
     #[inline]
     pub fn max_y(&self) -> T {
         self.origin.y + self.size.height
     }
 
+    /// Retrieve minimum y of rectangle
     #[inline]
     pub fn min_y(&self) -> T {
         self.origin.y
     }
 
+    /// Retrieve rectangle width
     #[inline]
     pub fn width(&self) -> T {
         self.size.width
     }
 
+    /// Retrieve rectangle height
     #[inline]
     pub fn height(&self) -> T {
         self.size.height
     }
 
+    /// Retrieve x range of rectangle
     #[inline]
     pub fn x_range(&self) -> Range<T> {
         self.min_x()..self.max_x()
     }
 
+    /// Retrieve y range of rectangle
     #[inline]
     pub fn y_range(&self) -> Range<T> {
         self.min_y()..self.max_y()
@@ -214,6 +225,7 @@ impl<T> Rect<T>
 where
     T: Copy + Add<T, Output = T> + Sub<T, Output = T>,
 {
+    /// Create inflated rectangle
     #[inline]
     #[must_use]
     pub fn inflate(&self, width: T, height: T) -> Self {
@@ -351,6 +363,7 @@ where
 // }
 
 impl<T> Rect<T> {
+    /// Create scaled rectangle
     #[inline]
     pub fn scale<S: Copy>(&self, x: S, y: S) -> Self
     where
@@ -364,6 +377,7 @@ impl<T> Rect<T> {
 }
 
 impl<T: Copy + Mul<T, Output = T>> Rect<T> {
+    /// Retrieve area of rectangle
     #[inline]
     pub fn area(&self) -> T {
         self.size.area()

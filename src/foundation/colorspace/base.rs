@@ -6,18 +6,22 @@ use super::prelude::*;
 
 use super::*;
 
-// Color components was crate only available "pub(crate) red: ..."
-// i made it public, coz i use it in dx crate. It need to deal with it
+/// Basic color representation
 #[derive(Clone, Copy, PartialEq, Debug)] // Eq, Hash 
 #[repr(C)]
 pub struct Color {
+    /// Red component
     pub red: Float,
+    /// Green component
     pub green: Float,
+    /// Blue component
     pub blue: Float,
+    /// Alpha component
     pub alpha: Float,
 }
 
 impl Color {
+    /// Create color with floating point components
     pub fn new(red: Float, green: Float, blue: Float, alpha: Float) -> Self {
         Color {
             red,
@@ -27,6 +31,7 @@ impl Color {
         }
     }
 
+    /// Create solid color with byte components
     pub fn rgb(red: u8, green: u8, blue: u8) -> Self {
         Self::new(
             red as Float / 255.,
@@ -36,6 +41,7 @@ impl Color {
         )
     }
 
+    /// Create color with byte components
     pub fn rgba(red: u8, green: u8, blue: u8, alpha: u8) -> Self {
         Self::new(
             red as Float / 255.,
@@ -45,51 +51,61 @@ impl Color {
         )
     }
 
+    /// Create solid color with using hsl color space
     pub fn hsl(hue: Float, saturation: Float, lightness: Float) -> Self {
         Self::from_color(HslColor::new(hue, saturation, lightness))
     }
 
+    /// Create solid color with using hsl color space and alpha component
     pub fn hsla(hue: Float, saturation: Float, lightness: Float, alpha: Float) -> Self {
         let mut color = Self::from_color(HslColor::new(hue, saturation, lightness));
         color.alpha = alpha;
         color
     }
 
+    /// Create solid color with using hsv color space
     pub fn hsv(hue: Float, saturation: Float, value: Float) -> Self {
         Self::from_color(HslColor::new(hue, saturation, value))
     }
 
+    /// Create solid color with using hsv color space and alpha component
     pub fn hsva(hue: Float, saturation: Float, value: Float, alpha: Float) -> Self {
         let mut color = Self::from_color(HslColor::new(hue, saturation, value));
         color.alpha = alpha;
         color
     }
 
+    /// Create solid color with using cmyk color space
     pub fn cmyk(cyan: Float, magenta: Float, yellow: Float, key: Float) -> Self {
         Self::from_color(CmykColor::new(cyan, magenta, yellow, key))
     }
-    //noinspection SpellCheckingInspection
+    
+    /// Create solid color with using cmyk color space and alpha component
     pub fn cmyka(cyan: Float, magenta: Float, yellow: Float, key: Float, alpha: Float) -> Self {
         let mut color = Self::from_color(CmykColor::new(cyan, magenta, yellow, key));
         color.alpha = alpha;
         color
     }
 
+    /// Create solid color with using cmy color space
     pub fn cmy(cyan: Float, magenta: Float, yellow: Float) -> Self {
         Self::from_color(CmyColor::new(cyan, magenta, yellow))
     }
-    //noinspection SpellCheckingInspection
+    
+    /// Create solid color with using cmy color space and alpha component
     pub fn cmya(cyan: Float, magenta: Float, yellow: Float, alpha: Float) -> Self {
         let mut color = Self::from_color(CmyColor::new(cyan, magenta, yellow));
         color.alpha = alpha;
         color
     }
 
+    /// Create solid color with using xyz color space
     #[cfg(feature = "experimental")]
     pub fn xyz(x: Float, y: Float, z: Float) -> Self {
         Self::from_color(XyzColor::new(x, y, z))
     }
-    //noinspection SpellCheckingInspection
+    
+    /// Create solid color with using xyz color space and alpha component
     #[cfg(feature = "experimental")]
     pub fn xyza(x: Float, y: Float, z: Float, alpha: Float) -> Self {
         let mut color = Self::from_color(XyzColor::new(x, y, z));
@@ -97,11 +113,13 @@ impl Color {
         color
     }
 
+    /// Create solid color with using lab color space
     #[cfg(feature = "experimental")]
     pub fn lab(l: Float, a: Float, b: Float) -> Self {
         Self::from_color(XyzColor::new(l, a, b))
     }
-    //noinspection SpellCheckingInspection
+    
+    /// Create solid color with using lab color space and alpha component
     #[cfg(feature = "experimental")]
     pub fn laba(l: Float, a: Float, b: Float, alpha: Float) -> Self {
         let mut color = Self::from_color(XyzColor::new(l, a, b));
@@ -111,42 +129,49 @@ impl Color {
 
     // EMULATE creation of unicolor::Color enum
 
+    /// Create solid color with using rgb color space
     #[allow(non_snake_case)]
     #[deprecated]
     pub fn RGB(red: u8, green: u8, blue: u8) -> Self {
         Self::rgb(red, green, blue)
     }
 
+    /// Create solid color with using lab rgb space and alpha component
     #[allow(non_snake_case)]
     #[deprecated]
     pub fn RGBA(red: u8, green: u8, blue: u8, alpha: u8) -> Self {
         Self::rgba(red, green, blue, alpha)
     }
 
+    /// Create solid color with using hsl color space
     #[allow(non_snake_case)]
     #[deprecated]
     pub fn HSL(hue: Float, saturation: Float, lightness: Float) -> Self {
         Self::hsl(hue, saturation, lightness)
     }
 
+    /// Create solid color with using hsv color space
     #[allow(non_snake_case)]
     #[deprecated]
     pub fn HSV(hue: Float, saturation: Float, value: Float) -> Self {
         Self::hsv(hue, saturation, value)
     }
 
+    /// Create solid color with using cmyk color space
     #[allow(non_snake_case)]
     #[deprecated]
     pub fn CMYK(cyan: Float, magenta: Float, yellow: Float, key: Float) -> Self {
         Self::cmyk(cyan, magenta, yellow, key)
     }
 
+    /// Create solid color with using cmy color space
     #[allow(non_snake_case)]
     #[deprecated]
     pub fn CMY(cyan: Float, magenta: Float, yellow: Float) -> Self {
         Self::cmy(cyan, magenta, yellow)
     }
 
+    /// Create solid color with using xyz color space
     #[cfg(feature = "experimental")]
     #[allow(non_snake_case)]
     #[deprecated]
@@ -154,6 +179,7 @@ impl Color {
         Self::xyz(x, y, z)
     }
 
+    /// Create solid color with using lab color space
     #[cfg(feature = "experimental")]
     #[allow(non_snake_case)]
     #[deprecated]
@@ -174,10 +200,15 @@ impl default::Default for Color {
     }
 }
 
+
+/// Represents color error
 #[derive(Debug)]
 pub enum ColorError {
+    /// Percentage overflow error
     PercentageOverflow,
+    /// Degree overflow error
     DegreeOverflow,
+    /// Unimplementer error
     Unimplemented,
 }
 

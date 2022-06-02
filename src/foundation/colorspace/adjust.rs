@@ -2,64 +2,96 @@ use super::prelude::*;
 
 use super::*;
 
+/// Defines getter for the color hue component
 pub trait GetHue {
+    /// Retrieve hue component
     fn get_hue(self) -> Float;
 }
+
+/// Defines setter for the color hue component
 pub trait SetHue {
+    /// Set the hue component
     fn set_hue(&mut self, hue: Float) -> Self;
 }
+
+/// Defines setter and getters for the color hue component
 pub trait HasHue: Clone + Copy + GetHue + SetHue {}
 
+
+/// Defines the color saturation functionality
 pub trait HasSaturation: Clone + Copy {
+    /// Retrieve saturation
     fn get_saturation(self) -> Float;
+    /// Set the saturation
     fn set_saturation(&mut self, saturation: Float) -> Self;
 }
 
+/// Defines getters for the chroma radial saturation functionality
 pub trait GetRadialSaturation:
     FromColor<HslColor> + IntoColor<HslColor> + FromColor<HsvColor> + IntoColor<HsvColor>
 {
+    /// Retrieve hsl saturation
     fn get_hsl_saturation(self) -> Float;
+    /// Set hsv saturation
     fn get_hsv_saturation(self) -> Float;
 }
+
+/// Defines setters for the chroma radial saturation functionality
 pub trait SetRadialSaturation:
     FromColor<HslColor> + IntoColor<HslColor> + FromColor<HsvColor> + IntoColor<HsvColor>
 {
+    /// Retrieve hsl saturation
     fn set_hsl_saturation(&mut self, saturation: Float) -> Self;
+    /// Set hsv saturation
     fn set_hsv_saturation(&mut self, saturation: Float) -> Self;
 }
 
+/// Defines the color lighten/darken functionality
 pub trait Lighten: Sized {
+    /// Lighten the color with delta
     fn lighten(self, delta: Float) -> Self;
+    /// Darken the color with delta
     fn darken(self, delta: Float) -> Self {
         self.lighten(-delta)
     }
 }
 
+/// Defines the color hue adjustment functionality
 pub trait AdjustHue: Sized {
+    /// Adjust hue component of color with delta
     fn adjust_hue(self, delta: Float) -> Self;
+    /// Rotate hue component with 180 degrees
     fn complement(self) -> Self {
         self.adjust_hue(180.)
     }
 }
 
+/// Defines the color saturation functionality
 pub trait Saturate: Sized {
+    /// Saturate the color with delta
     fn saturate(self, delta: Float) -> Self;
+    /// Desaturate the color with delta
     fn desaturate(self, delta: Float) -> Self {
         self.saturate(-delta)
     }
 }
 
+/// Defines the color grayscale adjustment functionality
 pub trait Grayscale: Saturate {
+    /// Desaturate the color to grayscale
     fn grayscale(self) -> Self {
         self.saturate(-100.)
     }
 }
 impl<C: Saturate> Grayscale for C {}
 
+/// Defines the color inversion functionality
 pub trait Invert: Sized {
+    /// Invert color
     fn invert(self) -> Self;
 }
 
+/// Defines the color adjustment functionality
 pub trait Adjust: Lighten + AdjustHue + Saturate + Grayscale {}
 impl<C: Lighten + AdjustHue + Saturate + Grayscale> Adjust for C {}
 

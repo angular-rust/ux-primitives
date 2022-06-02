@@ -27,7 +27,20 @@
 [loc-badge]: https://img.shields.io/tokei/lines/github/angular-rust/ux-primitives?style=flat-square
 [loc-url]: https://github.com/angular-rust/ux-primitives
 
-UX Primitives is a powerful library for working with color and graphics. It is one of the main building blocks of the Angular Rust framework. This library is well organized and easy to use. 
+UX Primitives is a powerful library for working with color and graphics. 
+It is one of the main building blocks of the Angular Rust framework. 
+This library is well organized and easy to use. 
+
+The library provides the basic building blocks for creating games and regular applications. 
+It contains behavior definitions for game applications and basic structures.
+
+The basic fundamental entity for graphical applications such as games is color. 
+This library contains sufficient functionality for working with color, including storage, 
+processing and conversion between different color spaces.
+
+It also provides support for multiple color schemes and contains the OpenColor palette 
+for the convenience and higher quality of your applications.
+
 
 ## Quick Start
 
@@ -100,10 +113,6 @@ UX Primitives contain powerfull palette for easy of use and more professional lo
 - Provide general color for UI design
 - All colors will be beautiful in itself and harmonious
 - At the same brightness level, the perceived brightness will be constant
-
-## Available Colors
-
-![available colors](https://dudochkin-victor.github.io/assets/ux-primitives/open-color.svg)
 
 ## Learn More
 

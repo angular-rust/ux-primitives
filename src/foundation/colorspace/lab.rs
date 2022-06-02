@@ -3,10 +3,14 @@
 use super::{Color, ColorError};
 use std::fmt;
 
+/// Lab color representation
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct LabColor {
+    /// L component
     pub l: f64,
+    /// A component
     pub a: f64,
+    /// B component
     pub b: f64,
 }
 

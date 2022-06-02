@@ -2,9 +2,9 @@ use crate::prelude::SceneKind;
 
 use super::{EntityCollection, Process, Viewable};
 
-/// The Scene should be implemented by objects intending to represent scene states in the `SceneManager`.
+/// The Scene should be implemented by objects intending to Represents scene states in the `SceneManager`.
 /// 
-/// Scenes represent the larger building blocks of the concept, and contain Entities which do the work.
+/// Scenes Represents the larger building blocks of the concept, and contain Entities which do the work.
 ///
 pub trait EngineScene: Process + EntityCollection + Viewable {
     /// The kind of this scene.

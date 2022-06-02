@@ -1,15 +1,21 @@
 use super::{Color, Float};
 use std::fmt;
 
+/// Cmyk color representation
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct CmykColor {
+    /// Cyan component
     pub cyan: Float,
+    /// Magenta component
     pub magenta: Float,
+    /// Yellow component
     pub yellow: Float,
+    /// Key component
     pub key: Float,
 }
 
 impl CmykColor {
+    /// Create new Cmyk color with parameters
     pub fn new(cyan: Float, magenta: Float, yellow: Float, key: Float) -> Self {
         Self {
             cyan,

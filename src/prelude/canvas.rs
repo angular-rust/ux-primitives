@@ -1,30 +1,41 @@
 #![allow(clippy::too_many_arguments)]
 
-use crate::foundation::{colorspace::Color, BaseLine, FontStyle, FontWeight, Gradient, TextAlign};
+use crate::{
+    prelude::TextAlign,
+    foundation::{colorspace::Color, BaseLine, FontStyle, FontWeight, Gradient}
+};
 
 /// Specifies the current text direction used to draw text
-/// 
+///
 #[derive(Copy, Clone, Debug)]
 pub enum Direction {
+    /// Left to right text direction
     Ltr,
+    /// Right to left text direction
     Rtl,
+    /// Inherited text direction
     Inherit,
 }
 
 /// Represents the dimensions of a piece of text in the canvas
-/// 
+///
 #[derive(Copy, Clone, Debug)]
 pub struct TextMetrics {
+    /// Text width
     pub width: f64,
+    /// Text height
     pub height: f64,
 }
 
-/// Specifies how the ends of the drawn lines will look. 
-/// 
+/// Specifies how the ends of the drawn lines will look.
+///
 #[derive(Clone, Copy, Debug)]
 pub enum LineCap {
+    /// Butt line cap
     Butt,
+    /// Round line cap
     Round,
+    /// Square line cap
     Square,
 }
 
@@ -34,12 +45,15 @@ impl Default for LineCap {
     }
 }
 
-/// Specifies the shape of the vertices at which the lines converge 
-/// 
+/// Specifies the shape of the vertices at which the lines converge
+///
 #[derive(Clone, Copy, Debug)]
 pub enum LineJoin {
+    /// Miter line join
     Miter,
+    /// Bevel line join
     Bevel,
+    /// Round line join
     Round,
 }
 
@@ -49,14 +63,18 @@ impl Default for LineJoin {
     }
 }
 
-/// Specifies how the pattern is laid out 
-/// 
+/// Specifies how the pattern is laid out
+///
 #[allow(dead_code)]
 #[derive(Clone, Copy, Debug)]
 pub enum PatternExtend {
+    /// None pattern extend
     None,
+    /// Repeat pattern extend
     Repeat,
+    /// Reflect pattern extend
     Reflect,
+    /// Pad pattern extend
     Pad,
 }
 
@@ -69,6 +87,7 @@ impl Default for PatternExtend {
 /// Provides for interacting with the canvas.
 ///
 pub trait CanvasContext {
+    /// Represents pattern for canvas
     type Pattern;
     // /// Get current global transformation matrix
     // fn get_current_transform(&self) -> Matrix<f64>;

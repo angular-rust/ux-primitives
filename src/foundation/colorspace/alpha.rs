@@ -2,21 +2,35 @@ use super::prelude::*;
 
 use super::*;
 
+/// Defines get alpha getters functionality
 pub trait GetAlpha<C> {
+    /// Retrieve the alpha component
     fn get_alpha(&self) -> Float;
+    /// Retrieve the alpha component as opacity
     fn get_opacity(&self) -> Float;
+    /// Retrieve the alpha component as transparency
     fn get_transparency(&self) -> Float;
 }
 
+/// Defines alpha setters functionality
 pub trait SetAlpha<C> {
+    /// Set the alpha component
     fn set_alpha(&mut self, alpha: Float) -> &Self;
+    /// Set the alpha component as opacity
     fn set_opacity(&mut self, opacity: Float) -> &Self;
+    /// Set the alpha component as transparency
     fn set_transparency(&mut self, transparency: Float) -> &Self;
 }
 
+/// Defines alpha functionality
 pub trait HasAlpha<C>: GetAlpha<C> + SetAlpha<C> {
+    /// Retrieve the color component
     fn get_color(&self) -> C;
+
+    /// Set the color component
     fn set_color(&mut self, color: C) -> &Self;
+    
+    /// Retrieve the color and aplha components
     fn split(&self) -> (C, Float)
     where
         Self: Sized,
@@ -25,17 +39,24 @@ pub trait HasAlpha<C>: GetAlpha<C> + SetAlpha<C> {
     }
 }
 
+/// Defines alpha adjustment functionality
 pub trait AdjustAlpha<C>: Clone + SetAlpha<C> {
+    
+    /// Set the alpha component
     fn alpha(&self, alpha: Float) -> Self {
         let mut color = self.clone();
         color.set_alpha(alpha);
         color
     }
+
+    /// Set the opacity
     fn opacity(&self, opacity: Float) -> Self {
         let mut color = self.clone();
         color.set_opacity(opacity);
         color
     }
+
+    /// Set the transparency
     fn transparency(&self, transparency: Float) -> Self {
         let mut color = self.clone();
         color.set_transparency(transparency);
@@ -43,6 +64,8 @@ pub trait AdjustAlpha<C>: Clone + SetAlpha<C> {
     }
 }
 
+
+/// Represents the color with aplha component
 #[derive(Clone, Copy, Debug)]
 pub struct Alpha<C: ColorSpace> {
     color: C,
@@ -50,6 +73,7 @@ pub struct Alpha<C: ColorSpace> {
 }
 
 impl<C: ColorSpace> Alpha<C> {
+    /// Create color with alpha
     pub fn new(color: C, alpha: Float) -> Self {
         Self { color, alpha }
     }

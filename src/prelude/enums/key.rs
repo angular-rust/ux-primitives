@@ -2,8 +2,9 @@
 /// 
 /// Can be extended with Custom by using concrete project values.
 ///
-
+#[allow(missing_docs)]
 #[allow(non_camel_case_types)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Key {
     NUM_LOCK,
     CLEAR,
@@ -106,6 +107,7 @@ pub enum Key {
     TOPLEFT,
     /// Allows EKey to be extended (e.g. for using non US / English keyboards).
     CUSTOM {
+        /// Custom value
         value: u32,
     },
 }

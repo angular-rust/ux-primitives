@@ -2,14 +2,19 @@ use super::{utils, Color, ColorError, Float};
 use std::fmt;
 use utils::{hue_bound, percentage_to_fraction};
 
+/// Hsv color representation
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct HsvColor {
+    /// Hue component
     pub hue: Float,
+    /// Saturation component
     pub saturation: Float,
+    /// Value component
     pub value: Float,
 }
 
 impl HsvColor {
+    /// Create new Hsv color with parameters
     pub fn new(hue: Float, saturation: Float, value: Float) -> Self {
         Self {
             hue: hue_bound(hue),

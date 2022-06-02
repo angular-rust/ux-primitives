@@ -69,6 +69,7 @@ pub use rgba::RgbaColor;
 #[cfg(feature = "experimental")]
 pub use xyz::XyzColor;
 
+/// Module with most usable functionality
 pub mod prelude {
     pub use super::alpha::*;
     pub use super::adjust::*;

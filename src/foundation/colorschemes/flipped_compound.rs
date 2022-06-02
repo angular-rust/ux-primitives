@@ -13,6 +13,7 @@ pub struct FlippedCompound {
 }
 
 impl FlippedCompound {
+    /// Generate FlippedCompound scheme with your color
     pub fn new(primary: Color) -> Self {
         let mut instance = Self {
             colors: Vec::new(),
@@ -53,18 +54,22 @@ impl FlippedCompound {
         self.colors.push(c5.into());
     }
 
+    /// Retrieve count colors of scheme
     pub fn num_of_colors(&self) -> usize {
         self.colors.len()
     }
 
+    /// Set color by index
     pub fn get_color(&self, index: usize) -> Option<Color> {
         self.colors.get(index).copied()
     }
 
+    /// Retrieve primary color of scheme
     pub fn primary_color(&self) -> Color {
         self.primary_color
     }
 
+    /// Set the primary color of scheme
     pub fn set_primary_color(&mut self, val: Color) {
         self.primary_color = val;
         self.generate();

@@ -2,6 +2,7 @@
 /// 
 /// Can be extended with Custom by using concrete project values.
 ///
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum FullScreen {
     /// FullScreen mode is not available.
     Disabled,
@@ -19,5 +20,8 @@ pub enum FullScreen {
     ScaleNearestMultiple,
 
     /// Allows Scale to be extended (e.g. for using project specific scale modes).
-    Custom { value: f32 },
+    Custom { 
+        /// Scale value
+        value: f32 
+    },
 }

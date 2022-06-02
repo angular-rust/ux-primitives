@@ -20,6 +20,7 @@ impl Triad {
         Self::with_parameters(primary, Some(120.0))
     }
 
+    /// Generate Triad scheme with your parameters
     pub fn with_parameters(primary: Color, angle: Option<f32>) -> Self {
         let mut instance = Self {
             colors: Vec::new(),
@@ -31,10 +32,12 @@ impl Triad {
         instance
     }
 
+    /// Retrieve angle of scheme
     pub fn angle(&self) -> f32 {
         self.angle
     }
 
+    /// Set the angle of scheme
     pub fn set_angle(&mut self, value: f32) {
         self.angle = value;
         self.generate();
@@ -55,18 +58,22 @@ impl Triad {
         self.colors.push(c2.into());
     }
 
+    /// Retrieve count colors of scheme
     pub fn num_of_colors(&self) -> usize {
         self.colors.len()
     }
 
+    /// Set color by index
     pub fn get_color(&self, index: usize) -> Option<Color> {
         self.colors.get(index).copied()
     }
 
+    /// Retrieve primary color of scheme
     pub fn primary_color(&self) -> Color {
         self.primary_color
     }
 
+    /// Set the primary color of scheme
     pub fn set_primary_color(&mut self, val: Color) {
         self.primary_color = val;
         self.generate();

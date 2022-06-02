@@ -1,11 +1,16 @@
 use super::*;
 use std::fmt;
 
+/// Rgba color representation with u8 components
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub struct RgbaColor {
+    /// Red component
     pub red: u8,
+    /// Green component
     pub green: u8,
+    /// Blue component
     pub blue: u8,
+    /// Alpha component
     pub alpha: u8,
 }
 
@@ -20,6 +25,7 @@ impl fmt::Display for RgbaColor {
 }
 
 impl RgbaColor {
+    /// Create new Rgba color with parameters
     pub fn new(red: u8, green: u8, blue: u8, alpha: u8) -> Self {
         Self {
             red,
